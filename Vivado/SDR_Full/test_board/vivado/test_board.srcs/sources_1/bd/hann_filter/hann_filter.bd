@@ -1,0 +1,783 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0xA7A8C320D3321C19",
+      "device": "xc7z020clg484-1",
+      "name": "hann_filter",
+      "synth_flow_mode": "Hierarchical",
+      "tool_version": "2019.2"
+    },
+    "design_tree": {
+      "cordic_0": "",
+      "cordic_1": "",
+      "phase_accumulator_0": "",
+      "util_reduced_logic_0": "",
+      "xlconcat_0": "",
+      "xlconstant_0": "",
+      "xlconstant_1": "",
+      "axi_last_generator_0": "",
+      "adder_with_valid_0": "",
+      "axis_breakout_0": "",
+      "data_delay_0": ""
+    },
+    "interface_ports": {
+      "M_AXIS": {
+        "mode": "Master",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "FREQ_HZ": {
+            "value": "80000000"
+          }
+        }
+      },
+      "S_AXIS": {
+        "mode": "Slave",
+        "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+        "parameters": {
+          "TDATA_NUM_BYTES": {
+            "value": "4"
+          },
+          "TDEST_WIDTH": {
+            "value": "0"
+          },
+          "TID_WIDTH": {
+            "value": "0"
+          },
+          "TUSER_WIDTH": {
+            "value": "0"
+          },
+          "HAS_TREADY": {
+            "value": "0"
+          },
+          "HAS_TSTRB": {
+            "value": "0"
+          },
+          "HAS_TKEEP": {
+            "value": "0"
+          },
+          "HAS_TLAST": {
+            "value": "0"
+          },
+          "FREQ_HZ": {
+            "value": "80000000"
+          },
+          "LAYERED_METADATA": {
+            "value": "xilinx.com:interface:datatypes:1.0 {TDATA {datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 32} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} array_type {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value chan} size {attribs {resolve_type generated dependency chan_size format long minimum {} maximum {}} value 1} stride {attribs {resolve_type generated dependency chan_stride format long minimum {} maximum {}} value 32} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 32} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} array_type {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value path} size {attribs {resolve_type generated dependency path_size format long minimum {} maximum {}} value 1} stride {attribs {resolve_type generated dependency path_stride format long minimum {} maximum {}} value 32} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency out_width format long minimum {} maximum {}} value 32} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} real {fixed {fractwidth {attribs {resolve_type generated dependency out_fractwidth format long minimum {} maximum {}} value 0} signed {attribs {resolve_type generated dependency out_signed format bool minimum {} maximum {}} value true}}}}}}}}} TDATA_WIDTH 32 TUSER {datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type automatic dependency {} format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0} struct {field_data_valid {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value data_valid} enabled {attribs {resolve_type generated dependency data_valid_enabled format bool minimum {} maximum {}} value false} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency data_valid_bitwidth format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type immediate dependency {} format long minimum {} maximum {}} value 0}}} field_chanid {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value chanid} enabled {attribs {resolve_type generated dependency chanid_enabled format bool minimum {} maximum {}} value false} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency chanid_bitwidth format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type generated dependency chanid_bitoffset format long minimum {} maximum {}} value 0} integer {signed {attribs {resolve_type immediate dependency {} format bool minimum {} maximum {}} value false}}}} field_user {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value user} enabled {attribs {resolve_type generated dependency user_enabled format bool minimum {} maximum {}} value false} datatype {name {attribs {resolve_type immediate dependency {} format string minimum {} maximum {}} value {}} bitwidth {attribs {resolve_type generated dependency user_bitwidth format long minimum {} maximum {}} value 0} bitoffset {attribs {resolve_type generated dependency user_bitoffset format long minimum {} maximum {}} value 0}}}}}} TUSER_WIDTH 0}"
+          }
+        }
+      }
+    },
+    "ports": {
+      "o_error": {
+        "direction": "O"
+      },
+      "aclk": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "ASSOCIATED_BUSIF": {
+            "value": "S_AXIS:M_AXIS"
+          },
+          "FREQ_HZ": {
+            "value": "80000000"
+          }
+        }
+      },
+      "aresetn": {
+        "type": "rst",
+        "direction": "I"
+      }
+    },
+    "components": {
+      "cordic_0": {
+        "vlnv": "xilinx.com:module_ref:cordic:1.0",
+        "xci_name": "hann_filter_cordic_0_0",
+        "parameters": {
+          "INPUT_DATA_WIDTH": {
+            "value": "32"
+          },
+          "ITERATIONS": {
+            "value": "30"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "cordic",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "i_clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "i_resetn": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "i_angleValid": {
+            "direction": "I"
+          },
+          "i_dataValid": {
+            "direction": "I"
+          },
+          "i_xIn": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "i_yIn": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "i_angle": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "o_xOut": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "o_yOut": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "o_valid": {
+            "direction": "O"
+          },
+          "o_error": {
+            "direction": "O"
+          }
+        }
+      },
+      "cordic_1": {
+        "vlnv": "xilinx.com:module_ref:cordic:1.0",
+        "xci_name": "hann_filter_cordic_1_0",
+        "parameters": {
+          "INPUT_DATA_WIDTH": {
+            "value": "32"
+          },
+          "ITERATIONS": {
+            "value": "30"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "cordic",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "i_clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "i_resetn": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "i_angleValid": {
+            "direction": "I"
+          },
+          "i_dataValid": {
+            "direction": "I"
+          },
+          "i_xIn": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "i_yIn": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "i_angle": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "o_xOut": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "o_yOut": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "o_valid": {
+            "direction": "O"
+          },
+          "o_error": {
+            "direction": "O"
+          }
+        }
+      },
+      "phase_accumulator_0": {
+        "vlnv": "xilinx.com:module_ref:phase_accumulator:1.0",
+        "xci_name": "hann_filter_phase_accumulator_0_0",
+        "parameters": {
+          "RESET_VALUE": {
+            "value": "2145386496"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "phase_accumulator",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "i_clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "i_valid": {
+            "direction": "I"
+          },
+          "i_phaseDelta": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "i_resetn": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "o_phaseAngle": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "o_valid": {
+            "direction": "O"
+          }
+        }
+      },
+      "util_reduced_logic_0": {
+        "vlnv": "xilinx.com:ip:util_reduced_logic:2.0",
+        "xci_name": "hann_filter_util_reduced_logic_0_0",
+        "parameters": {
+          "C_OPERATION": {
+            "value": "or"
+          },
+          "C_SIZE": {
+            "value": "3"
+          }
+        }
+      },
+      "xlconcat_0": {
+        "vlnv": "xilinx.com:ip:xlconcat:2.1",
+        "xci_name": "hann_filter_xlconcat_0_0",
+        "parameters": {
+          "NUM_PORTS": {
+            "value": "3"
+          }
+        }
+      },
+      "xlconstant_0": {
+        "vlnv": "xilinx.com:ip:xlconstant:1.1",
+        "xci_name": "hann_filter_xlconstant_0_0",
+        "parameters": {
+          "CONST_VAL": {
+            "value": "2097152"
+          },
+          "CONST_WIDTH": {
+            "value": "32"
+          }
+        }
+      },
+      "xlconstant_1": {
+        "vlnv": "xilinx.com:ip:xlconstant:1.1",
+        "xci_name": "hann_filter_xlconstant_1_0",
+        "parameters": {
+          "CONST_VAL": {
+            "value": "0"
+          },
+          "CONST_WIDTH": {
+            "value": "32"
+          }
+        }
+      },
+      "axi_last_generator_0": {
+        "vlnv": "xilinx.com:module_ref:axi_last_generator:1.0",
+        "xci_name": "hann_filter_axi_last_generator_0_0",
+        "parameters": {
+          "DATA_WIDTH": {
+            "value": "32"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "axi_last_generator",
+          "boundary_crc": "0x0"
+        },
+        "interface_ports": {
+          "S_AXIS": {
+            "mode": "Slave",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "TDATA_NUM_BYTES": {
+                "value": "4",
+                "value_src": "auto"
+              },
+              "TDEST_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "TID_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "TUSER_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TREADY": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TSTRB": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TKEEP": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TLAST": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "80000000",
+                "value_src": "user_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "hann_filter_aclk",
+                "value_src": "default_prop"
+              }
+            },
+            "port_maps": {
+              "TDATA": {
+                "physical_name": "i_data",
+                "direction": "I",
+                "left": "31",
+                "right": "0"
+              },
+              "TVALID": {
+                "physical_name": "i_valid",
+                "direction": "I"
+              }
+            }
+          },
+          "M_AXIS": {
+            "mode": "Master",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "TDATA_NUM_BYTES": {
+                "value": "4",
+                "value_src": "auto"
+              },
+              "TDEST_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "TID_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "TUSER_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TREADY": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TSTRB": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TKEEP": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TLAST": {
+                "value": "1",
+                "value_src": "constant"
+              },
+              "FREQ_HZ": {
+                "value": "80000000",
+                "value_src": "user_prop"
+              },
+              "CLK_DOMAIN": {
+                "value": "hann_filter_aclk",
+                "value_src": "default_prop"
+              }
+            },
+            "port_maps": {
+              "TDATA": {
+                "physical_name": "o_data",
+                "direction": "O",
+                "left": "31",
+                "right": "0"
+              },
+              "TLAST": {
+                "physical_name": "o_last",
+                "direction": "O"
+              },
+              "TVALID": {
+                "physical_name": "o_valid",
+                "direction": "O"
+              }
+            }
+          }
+        },
+        "ports": {
+          "i_clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "i_resetn": {
+            "type": "rst",
+            "direction": "I"
+          }
+        }
+      },
+      "adder_with_valid_0": {
+        "vlnv": "xilinx.com:module_ref:adder_with_valid:1.0",
+        "xci_name": "hann_filter_adder_with_valid_0_0",
+        "parameters": {
+          "DATA_WIDTH": {
+            "value": "32"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "adder_with_valid",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "i_clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "i_resetn": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "i_data_a": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "i_valid_a": {
+            "direction": "I"
+          },
+          "i_data_b": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "i_valid_b": {
+            "direction": "I"
+          },
+          "o_result": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "o_testResult": {
+            "direction": "O",
+            "left": "32",
+            "right": "0"
+          },
+          "o_valid": {
+            "direction": "O"
+          },
+          "o_error": {
+            "direction": "O"
+          }
+        }
+      },
+      "axis_breakout_0": {
+        "vlnv": "xilinx.com:module_ref:axis_breakout:1.0",
+        "xci_name": "hann_filter_axis_breakout_0_0",
+        "parameters": {
+          "DATA_WIDTH": {
+            "value": "32"
+          }
+        },
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "axis_breakout",
+          "boundary_crc": "0x0"
+        },
+        "interface_ports": {
+          "S_AXIS": {
+            "mode": "Slave",
+            "vlnv": "xilinx.com:interface:axis_rtl:1.0",
+            "parameters": {
+              "TDATA_NUM_BYTES": {
+                "value": "4",
+                "value_src": "auto"
+              },
+              "TDEST_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "TID_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "TUSER_WIDTH": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TREADY": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TSTRB": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TKEEP": {
+                "value": "0",
+                "value_src": "constant"
+              },
+              "HAS_TLAST": {
+                "value": "0",
+                "value_src": "constant"
+              }
+            },
+            "port_maps": {
+              "TDATA": {
+                "physical_name": "s_tdata",
+                "direction": "I",
+                "left": "31",
+                "right": "0"
+              },
+              "TVALID": {
+                "physical_name": "s_tvalid",
+                "direction": "I"
+              }
+            }
+          }
+        },
+        "ports": {
+          "s_axis_aclk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "s_axis_aresetn": {
+            "type": "rst",
+            "direction": "I"
+          },
+          "o_data": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "o_valid": {
+            "direction": "O"
+          }
+        }
+      },
+      "data_delay_0": {
+        "vlnv": "xilinx.com:module_ref:data_delay:1.0",
+        "xci_name": "hann_filter_data_delay_0_0",
+        "reference_info": {
+          "ref_type": "hdl",
+          "ref_name": "data_delay",
+          "boundary_crc": "0x0"
+        },
+        "ports": {
+          "i_clk": {
+            "type": "clk",
+            "direction": "I"
+          },
+          "i_data": {
+            "direction": "I",
+            "left": "31",
+            "right": "0"
+          },
+          "i_valid": {
+            "direction": "I"
+          },
+          "o_data": {
+            "direction": "O",
+            "left": "31",
+            "right": "0"
+          },
+          "o_valid": {
+            "direction": "O"
+          }
+        }
+      }
+    },
+    "interface_nets": {
+      "axi_last_generator_0_M_AXIS": {
+        "interface_ports": [
+          "M_AXIS",
+          "axi_last_generator_0/M_AXIS"
+        ]
+      },
+      "Conn1": {
+        "interface_ports": [
+          "S_AXIS",
+          "axis_breakout_0/S_AXIS"
+        ]
+      }
+    },
+    "nets": {
+      "adder_with_valid_0_o_error": {
+        "ports": [
+          "adder_with_valid_0/o_error",
+          "xlconcat_0/In0"
+        ]
+      },
+      "adder_with_valid_0_o_valid": {
+        "ports": [
+          "adder_with_valid_0/o_valid",
+          "axi_last_generator_0/i_valid"
+        ]
+      },
+      "axis_breakout_0_o_data": {
+        "ports": [
+          "axis_breakout_0/o_data",
+          "data_delay_0/i_data"
+        ]
+      },
+      "axis_breakout_0_o_valid": {
+        "ports": [
+          "axis_breakout_0/o_valid",
+          "phase_accumulator_0/i_valid",
+          "data_delay_0/i_valid"
+        ]
+      },
+      "cordic_0_o_error": {
+        "ports": [
+          "cordic_0/o_error",
+          "xlconcat_0/In1"
+        ]
+      },
+      "cordic_0_o_valid": {
+        "ports": [
+          "cordic_0/o_valid",
+          "adder_with_valid_0/i_valid_a"
+        ]
+      },
+      "cordic_0_o_xOut": {
+        "ports": [
+          "cordic_0/o_xOut",
+          "adder_with_valid_0/i_data_a"
+        ]
+      },
+      "cordic_1_o_error": {
+        "ports": [
+          "cordic_1/o_error",
+          "xlconcat_0/In2"
+        ]
+      },
+      "cordic_1_o_valid": {
+        "ports": [
+          "cordic_1/o_valid",
+          "adder_with_valid_0/i_valid_b"
+        ]
+      },
+      "cordic_1_o_xOut": {
+        "ports": [
+          "cordic_1/o_xOut",
+          "adder_with_valid_0/i_data_b"
+        ]
+      },
+      "data_delay_0_o_data": {
+        "ports": [
+          "data_delay_0/o_data",
+          "cordic_0/i_xIn",
+          "cordic_1/i_xIn"
+        ]
+      },
+      "data_delay_0_o_valid": {
+        "ports": [
+          "data_delay_0/o_valid",
+          "cordic_0/i_dataValid",
+          "cordic_1/i_dataValid"
+        ]
+      },
+      "phase_accumulator_0_o_phaseAngle": {
+        "ports": [
+          "phase_accumulator_0/o_phaseAngle",
+          "cordic_0/i_angle"
+        ]
+      },
+      "phase_accumulator_0_o_valid": {
+        "ports": [
+          "phase_accumulator_0/o_valid",
+          "cordic_0/i_angleValid",
+          "cordic_1/i_angleValid"
+        ]
+      },
+      "s_axis_aclk_0_1": {
+        "ports": [
+          "aclk",
+          "phase_accumulator_0/i_clk",
+          "cordic_0/i_clk",
+          "cordic_1/i_clk",
+          "axi_last_generator_0/i_clk",
+          "adder_with_valid_0/i_clk",
+          "axis_breakout_0/s_axis_aclk",
+          "data_delay_0/i_clk"
+        ]
+      },
+      "s_axis_aresetn_0_1": {
+        "ports": [
+          "aresetn",
+          "phase_accumulator_0/i_resetn",
+          "cordic_0/i_resetn",
+          "cordic_1/i_resetn",
+          "axi_last_generator_0/i_resetn",
+          "adder_with_valid_0/i_resetn",
+          "axis_breakout_0/s_axis_aresetn"
+        ]
+      },
+      "util_reduced_logic_0_Res": {
+        "ports": [
+          "util_reduced_logic_0/Res",
+          "o_error"
+        ]
+      },
+      "xlconcat_0_dout": {
+        "ports": [
+          "xlconcat_0/dout",
+          "util_reduced_logic_0/Op1"
+        ]
+      },
+      "xlconstant_0_dout": {
+        "ports": [
+          "xlconstant_0/dout",
+          "phase_accumulator_0/i_phaseDelta"
+        ]
+      },
+      "xlconstant_1_dout": {
+        "ports": [
+          "xlconstant_1/dout",
+          "cordic_0/i_yIn",
+          "cordic_1/i_yIn",
+          "cordic_1/i_angle"
+        ]
+      },
+      "adder_with_valid_0_o_result": {
+        "ports": [
+          "adder_with_valid_0/o_result",
+          "axi_last_generator_0/i_data"
+        ]
+      }
+    }
+  }
+}

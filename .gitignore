@@ -19,16 +19,7 @@ Vivado/SDR_Full/test_board/vivado/*
 Vivado/SDR_Full/test_board/vivado/test_board.srcs/*
 
 !Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1
-Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/*
-
-!Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/bd
-Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/bd/*
-
-!Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/bd/zsys
-Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/bd/zsys/*
-
-!Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/bd/zsys/hdl
-!Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/bd/zsys/hdl/*
+!Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/*
 
 !Vivado/SDR_Full/test_board/constraints
 !Vivado/SDR_Full/test_board/constraints/*

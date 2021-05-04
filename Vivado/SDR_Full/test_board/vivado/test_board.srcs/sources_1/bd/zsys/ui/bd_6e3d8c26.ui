@@ -1,0 +1,33 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"1.0",
+   "Default View_TopLeft":"-249,-87",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 TLS
+#  -string -flagsOSRD
+preplace port i_valid -pg 1 -lvl 0 -x 0 -y 130 -defaultsOSRD
+preplace port i_clk -pg 1 -lvl 0 -x 0 -y 150 -defaultsOSRD
+preplace port i_resetn -pg 1 -lvl 0 -x 0 -y 170 -defaultsOSRD
+preplace port o_last -pg 1 -lvl 3 -x 680 -y 110 -defaultsOSRD
+preplace port o_valid -pg 1 -lvl 3 -x 680 -y 130 -defaultsOSRD
+preplace portBus i_data -pg 1 -lvl 0 -x 0 -y 110 -defaultsOSRD
+preplace portBus o_data -pg 1 -lvl 3 -x 680 -y 90 -defaultsOSRD
+preplace inst blk_mem_gen_0 -pg 1 -lvl 2 -x 550 -y 250 -defaultsOSRD
+preplace inst fft_repeating_buffer_0 -pg 1 -lvl 1 -x 210 -y 140 -defaultsOSRD
+preplace netloc Net 1 0 2 20 10 440
+preplace netloc fft_repeating_buffer_0_o_bramAddr 1 1 1 430 150n
+preplace netloc fft_repeating_buffer_0_o_bramDataIn 1 1 1 420 170n
+preplace netloc blk_mem_gen_0_douta 1 0 2 20 270 NJ
+preplace netloc fft_repeating_buffer_0_o_bramWriteEnable 1 1 1 410 190n
+preplace netloc fft_repeating_buffer_0_o_bramEnable 1 1 1 400 210n
+preplace netloc i_data_1 1 0 1 NJ 110
+preplace netloc i_valid_1 1 0 1 NJ 130
+preplace netloc i_resetn_1 1 0 1 NJ 170
+preplace netloc fft_repeating_buffer_0_o_data 1 1 2 NJ 90 NJ
+preplace netloc fft_repeating_buffer_0_o_last 1 1 2 NJ 110 NJ
+preplace netloc fft_repeating_buffer_0_o_valid 1 1 2 NJ 130 NJ
+levelinfo -pg 1 0 210 550 680
+pagesize -pg 1 -db -bbox -sgen -130 0 820 370
+"
+}
+0

@@ -1,0 +1,34 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"1.0",
+   "Default View_TopLeft":"-329,-117",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 TLS
+#  -string -flagsOSRD
+preplace port clk -pg 1 -lvl 0 -x 0 -y 20 -defaultsOSRD
+preplace port resetn -pg 1 -lvl 0 -x 0 -y 90 -defaultsOSRD
+preplace port LED_Clock -pg 1 -lvl 3 -x 610 -y 160 -defaultsOSRD
+preplace port LED_Data -pg 1 -lvl 3 -x 610 -y 180 -defaultsOSRD
+preplace port LED_Latch -pg 1 -lvl 3 -x 610 -y 200 -defaultsOSRD
+preplace port LED_Blank -pg 1 -lvl 3 -x 610 -y 220 -defaultsOSRD
+preplace port i_dispFrequencyMode -pg 1 -lvl 0 -x 0 -y 210 -defaultsOSRD
+preplace port i_dispBlank -pg 1 -lvl 0 -x 0 -y 170 -defaultsOSRD
+preplace portBus i_dispFrequency -pg 1 -lvl 0 -x 0 -y 110 -defaultsOSRD
+preplace portBus o_bcd -pg 1 -lvl 3 -x 610 -y 290 -defaultsOSRD
+preplace inst binary_to_bcd_0 -pg 1 -lvl 1 -x 160 -y 90 -defaultsOSRD
+preplace inst Segment_Driver_0 -pg 1 -lvl 2 -x 450 -y 190 -defaultsOSRD
+preplace netloc clk_1 1 0 2 20 10 310
+preplace netloc resetn_1 1 0 2 20 230 NJ
+preplace netloc Segment_Driver_0_o_ledClk 1 2 1 NJ 160
+preplace netloc Segment_Driver_0_o_data 1 2 1 NJ 180
+preplace netloc Segment_Driver_0_o_lat 1 2 1 NJ 200
+preplace netloc Segment_Driver_0_o_blank 1 2 1 NJ 220
+preplace netloc binary_to_bcd_0_o_bcd 1 1 2 300 290 NJ
+preplace netloc i_dispFrequency_1 1 0 1 NJ 110
+preplace netloc i_dispFrequencyMode_1 1 0 2 NJ 210 NJ
+preplace netloc i_dispBlank_1 1 0 2 NJ 170 NJ
+levelinfo -pg 1 0 160 450 610
+pagesize -pg 1 -db -bbox -sgen -210 0 750 310
+"
+}
+0

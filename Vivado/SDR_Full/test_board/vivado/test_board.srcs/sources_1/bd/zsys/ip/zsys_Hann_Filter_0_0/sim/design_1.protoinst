@@ -1,0 +1,28 @@
+{
+	"version": "1.0",
+	"modules": {
+		"design_1": {
+			"proto_instances": {
+				"/axi_last_generator_0/M_AXIS": {
+					"interface": "xilinx.com:interface:axis:1.0",
+					"ports": {
+						"ACLK": { "actual": "i_clk"},
+						"ARESETN": { "actual": "i_resetn"},
+						"TDATA": { "actual": "o_data"},
+						"TLAST": { "actual": "o_last"},
+						"TVALID": { "actual": "o_valid"}
+					}
+				},
+				"/axis_breakout_0/S_AXIS": {
+					"interface": "xilinx.com:interface:axis:1.0",
+					"ports": {
+						"ACLK": { "actual": "s_axis_aclk"},
+						"ARESETN": { "actual": "s_axis_aresetn"},
+						"TDATA": { "actual": "s_tdata"},
+						"TVALID": { "actual": "s_tvalid"}
+					}
+				}
+			}
+		}
+	}
+}

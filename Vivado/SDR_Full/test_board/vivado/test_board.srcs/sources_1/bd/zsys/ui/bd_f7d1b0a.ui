@@ -1,0 +1,29 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"0.696669",
+   "Default View_TopLeft":"-195,-151",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 TLS
+#  -string -flagsOSRD
+preplace port M_AXIS_X_COS_THETA_MINUS_Y_SIN_THETA -pg 1 -lvl 4 -x 1150 -y 280 -defaultsOSRD
+preplace port i_clk -pg 1 -lvl 0 -x 0 -y 440 -defaultsOSRD
+preplace port i_resetn -pg 1 -lvl 0 -x 0 -y 460 -defaultsOSRD
+preplace portBus iS_phaseDelta -pg 1 -lvl 0 -x 0 -y 320 -defaultsOSRD
+preplace inst phase_accumulator_0 -pg 1 -lvl 2 -x 390 -y 340 -defaultsOSRD
+preplace inst xlconstant_0 -pg 1 -lvl 1 -x 100 -y 380 -defaultsOSRD
+preplace inst cordic_0 -pg 1 -lvl 3 -x 870 -y 300 -defaultsOSRD
+preplace inst xlconstant_2 -pg 1 -lvl 2 -x 390 -y 180 -defaultsOSRD
+preplace inst xlconstant_3 -pg 1 -lvl 2 -x 390 -y 60 -defaultsOSRD
+preplace netloc i_clk_1 1 0 3 NJ 440 190 440 580J
+preplace netloc i_resetn_1 1 0 3 NJ 460 200 450 600J
+preplace netloc xlconstant_0_dout 1 1 2 180 240 580
+preplace netloc xlconstant_2_dout 1 2 1 590J 180n
+preplace netloc xlconstant_3_dout 1 2 1 600J 60n
+preplace netloc iS_phaseDelta_1 1 0 2 NJ 320 NJ
+preplace netloc phase_accumulator_0_M_AXIS_ANGLE 1 2 1 N 340
+preplace netloc cordic_0_M_AXIS_X_COS_THETA_MINUS_Y_SIN_THETA 1 3 1 N 280
+levelinfo -pg 1 0 100 390 870 1150
+pagesize -pg 1 -db -bbox -sgen -200 0 1520 480
+"
+}
+

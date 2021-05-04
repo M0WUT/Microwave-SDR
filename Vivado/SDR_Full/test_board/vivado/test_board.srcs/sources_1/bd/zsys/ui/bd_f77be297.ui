@@ -1,0 +1,72 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"0.702897",
+   "Default View_TopLeft":"-303,-138",
+   "ExpandedHierarchyInLayout":"",
+   "PinnedBlocks":"",
+   "PinnedPorts":"",
+   "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 TLS
+#  -string -flagsOSRD
+preplace port M_AXI_MM2S -pg 1 -lvl 5 -x 1770 -y 60 -defaultsOSRD
+preplace port S_AXI_LITE -pg 1 -lvl 0 -x -30 -y 100 -defaultsOSRD
+preplace port axi_resetn -pg 1 -lvl 0 -x -30 -y 180 -defaultsOSRD
+preplace port m_axi_mm2s_aclk -pg 1 -lvl 0 -x -30 -y 120 -defaultsOSRD
+preplace port mm2s_introut -pg 1 -lvl 5 -x 1770 -y 440 -defaultsOSRD
+preplace port resetn -pg 1 -lvl 0 -x -30 -y 360 -defaultsOSRD
+preplace port video_active -pg 1 -lvl 5 -x 1770 -y 100 -defaultsOSRD
+preplace port video_hSync -pg 1 -lvl 5 -x 1770 -y 120 -defaultsOSRD
+preplace port video_vSync -pg 1 -lvl 5 -x 1770 -y 600 -defaultsOSRD
+preplace port video_clock -pg 1 -lvl 5 -x 1770 -y 620 -defaultsOSRD
+preplace portBus stream_locked_n -pg 1 -lvl 5 -x 1770 -y 180 -defaultsOSRD
+preplace portBus stream_overflow_n -pg 1 -lvl 5 -x 1770 -y 280 -defaultsOSRD
+preplace portBus stream_underflow_n -pg 1 -lvl 5 -x 1770 -y 380 -defaultsOSRD
+preplace portBus video_red -pg 1 -lvl 5 -x 1770 -y 500 -defaultsOSRD
+preplace portBus video_green -pg 1 -lvl 5 -x 1770 -y 520 -defaultsOSRD
+preplace portBus video_blue -pg 1 -lvl 5 -x 1770 -y 540 -defaultsOSRD
+preplace inst v_axi4s_vid_out_0 -pg 1 -lvl 3 -x 1180 -y 240 -defaultsOSRD
+preplace inst rgb565_to_rgb888_exp_0 -pg 1 -lvl 2 -x 800 -y 120 -defaultsOSRD
+preplace inst rgb888_splitter_0 -pg 1 -lvl 4 -x 1580 -y 520 -defaultsOSRD
+preplace inst util_vector_logic_0 -pg 1 -lvl 4 -x 1580 -y 180 -defaultsOSRD
+preplace inst util_vector_logic_1 -pg 1 -lvl 4 -x 1580 -y 280 -defaultsOSRD
+preplace inst util_vector_logic_2 -pg 1 -lvl 4 -x 1580 -y 380 -defaultsOSRD
+preplace inst axi_vdma_0 -pg 1 -lvl 1 -x 400 -y 140 -defaultsOSRD
+preplace inst v_tc_0 -pg 1 -lvl 2 -x 800 -y 330 -defaultsOSRD
+preplace inst xlconstant_1 -pg 1 -lvl 1 -x 400 -y 520 -defaultsOSRD
+preplace inst proc_sys_reset_0 -pg 1 -lvl 1 -x 400 -y 380 -defaultsOSRD
+preplace inst xlconstant_0 -pg 1 -lvl 2 -x 800 -y 520 -defaultsOSRD
+preplace inst Video_Clock -pg 1 -lvl 3 -x 1180 -y 530 -defaultsOSRD
+preplace netloc clk_wiz_0_clk_out1 1 0 5 0 580 610 440 960 440 1390 620 NJ
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 1 2 640 420 980
+preplace netloc processing_system7_0_FCLK_CLK0 1 0 3 -10 280 620 240 940
+preplace netloc v_axi4s_vid_out_0_vid_active_video 1 3 2 1380J 100 NJ
+preplace netloc v_axi4s_vid_out_0_vid_hsync 1 3 2 1400J 120 NJ
+preplace netloc v_axi4s_vid_out_0_vid_vsync 1 3 2 1390J 110 1730J
+preplace netloc xlconstant_1_dout 1 1 2 630 430 970
+preplace netloc axi_resetn_1 1 0 1 NJ 180
+preplace netloc axi_vdma_0_mm2s_introut 1 1 4 NJ 220 940J 70 NJ 70 1740J
+preplace netloc processing_system7_0_FCLK_RESET0_N 1 0 1 NJ 360
+preplace netloc axi_vdma_0_m_axis_mm2s_tdata 1 1 1 640 100n
+preplace netloc rgb565_to_rgb888_exp_0_o_data 1 2 1 980J 120n
+preplace netloc axi_vdma_0_m_axis_mm2s_tlast 1 1 2 630J 180 980
+preplace netloc v_axi4s_vid_out_0_s_axis_video_tready 1 1 2 620J 190 N
+preplace netloc axi_vdma_0_m_axis_mm2s_tuser 1 1 2 610J 210 N
+preplace netloc axi_vdma_0_m_axis_mm2s_tvalid 1 1 2 600J 200 980
+preplace netloc v_axi4s_vid_out_0_vid_data 1 3 1 1410 180n
+preplace netloc rgb888_splitter_0_o_red 1 4 1 NJ 500
+preplace netloc rgb888_splitter_0_o_green 1 4 1 NJ 520
+preplace netloc rgb888_splitter_0_o_blue 1 4 1 NJ 540
+preplace netloc v_axi4s_vid_out_0_locked 1 3 1 1420J 180n
+preplace netloc v_axi4s_vid_out_0_overflow 1 3 1 NJ 280
+preplace netloc v_axi4s_vid_out_0_underflow 1 3 1 1390J 300n
+preplace netloc util_vector_logic_0_Res 1 4 1 NJ 180
+preplace netloc util_vector_logic_2_Res 1 4 1 NJ 380
+preplace netloc util_vector_logic_1_Res 1 4 1 NJ 280
+preplace netloc xlconstant_0_dout 1 2 1 NJ 520
+preplace netloc S_AXI_LITE_1 1 0 1 NJ 100
+preplace netloc v_tc_0_vtiming_out 1 2 1 950 250n
+preplace netloc axi_vdma_0_M_AXI_MM2S 1 1 4 NJ 60 NJ 60 NJ 60 NJ
+levelinfo -pg 1 -30 400 800 1180 1580 1770
+pagesize -pg 1 -db -bbox -sgen -210 -150 2000 720
+"
+}
+0
