@@ -1,0 +1,3 @@
+xset s off -dpms
+matchbox-window-manager -use_cursor no -use_titlebar no &
+/opt/sdr_gui/bin/sdr_gui

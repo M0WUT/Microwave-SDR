@@ -1,0 +1,93 @@
+/include/ "system-conf.dtsi"
+/ {
+};
+ 
+ 
+/* default */
+ 
+/* QSPI PHY */
+&qspi {
+    #address-cells = <1>;
+    #size-cells = <0>;
+    status = "okay";
+    flash0: flash@0 {
+        compatible = "jedec,spi-nor";
+        reg = <0x0>;
+        #address-cells = <1>;
+        #size-cells = <1>;
+    };
+};
+ 
+ 
+/* ETH PHY */
+&gem0 {
+    phy-handle = <&phy0>;
+    mdio {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        phy0: phy@0 {
+            compatible = "marvell,88e1510";
+            device_type = "ethernet-phy";
+            reg = <0>;
+        };
+    };
+};
+ 
+/* USB PHY */
+ 
+/{
+    usb_phy0: usb_phy@0 {
+        compatible = "ulpi-phy";
+        //compatible = "usb-nop-xceiv";
+        #phy-cells = <0>;
+        reg = <0xe0002000 0x1000>;
+        view-port = <0x0170>;
+        drv-vbus;
+    };
+};
+ 
+&usb0 {
+    dr_mode = "host";
+    //dr_mode = "peripheral";
+    usb-phy = <&usb_phy0>;
+};
+ 
+/* I2C need I2C1 connected to te0720 system controller ip */
+&i2c1 {
+ 
+    iexp@20 {       // GPIO in CPLD
+        #gpio-cells = <2>;
+        compatible = "ti,pcf8574";
+        reg = <0x20>;
+        gpio-controller;
+    };
+ 
+    iexp@21 {       // GPIO in CPLD
+        #gpio-cells = <2>;
+        compatible = "ti,pcf8574";
+        reg = <0x21>;
+        gpio-controller;
+    };
+ 
+    rtc@6F {        // Real Time Clock
+        compatible = "isl12022";
+        reg = <0x6F>;
+    };
+};
+
+/* added by M0WUT - here there be dragons! */
+
+&SDR_Status_Registers_0 {
+	compatible = "m0wut,statusregs";
+};
+
+
+/*/{
+	ezdma {
+		compatible = "ezdma";
+		dmas = <&FFT_axi_dma_0 0>;
+		dma-names = "fft_dma";
+		ezdma,dirs = <1>;
+	};
+};*/
+

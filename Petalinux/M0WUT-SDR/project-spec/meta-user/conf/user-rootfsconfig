@@ -1,0 +1,21 @@
+#Note: Mention Each package in individual line
+#These packages will get added into rootfs menu entry
+
+CONFIG_gpio-demo
+CONFIG_peekpoke
+CONFIG_adau1361
+CONFIG_vdmafb
+CONFIG_skeleton
+CONFIG_adau1361
+CONFIG_SDR-Status-Registers
+CONFIG_status
+CONFIG_statusregs
+CONFIG_ezdma
+CONFIG_dma-test
+CONFIG_ethertest
+CONFIG_meta-oled
+CONFIG_adau1361-cpp
+CONFIG_m0wut-sdr
+CONFIG_myapp-init
+CONFIG_m0wut-sdr-autorun
+CONFIG_m0wut-sdr-python

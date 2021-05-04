@@ -1,0 +1,62 @@
+# LICENCES
+LGPL v2.1 (included as LGPLv2-1.txt): https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
+GPL v2 (included as GPLv2.txt): https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+Creative Commons Attribution 4.0 International: https://creativecommons.org/licenses/by/4.0/deed.en 
+Creative Commons Attribution-Share Alike 3.0 Unported license: https://creativecommons.org/licenses/by-sa/3.0/
+
+# Individual image sources
+
+icon_home.png:
+	Source: http://icon-king.com
+	Author: David Vignoni / ICON KING
+	Licence: LGPL v2.1
+	Editing: Resized
+	Downloaded from: https://commons.wikimedia.org/wiki/File:Nuvola_filesystems_folder_home.png
+
+icon_settings.png:
+	Source: https://gitlab.gnome.org/GNOME/gnome-control-center/blob/master/data/icons/hicolor/scalable/apps/org.gnome.Settings.svg
+	Author: https://gitlab.gnome.org/snwh
+	Licence: GPL v2
+	Editing: Resized
+	Downloaded from: https://commons.wikimedia.org/wiki/File:GNOME_Settings_icon.svg
+
+icon_info:
+	Source: https://commons.wikimedia.org/wiki/File:Information_magnifier_icon.png
+	Author: Wikipedia user - Huji
+	Licence: File released into the public domain
+	Editing: Resized
+	Downloaded from: https://commons.wikimedia.org/wiki/File:Information_magnifier_icon.png
+
+icon_warning:
+	Source: https://commons.wikimedia.org/wiki/File:Warning_icon.svg
+	Author: Wikipedia user - Amada44
+	Licence: File released into the public domain
+	Editing: Resized
+	Downloaded from: https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Warning_icon.svg/500px-Warning_icon.svg.png
+
+icon_warning_inactive / icon_error:
+	Edited versions of icon_warning (resized and colour mapping) by M0WUT and both are released into the public domain
+
+icon_network:
+	Source: https://commons.wikimedia.org/wiki/File:Font_Awesome_5_solid_network-wired.svg
+	Author: Font Awesome Free 5.4.1 by @fontawesome - https://fontawesome.com
+	Licence: Creative Commons Attribution 4.0 International
+	Editing: Resized and colour mapped
+	Downloaded from: https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Font_Awesome_5_solid_network-wired.svg/500px-Font_Awesome_5_solid_network-wired.svg.png
+
+icon_tick:
+	Source: https://commons.wikimedia.org/wiki/File:Flat_tick_icon.svg
+	Author: Wikipedia user Fabian Alex, cropped by Wikipedia user Prenn
+	Licence: Creative Commons Attribution-Share Alike 3.0 Unported license
+	Editing: Resized
+	Downloaded from: https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Flat_tick_icon.svg/200px-Flat_tick_icon.svg.png
+
+icon_cross:
+	Source: https://commons.wikimedia.org/wiki/File:Flat_cross_icon.svg
+	Author: Wikipedia user Fabian Alex, cropped by Wikipedia user Prenn
+	Licence: Creative Commons Attribution-Share Alike 3.0 Unported license
+	Editing: Resized
+	Downloaded from: https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Flat_cross_icon.svg/200px-Flat_cross_icon.svg.png
+
+
+	

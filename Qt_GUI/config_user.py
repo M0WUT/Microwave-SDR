@@ -1,0 +1,3 @@
+NAME = "Pi Compute Module 4"
+MQTT_ADDRESS = "127.0.0.1"
+MQTT_PORT = 1883

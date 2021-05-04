@@ -1,0 +1,30 @@
+#!/bin/sh
+DAEMON=/usr/bin/m0wut-sdr
+start ()
+{
+    echo " Starting M0WUT SDR application"
+    start-stop-daemon -S -o --background -x $DAEMON
+}
+stop ()
+{
+    echo " Stopping M0WUT SDR application"
+    start-stop-daemon -K -x $DAEMON
+}
+restart()
+{
+    stop
+    start
+}
+[ -e $DAEMON ] || exit 1
+    case "$1" in
+    start)
+        start; ;;
+    stop)
+        stop; ;;
+    restart)
+        restart; ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+    esac
+exit $?
