@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="zsys_wrapper_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="zsys_wrapper_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="544185330fs"></ZoomStartTime>
+      <ZoomEndTime time="6411940434fs"></ZoomEndTime>
+      <Cursor1Time time="5433981250fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="204"></NameColumnWidth>
+      <ValueColumnWidth column_width="196"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="2" />
+   <wave_markers>
+      <marker label="" time="5273000" />
+      <marker label="" time="20038000" />
+      <marker label="" time="76800000" />
+   </wave_markers>
+   <wvobject type="array" fp_name="/zsys_wrapper_tb/UUT/zsys_i/cordic_0/oS_xOut">
+      <obj_property name="ElementShortName">oS_xOut[15:0]</obj_property>
+      <obj_property name="ObjectShortName">oS_xOut[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/zsys_wrapper_tb/UUT/zsys_i/fir_compiler_0/m_axis_data_tdata">
+      <obj_property name="ElementShortName">m_axis_data_tdata[23:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_data_tdata[23:0]</obj_property>
+      <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
+   </wvobject>
+</wave_config>

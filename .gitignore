@@ -32,3 +32,4 @@ Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/bd/zsys/*
 
 !Vivado/SDR_Full/test_board/constraints
 !Vivado/SDR_Full/test_board/constraints/*
+!Vivado/SDR_Full/test_board/vivado/hann_tb_func_synth.wcfg
