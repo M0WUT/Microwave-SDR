@@ -7,7 +7,8 @@
    "comment_1":"Enter Comments here",
    "comment_2":"Constant 1",
    "comment_3":"Constant 0",
-   "commentid":"comment_1|comment_2|comment_3|comment_0|",
+   "comment_4":"DAC Mode needs setting to 1 for 2's complement data",
+   "commentid":"comment_1|comment_2|comment_3|comment_0|comment_4|",
    "fillcolor_comment_0":"",
    "fillcolor_comment_1":"",
    "fillcolor_comment_2":"",
@@ -16,6 +17,7 @@
    "font_comment_1":"14",
    "font_comment_2":"14",
    "font_comment_3":"14",
+   "font_comment_4":"14",
    "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 TLS
 #  -string -flagsOSRD
 preplace port DDR -pg 1 -lvl 5 -x 2130 -y 80 -defaultsOSRD
@@ -143,27 +145,30 @@ pagesize -pg 1 -db -bbox -sgen -170 -10 2320 1570
    "linktoobj_comment_1":"/TX/SSB/xlconstant_3",
    "linktoobj_comment_2":"/TX/SSB/xlconstant_0",
    "linktoobj_comment_3":"/TX/SSB/xlconstant_3",
+   "linktoobj_comment_4":"/TX/xlconstant_0",
    "linktotype_comment_0":"bd_pin",
    "linktotype_comment_1":"bd_cell",
    "linktotype_comment_2":"bd_cell",
    "linktotype_comment_3":"bd_cell",
+   "linktotype_comment_4":"bd_cell",
    "textcolor_comment_0":"",
    "textcolor_comment_1":"",
    "textcolor_comment_2":"",
    "textcolor_comment_3":""
 }
 {
-   """"""""""da_axi4_cnt"""""""""":"38",
-   """"""""""da_board_cnt"""""""""":"5",
-   """"""""""da_clkrst_cnt"""""""""":"3",
-   """"""""""da_ps7_cnt"""""""""":"1",
-   """""""""da_axi4_cnt""""""""":"2",
-   "da_axi4_cnt":"1",
-   "da_board_cnt":"1"
+   """""""""""da_axi4_cnt""""""""""":"38",
+   """""""""""da_board_cnt""""""""""":"5",
+   """""""""""da_clkrst_cnt""""""""""":"3",
+   """""""""""da_ps7_cnt""""""""""":"1",
+   """"""""""da_axi4_cnt"""""""""":"2",
+   ""da_axi4_cnt"":"1",
+   ""da_board_cnt"":"1"
 }
 {
    "/TX/SSB/i_resetn/comment_8":"comment_0",
    "/TX/SSB/xlconstant_0/comment_4":"comment_2",
    "/TX/SSB/xlconstant_3/comment_2":"comment_3",
-   "/TX/SSB/xlconstant_3/comment_3":"comment_1"
+   "/TX/SSB/xlconstant_3/comment_3":"comment_1",
+   "/TX/xlconstant_0/comment_9":"comment_4"
 }

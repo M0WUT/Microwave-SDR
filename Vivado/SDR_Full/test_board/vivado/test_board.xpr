@@ -137,41 +137,41 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_overdrive_warning_1_0/zsys_overdrive_warning_1_0.xci">
-          <Proxy FileSetName="zsys_overdrive_warning_1_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_c_addsub_0_0/zsys_c_addsub_0_0.xci">
-          <Proxy FileSetName="zsys_c_addsub_0_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_auto_pc_0/zsys_auto_pc_0.xci">
+          <Proxy FileSetName="zsys_auto_pc_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axi_uartlite_0_1/zsys_axi_uartlite_0_1.xci">
           <Proxy FileSetName="zsys_axi_uartlite_0_1"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_auto_pc_0/zsys_auto_pc_0.xci">
-          <Proxy FileSetName="zsys_auto_pc_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_phase_accumulator_1_0/zsys_phase_accumulator_1_0.xci">
+          <Proxy FileSetName="zsys_phase_accumulator_1_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_processing_system7_0_0/zsys_processing_system7_0_0.xci">
-          <Proxy FileSetName="zsys_processing_system7_0_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_ptt_mux_0_0/zsys_ptt_mux_0_0.xci">
+          <Proxy FileSetName="zsys_ptt_mux_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axi_iic_0_0/zsys_axi_iic_0_0.xci">
-          <Proxy FileSetName="zsys_axi_iic_0_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_util_vector_logic_0_2/zsys_util_vector_logic_0_2.xci">
+          <Proxy FileSetName="zsys_util_vector_logic_0_2"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_binary_to_bcd_0_0/zsys_binary_to_bcd_0_0.xci">
-          <Proxy FileSetName="zsys_binary_to_bcd_0_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_xbar_2/zsys_xbar_2.xci">
+          <Proxy FileSetName="zsys_xbar_2"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_cic_compiler_1_1/zsys_cic_compiler_1_1.xci">
-          <Proxy FileSetName="zsys_cic_compiler_1_1"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_util_vector_logic_0_1/zsys_util_vector_logic_0_1.xci">
+          <Proxy FileSetName="zsys_util_vector_logic_0_1"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_SDR_Status_Registers_0_0/zsys_SDR_Status_Registers_0_0.xci">
-          <Proxy FileSetName="zsys_SDR_Status_Registers_0_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_util_vector_logic_0_0/zsys_util_vector_logic_0_0.xci">
+          <Proxy FileSetName="zsys_util_vector_logic_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_cordic_0_2/zsys_cordic_0_2.xci">
-          <Proxy FileSetName="zsys_cordic_0_2"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_fir_compiler_0_0/zsys_fir_compiler_0_0.xci">
+          <Proxy FileSetName="zsys_fir_compiler_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_SC0720_0_0/zsys_SC0720_0_0.xci">
-          <Proxy FileSetName="zsys_SC0720_0_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_overdrive_warning_1_0/zsys_overdrive_warning_1_0.xci">
+          <Proxy FileSetName="zsys_overdrive_warning_1_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_Segment_Driver_0_0/zsys_Segment_Driver_0_0.xci">
-          <Proxy FileSetName="zsys_Segment_Driver_0_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_overdrive_warning_0_0/zsys_overdrive_warning_0_0.xci">
+          <Proxy FileSetName="zsys_overdrive_warning_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_adau1361_handler_0_1/zsys_adau1361_handler_0_1.xci">
+          <Proxy FileSetName="zsys_adau1361_handler_0_1"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_cordic_2_0/zsys_cordic_2_0.xci">
           <Proxy FileSetName="zsys_cordic_2_0"/>
@@ -179,74 +179,74 @@
         <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_cordic_1_0/zsys_cordic_1_0.xci">
           <Proxy FileSetName="zsys_cordic_1_0"/>
         </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_cordic_0_2/zsys_cordic_0_2.xci">
+          <Proxy FileSetName="zsys_cordic_0_2"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_phase_accumulator_0_2/zsys_phase_accumulator_0_2.xci">
+          <Proxy FileSetName="zsys_phase_accumulator_0_2"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_fir_compiler_1_1/zsys_fir_compiler_1_1.xci">
+          <Proxy FileSetName="zsys_fir_compiler_1_1"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_cic_compiler_2_0/zsys_cic_compiler_2_0.xci">
+          <Proxy FileSetName="zsys_cic_compiler_2_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_cic_compiler_1_1/zsys_cic_compiler_1_1.xci">
+          <Proxy FileSetName="zsys_cic_compiler_1_1"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_c_addsub_0_0/zsys_c_addsub_0_0.xci">
+          <Proxy FileSetName="zsys_c_addsub_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_SDR_Status_Registers_0_0/zsys_SDR_Status_Registers_0_0.xci">
+          <Proxy FileSetName="zsys_SDR_Status_Registers_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axi_iic_0_0/zsys_axi_iic_0_0.xci">
+          <Proxy FileSetName="zsys_axi_iic_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_binary_to_bcd_0_0/zsys_binary_to_bcd_0_0.xci">
+          <Proxy FileSetName="zsys_binary_to_bcd_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_Segment_Driver_0_0/zsys_Segment_Driver_0_0.xci">
+          <Proxy FileSetName="zsys_Segment_Driver_0_0"/>
+        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_util_ds_buf_0_0/zsys_util_ds_buf_0_0.xci">
           <Proxy FileSetName="zsys_util_ds_buf_0_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_rst_ps7_0_100M_0/zsys_rst_ps7_0_100M_0.xci">
           <Proxy FileSetName="zsys_rst_ps7_0_100M_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_adau1361_handler_0_1/zsys_adau1361_handler_0_1.xci">
-          <Proxy FileSetName="zsys_adau1361_handler_0_1"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_processing_system7_0_0/zsys_processing_system7_0_0.xci">
+          <Proxy FileSetName="zsys_processing_system7_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_overdrive_warning_0_0/zsys_overdrive_warning_0_0.xci">
-          <Proxy FileSetName="zsys_overdrive_warning_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_cic_compiler_2_0/zsys_cic_compiler_2_0.xci">
-          <Proxy FileSetName="zsys_cic_compiler_2_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_fir_compiler_1_1/zsys_fir_compiler_1_1.xci">
-          <Proxy FileSetName="zsys_fir_compiler_1_1"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_phase_accumulator_0_2/zsys_phase_accumulator_0_2.xci">
-          <Proxy FileSetName="zsys_phase_accumulator_0_2"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_ptt_mux_0_0/zsys_ptt_mux_0_0.xci">
-          <Proxy FileSetName="zsys_ptt_mux_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_util_vector_logic_0_3/zsys_util_vector_logic_0_3.xci">
-          <Proxy FileSetName="zsys_util_vector_logic_0_3"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axis_subset_converter_0_2/zsys_axis_subset_converter_0_2.xci">
-          <Proxy FileSetName="zsys_axis_subset_converter_0_2"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_util_vector_logic_0_2/zsys_util_vector_logic_0_2.xci">
-          <Proxy FileSetName="zsys_util_vector_logic_0_2"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axis_subset_converter_0_0/zsys_axis_subset_converter_0_0.xci">
-          <Proxy FileSetName="zsys_axis_subset_converter_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_phase_accumulator_0_3/zsys_phase_accumulator_0_3.xci">
-          <Proxy FileSetName="zsys_phase_accumulator_0_3"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_SC0720_0_0/zsys_SC0720_0_0.xci">
+          <Proxy FileSetName="zsys_SC0720_0_0"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_cw_generator_0_1/zsys_cw_generator_0_1.xci">
           <Proxy FileSetName="zsys_cw_generator_0_1"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axis_subset_converter_0_1/zsys_axis_subset_converter_0_1.xci">
-          <Proxy FileSetName="zsys_axis_subset_converter_0_1"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axis_mux_0_0/zsys_axis_mux_0_0.xci">
-          <Proxy FileSetName="zsys_axis_mux_0_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axis_subset_converter_0_2/zsys_axis_subset_converter_0_2.xci">
+          <Proxy FileSetName="zsys_axis_subset_converter_0_2"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_cordic_0_3/zsys_cordic_0_3.xci">
           <Proxy FileSetName="zsys_cordic_0_3"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_phase_accumulator_1_0/zsys_phase_accumulator_1_0.xci">
-          <Proxy FileSetName="zsys_phase_accumulator_1_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_util_vector_logic_0_3/zsys_util_vector_logic_0_3.xci">
+          <Proxy FileSetName="zsys_util_vector_logic_0_3"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axis_mux_0_0/zsys_axis_mux_0_0.xci">
+          <Proxy FileSetName="zsys_axis_mux_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_phase_accumulator_0_3/zsys_phase_accumulator_0_3.xci">
+          <Proxy FileSetName="zsys_phase_accumulator_0_3"/>
         </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axis_demux_0_0/zsys_axis_demux_0_0.xci">
           <Proxy FileSetName="zsys_axis_demux_0_0"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_fir_compiler_0_0/zsys_fir_compiler_0_0.xci">
-          <Proxy FileSetName="zsys_fir_compiler_0_0"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axis_subset_converter_0_1/zsys_axis_subset_converter_0_1.xci">
+          <Proxy FileSetName="zsys_axis_subset_converter_0_1"/>
         </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_util_vector_logic_0_0/zsys_util_vector_logic_0_0.xci">
-          <Proxy FileSetName="zsys_util_vector_logic_0_0"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_util_vector_logic_0_1/zsys_util_vector_logic_0_1.xci">
-          <Proxy FileSetName="zsys_util_vector_logic_0_1"/>
-        </CompFileExtendedInfo>
-        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_xbar_2/zsys_xbar_2.xci">
-          <Proxy FileSetName="zsys_xbar_2"/>
+        <CompFileExtendedInfo CompFileName="zsys.bd" FileRelPathName="ip/zsys_axis_subset_converter_0_0/zsys_axis_subset_converter_0_0.xci">
+          <Proxy FileSetName="zsys_axis_subset_converter_0_0"/>
         </CompFileExtendedInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/bd/zsys/hdl/zsys_wrapper.v">
