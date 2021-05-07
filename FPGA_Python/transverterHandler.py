@@ -17,6 +17,7 @@ class TransverterHandler:
         self.run_discovery()
 
     def run_discovery(self):
+        logging.info("Starting transverter discovery...")
         # Query all the slots
         for x in range(self.numSlots):
             self.serial.write(x.to_bytes(1, 'big') + b"D\n")
