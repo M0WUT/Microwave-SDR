@@ -1,4 +1,4 @@
-19644114922311430
+19658786586784919
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -45157,6 +45157,13 @@ Header_2.54mm_Samtec_TSM-120-01-L-SH_SMD_RA
 20
 20
 Connector_WUT
+Header_CNC-Tech_3020-10-0200-00_2x5_TH_RA
+
+
+0
+10
+10
+Connector_WUT
 Header_Samtec_CLM-104-02-F-D_2x4_1mm_SM
 
 
@@ -57007,6 +57014,13 @@ Yellow 5381 Series LED
 0
 2
 2
+LED_WUT
+Kingbright_WP130WCP_2EGW
+
+
+0
+6
+6
 LED_WUT
 LED_Cree_CLX6E-FKC
 RGB LED PLCC-6

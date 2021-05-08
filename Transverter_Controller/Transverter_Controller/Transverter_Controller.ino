@@ -2,6 +2,7 @@
 
 
 #define LED 13
+#define DEBUG_LED 15
 #define ADDRESS 7
 #define DEBUG
 
@@ -41,9 +42,12 @@ void setup() {
     pinMode(LED, OUTPUT);
     digitalWrite(LED, LOW);
 
-    #ifdef DEBUG
+    #ifdef DEBUG  // Enable DEBUG LED as this blocks waiting for serial connection
+        pinMode(DEBUG_LED, OUTPUT);
+        digitalWrite(DEBUG_LED, HIGH);
         Serial.begin(9600);
         while(!Serial); //wait for serial monitor
+        digitalWrite(DEBUG_LED, LOW);
     #endif
 }
 
@@ -69,9 +73,6 @@ void loop() {
     if(address == ADDRESS){
         digitalWrite(LED, HIGH);
         process_command(command);
-        #ifdef DEBUG
-          Serial.println(command);
-        #endif
     }
 
     address = -1;
