@@ -1,0 +1,6 @@
+05-09 17:05:53 Kicad_action_plugins.replicate_layout.action_replicate_layout 305:Plugin executed on: 'linux'
+05-09 17:05:53 Kicad_action_plugins.replicate_layout.action_replicate_layout 306:Plugin executed with python version: '3.6.9 (default, Jan 26 2021, 15:33:00) \n[GCC 8.4.0]'
+05-09 17:05:53 Kicad_action_plugins.replicate_layout.action_replicate_layout 307:KiCad build version: 5.99.0-unknown-aaffd0c137~128~ubuntu18.04.1
+05-09 17:05:53 Kicad_action_plugins.replicate_layout.action_replicate_layout 308:Replicate layout plugin version: 73 started
+05-09 17:05:53 Kicad_action_plugins.replicate_layout.action_replicate_layout 339:Preparing replicator with J1 as a reference
+05-09 17:05:53 Kicad_action_plugins.replicate_layout.replicatelayout 135:getting a list of all footprints on board
