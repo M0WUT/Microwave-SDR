@@ -2615,7 +2615,7 @@
     (property "Sheetname" "")
     (path "/64205026-8aaf-460a-94f3-5dac28ccff80")
     (attr smd)
-    (fp_text reference "C8" (at 0.671875 2.25 180) (layer "F.SilkS")
+    (fp_text reference "C8" (at -2.328125 0 -90) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp f6ada5fa-691b-4c48-85a7-ddf4ef49b24a)
     )

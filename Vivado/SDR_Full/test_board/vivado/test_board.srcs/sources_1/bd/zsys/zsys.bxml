@@ -2,10 +2,10 @@
 <Root MajorVersion="0" MinorVersion="39">
   <CompositeFile CompositeFileTopName="zsys" CanBeSetAsTop="false" CanDisplayChildGraph="true">
     <Description>Composite Fileset</Description>
-    <Generation Name="SYNTHESIS" State="GENERATED" Timestamp="1620160625"/>
-    <Generation Name="IMPLEMENTATION" State="GENERATED" Timestamp="1620160625"/>
-    <Generation Name="SIMULATION" State="GENERATED" Timestamp="1620160625"/>
-    <Generation Name="HW_HANDOFF" State="GENERATED" Timestamp="1620160625"/>
+    <Generation Name="SYNTHESIS" State="GENERATED" Timestamp="1620682632"/>
+    <Generation Name="IMPLEMENTATION" State="GENERATED" Timestamp="1620682632"/>
+    <Generation Name="SIMULATION" State="GENERATED" Timestamp="1620682632"/>
+    <Generation Name="HW_HANDOFF" State="GENERATED" Timestamp="1620682632"/>
     <FileCollection Name="SOURCES" Type="SOURCES">
       <File Name="ip/zsys_SC0720_0_0/zsys_SC0720_0_0.xci" Type="IP">
         <Instance HierarchyPath="SC0720_0"/>
@@ -490,16 +490,24 @@
         <Library Name="xil_defaultlib"/>
         <UsedIn Val="SIMULATION"/>
       </File>
-      <File Name="ip/zsys_auto_pc_0/zsys_auto_pc_0.xci" Type="IP">
-        <Instance HierarchyPath="ps7_0_axi_periph/s00_couplers/auto_pc"/>
+      <File Name="ip/zsys_axi_uartlite_0_1/zsys_axi_uartlite_0_1.xci" Type="IP">
+        <Instance HierarchyPath="axi_uartlite_0"/>
         <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
         <Library Name="xil_defaultlib"/>
         <UsedIn Val="SYNTHESIS"/>
         <UsedIn Val="IMPLEMENTATION"/>
         <UsedIn Val="SIMULATION"/>
       </File>
-      <File Name="ip/zsys_axi_uartlite_0_1/zsys_axi_uartlite_0_1.xci" Type="IP">
-        <Instance HierarchyPath="axi_uartlite_0"/>
+      <File Name="ip/zsys_axi_gpio_0_0/zsys_axi_gpio_0_0.xci" Type="IP">
+        <Instance HierarchyPath="axi_gpio_0"/>
+        <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
+        <Library Name="xil_defaultlib"/>
+        <UsedIn Val="SYNTHESIS"/>
+        <UsedIn Val="IMPLEMENTATION"/>
+        <UsedIn Val="SIMULATION"/>
+      </File>
+      <File Name="ip/zsys_auto_pc_0/zsys_auto_pc_0.xci" Type="IP">
+        <Instance HierarchyPath="ps7_0_axi_periph/s00_couplers/auto_pc"/>
         <Properties IsEditable="false" IsVisible="true" Timestamp="0" IsTrackable="true" IsStatusTracked="true"/>
         <Library Name="xil_defaultlib"/>
         <UsedIn Val="SYNTHESIS"/>

@@ -151,6 +151,14 @@ set_property PACKAGE_PIN R20 [get_ports i_ptt_cw_n]
 set_property IOSTANDARD LVCMOS33 [get_ports i_ptt_cw_n]
 set_property PULLUP true [get_ports i_ptt_cw_n]
 
+set_property IOSTANDARD LVCMOS33 [get_ports uart_rtl_0_rxd]
+set_property IOSTANDARD LVCMOS33 [get_ports uart_rtl_0_txd]
+set_property PACKAGE_PIN R18 [get_ports uart_rtl_0_rxd]
+set_property PACKAGE_PIN N19 [get_ports uart_rtl_0_txd]
+
+
+
+
 set_property OFFCHIP_TERM NONE [get_ports LED_Display_Blank]
 set_property OFFCHIP_TERM NONE [get_ports LED_Display_Clock]
 set_property OFFCHIP_TERM NONE [get_ports LED_Display_Data]
@@ -166,7 +174,6 @@ set_property OFFCHIP_TERM NONE [get_ports debug_leds[3]]
 set_property OFFCHIP_TERM NONE [get_ports debug_leds[2]]
 set_property OFFCHIP_TERM NONE [get_ports debug_leds[1]]
 set_property OFFCHIP_TERM NONE [get_ports debug_leds[0]]
-set_property IOSTANDARD LVCMOS33 [get_ports uart_rtl_0_rxd]
-set_property IOSTANDARD LVCMOS33 [get_ports uart_rtl_0_txd]
-set_property PACKAGE_PIN R18 [get_ports uart_rtl_0_rxd]
-set_property PACKAGE_PIN N19 [get_ports uart_rtl_0_txd]
+set_property OFFCHIP_TERM NONE [get_ports gpio_rs485_rw_tri_o[0]]
+set_property IOSTANDARD LVCMOS33 [get_ports {gpio_rs485_rw_tri_o[0]}]
+set_property PACKAGE_PIN J18 [get_ports {gpio_rs485_rw_tri_o[0]}]

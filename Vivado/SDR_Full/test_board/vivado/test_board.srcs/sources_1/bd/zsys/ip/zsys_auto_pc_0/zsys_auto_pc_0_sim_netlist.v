@@ -1,7 +1,7 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
-// Date        : Tue Apr 27 19:17:11 2021
+// Date        : Mon May 10 22:38:08 2021
 // Host        : dan-Desktop running 64-bit Ubuntu 18.04.5 LTS
 // Command     : write_verilog -force -mode funcsim
 //               /home/dan/Microwave-SDR/Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/bd/zsys/ip/zsys_auto_pc_0/zsys_auto_pc_0_sim_netlist.v

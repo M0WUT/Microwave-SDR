@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
-//Date        : Tue May  4 21:37:04 2021
+//Date        : Mon May 10 22:37:12 2021
 //Host        : dan-Desktop running 64-bit Ubuntu 18.04.5 LTS
 //Command     : generate_target zsys_wrapper.bd
 //Design      : zsys_wrapper
@@ -57,6 +57,7 @@ module zsys_wrapper
     af_mclk,
     cw_key_n,
     debug_leds,
+    gpio_rs485_rw_tri_o,
     i_ptt_cw_n,
     i_ptt_n,
     oS_dacData,
@@ -113,6 +114,7 @@ module zsys_wrapper
   output af_mclk;
   input cw_key_n;
   output [7:0]debug_leds;
+  output [0:0]gpio_rs485_rw_tri_o;
   input i_ptt_cw_n;
   input i_ptt_n;
   output [13:0]oS_dacData;
@@ -176,6 +178,7 @@ module zsys_wrapper
   wire af_mclk;
   wire cw_key_n;
   wire [7:0]debug_leds;
+  wire [0:0]gpio_rs485_rw_tri_o;
   wire i_ptt_cw_n;
   wire i_ptt_n;
   wire [13:0]oS_dacData;
@@ -248,6 +251,7 @@ module zsys_wrapper
         .af_mclk(af_mclk),
         .cw_key_n(cw_key_n),
         .debug_leds(debug_leds),
+        .gpio_rs485_rw_tri_o(gpio_rs485_rw_tri_o),
         .i_ptt_cw_n(i_ptt_cw_n),
         .i_ptt_n(i_ptt_n),
         .oS_dacData(oS_dacData),

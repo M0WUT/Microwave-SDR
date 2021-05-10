@@ -1,27 +1,25 @@
 import serial
 import logging
 import json
+from rs485Driver import RS485Driver, RS485Packet
 
 
 class TransverterHandler:
     def __init__(self, filename, warnings, numSlots=8):
         self.warnings = warnings
         self.numSlots = numSlots  # @TODO Read from EEPROM
-        try:
-            self.serial = serial.Serial(filename, 9600, timeout=0.1)
-        except serial.serialutil.SerialException:
-            self.warnings.add_error(
-                "Controller", "Transverter Control",
-                "Couldn't open serial port: {}".format(filename)
-            )
+        self.driver = RS485Driver(mio=0, serialFile="/dev/ttyPS2", baud=9600)
         self.run_discovery()
 
     def run_discovery(self):
         logging.info("Starting transverter discovery...")
         # Query all the slots
         for x in range(self.numSlots):
-            self.serial.write(x.to_bytes(1, 'big') + b"D\n")
-            response = self.serial.readline()
+            packet = RS485Packet(
+                address=x,
+                command="D",
+            )
+            response = self.driver.query(packet)
             if response:
                 jsonResponse = json.loads(response.decode('utf-8'))
                 logging.info(
