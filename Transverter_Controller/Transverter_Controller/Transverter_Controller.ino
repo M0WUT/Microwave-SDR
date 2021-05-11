@@ -2,9 +2,9 @@
 
 
 #define LED 13
-#define DEBUG_LED 15
-#define ADDRESS 7
-#define DEBUG
+#define MESSAGE_LED 15
+#define ADDRESS '3'
+//#define DEBUG
 
 
 void process_command(char x){
@@ -38,9 +38,9 @@ void process_command(char x){
 
 void setup() {
     // initialize the digital pin as an output.
-    Serial1.begin(9600);
-    pinMode(LED, OUTPUT);
-    digitalWrite(LED, LOW);
+    Serial1.begin(115200);
+    pinMode(MESSAGE_LED, OUTPUT);
+    digitalWrite(MESSAGE_LED, LOW);
 
     #ifdef DEBUG  // Enable DEBUG LED as this blocks waiting for serial connection
         pinMode(DEBUG_LED, OUTPUT);
@@ -56,12 +56,14 @@ void loop() {
     
     static char command = '0';
     static int address = -1;
-    digitalWrite(LED, LOW);
+    digitalWrite(MESSAGE_LED, LOW);
     while(1) { 
         while(!Serial1.available());
 
         char x = Serial1.read();
-        
+        if(x == 0)
+          continue;
+       
         if(x == '\n')
             break;
         else if(address == -1)
@@ -71,7 +73,7 @@ void loop() {
     }
 
     if(address == ADDRESS){
-        digitalWrite(LED, HIGH);
+        digitalWrite(MESSAGE_LED, HIGH);
         process_command(command);
     }
 
