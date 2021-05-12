@@ -44,7 +44,7 @@ class RS485Driver():
             file.write(str(x))
 
     def write(self, x):
-        address = str(x.address).encode("utf-8")
+        address = x.address.to_bytes(1, 'big')
         command = x.command.encode("utf-8")
         payload = bytes(x.payload)
         logging.debug(
