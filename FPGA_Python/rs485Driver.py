@@ -20,7 +20,7 @@ class RS485Driver():
         self.mioFile = None
         self.serial = None
         try:
-            self.serial = serial.Serial(serialFile, baud, timeout=0.1)
+            self.serial = serial.Serial(serialFile, baud, timeout=0.2)
         except serial.serialutil.SerialException:
             self.warnings.add_error(
                 "Controller", "Transverter Control",
@@ -38,6 +38,8 @@ class RS485Driver():
 
         self.mioFile = "/sys/class/gpio/gpio{}/value".format(self.mio)
 
+        self.set_direction(self.TX)
+
     def set_direction(self, x):
         assert x in [self.TX, self.RX]
         with open(self.mioFile, 'w') as file:
@@ -48,20 +50,22 @@ class RS485Driver():
         command = x.command.encode("utf-8")
         payload = bytes(x.payload)
         logging.debug(
-            "RS485 TX to address {}, command {}, payload {}" .format(
+            "RS485 TX to address {}, command {}, payload {}".format(
                 x.address, x.command, x.payload
             )
         )
 
-        try:
-            self.set_direction(self.TX)
-            self.serial.write(address + command + payload + b"\n")
-            self.serial.flush()
-        finally:
-            self.set_direction(self.RX)
+        self.serial.write(address + command + payload + b"\n")
+        self.serial.flush()
 
     def read(self):
-        return self.serial.readline()
+        x = ""
+        try:
+            self.set_direction(self.RX)
+            x = self.serial.readline()
+        finally:
+            self.set_direction(self.TX)
+            return x
 
     def query(self, x):
         self.write(x)
@@ -75,11 +79,3 @@ class RS485Driver():
             file.write(str(self.mio))
         if self.serial:
             self.serial.close()
-
-
-if __name__ == '__main__':
-    with RS485Driver(mio=0, serialFile="/dev/ttyPS2", baud=9600) as x:
-        packet = RS485Packet(address=1, command="D")
-        while(True):
-            x.write(packet)
-            sleep(0.2)

@@ -12,10 +12,11 @@ class EEPROM
         void write(uint16_t startAddress, uint8_t *data, int length);
         uint8_t read(uint16_t address);
         void read(uint8_t *buffer, uint16_t startAddress, int length);
-    private:
-        int deviceAddress;
+    protected:
         void check_device();
         void send_address(uint16_t address);
+    private:
+        int deviceAddress;
 };
 
 
