@@ -3,6 +3,7 @@ import json
 from rs485Driver import RS485Driver, RS485Packet
 from time import sleep
 
+
 class TransverterHandler:
     def __init__(self, filename, warnings, numSlots=8):
         self.warnings = warnings
@@ -22,9 +23,15 @@ class TransverterHandler:
             )
             response = self.driver.query(packet)
             if response:
-                jsonResponse = json.loads(response.decode('utf-8'))
-                logging.info(
-                    "Transverter {} discovered in slot {}".format(
-                        jsonResponse['name'], x
+                try:
+                    jsonResponse = json.loads(response.decode('utf-8'))
+                    logging.info(
+                        "Transverter {} discovered in slot {}".format(
+                            jsonResponse['name'], x
+                        )
                     )
-                )
+                except UnicodeDecodeError:
+                    self.warnings.add_warning(
+                        "RS485",
+                        "Malformed message received"
+                        )

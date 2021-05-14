@@ -37,8 +37,8 @@ class RS485Driver():
             file.write("out")
 
         self.mioFile = "/sys/class/gpio/gpio{}/value".format(self.mio)
-
-        self.set_direction(self.TX)
+        self.set_direction(self.RX)
+        self.serial.reset_input_buffer()
 
     def set_direction(self, x):
         assert x in [self.TX, self.RX]
@@ -48,24 +48,24 @@ class RS485Driver():
     def write(self, x):
         address = x.address.to_bytes(1, 'big')
         command = x.command.encode("utf-8")
+        self.set_direction(self.TX)
         payload = bytes(x.payload)
         logging.debug(
             "RS485 TX to address {}, command {}, payload {}".format(
                 x.address, x.command, x.payload
             )
         )
-
         self.serial.write(address + command + payload + b"\n")
         self.serial.flush()
+        self.set_direction(self.RX)
+
+        # Changing RS485 from TX to RX introduces glitches on the
+        # RX line so clear the buffer
+        sleep(0.01)
+        self.serial.reset_input_buffer()
 
     def read(self):
-        x = ""
-        try:
-            self.set_direction(self.RX)
-            x = self.serial.readline()
-        finally:
-            self.set_direction(self.TX)
-            return x
+        return self.serial.readline()
 
     def query(self, x):
         self.write(x)

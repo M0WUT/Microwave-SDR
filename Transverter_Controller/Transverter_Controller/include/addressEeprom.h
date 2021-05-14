@@ -1,3 +1,6 @@
+#ifndef ADDRESSEEPROM_H
+#define ADDRESSEEPROM_H
+
 #include "eepromHandler.h"
 #include "config.h"
 
@@ -10,3 +13,4 @@ class AddressEeprom: public EEPROM{
     private:
         int address = -1;
 };
+#endif

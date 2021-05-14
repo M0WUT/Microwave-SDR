@@ -15,7 +15,7 @@ void process_command(String x){
       switch(x[0]){
           case 'D': 
               #ifdef DEBUG
-                  Serial.println("Received discovery request");
+                  DEBUG_SERIAL.println("Received discovery request");
               #endif
               doc["name"] = "Alice" ;
               doc["message"] = "Oh hai";
@@ -23,7 +23,7 @@ void process_command(String x){
               break;
           case 'S':
               #ifdef DEBUG
-                  Serial.println("Received status request");
+                  DEBUG_SERIAL.println("Received status request");
               #endif
               break;
           default:
@@ -33,26 +33,25 @@ void process_command(String x){
               break;
         }
     delay(50);
-    digitalWrite(RS485_TX, HIGH);
-    serializeJson(doc, Serial1); 
-    Serial1.flush();
-    digitalWrite(RS485_TX, LOW);
+    serializeJson(doc, RS485_SERIAL); 
+    RS485_SERIAL.flush();
     
     digitalWrite(MESSAGE_LED, LOW);
 }
 
 int main() {
     // initialize the digital pin as an output.
-    Serial1.begin(115200);
+    RS485_SERIAL.begin(115200, SERIAL_8N1_RXINV_TXINV);
+    RS485_SERIAL.transmitterEnable(RS485_TX);
     pinMode(MESSAGE_LED, OUTPUT);
     digitalWrite(MESSAGE_LED, LOW);
 
     #ifdef DEBUG  // Enable LED as this blocks waiting for serial connection
         digitalWrite(MESSAGE_LED, HIGH);
-        Serial.begin(9600);
-        while(!Serial);
-        Serial.println("Starting program...");
-        Serial.flush();
+        DEBUG_SERIAL.begin(9600);
+        while(!DEBUG_SERIAL);
+        DEBUG_SERIAL.println("Starting program...");
+        DEBUG_SERIAL.flush();
         digitalWrite(MESSAGE_LED, LOW);
     #endif
 

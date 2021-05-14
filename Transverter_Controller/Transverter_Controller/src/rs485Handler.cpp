@@ -7,8 +7,8 @@ Rs485Handler::Rs485Handler(int busAddress, void(*callback)(String)){
     digitalWrite(RS485_TX, LOW);
 }
 void Rs485Handler::handle_messages(){
-    if(Serial1.available()){
-        char x = Serial1.read();
+    if(RS485_SERIAL.available()){
+        char x = RS485_SERIAL.read();
         if(x == '\n'){
             if(command[0] == busAddress){
                 callback(command.remove(0, 1));

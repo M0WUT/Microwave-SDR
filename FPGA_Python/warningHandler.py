@@ -93,7 +93,7 @@ class WarningHandler:
         self.mqtt = x
 
     def add_warning(
-        self, source, category, message, broadcast=True, date=None, time=None
+        self, category, message, broadcast=True, date=None, time=None
     ):
         """
         Records new warnings
@@ -112,10 +112,10 @@ class WarningHandler:
         Raises:
             None
         """
-        logging.warning("[{}] {}: {}" .format(source, category, message))
+        logging.warning("{}: {}" .format(category, message))
         x = Sadness(
             "Warning",
-            source,
+            NAME,
             category,
             message,
             date,

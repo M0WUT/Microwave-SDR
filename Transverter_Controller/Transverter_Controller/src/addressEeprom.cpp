@@ -28,12 +28,12 @@ int AddressEeprom::get_address(){
 void AddressEeprom::first_time_setup(){
     address = 0;
     digitalWrite(MESSAGE_LED, HIGH);
-    Serial.begin(9600);
-    while(!Serial);
-    Serial.println("Uninitialised EEPROM found. Please enter address and press Enter");
-    Serial.setTimeout(2000);
+    DEBUG_SERIAL.begin(9600);
+    while(!DEBUG_SERIAL);
+    DEBUG_SERIAL.println("Uninitialised EEPROM found. Please enter address and press Enter");
+    DEBUG_SERIAL.setTimeout(2000);
     uint8_t buffer[4];
-    while(Serial.readBytesUntil('\n', buffer, 3) == 0);
+    while(DEBUG_SERIAL.readBytesUntil('\n', buffer, 3) == 0);
 
     // buffer now contains address in ASCII
     for(int i = 0; i < 3; i++){
@@ -48,7 +48,7 @@ void AddressEeprom::first_time_setup(){
     buffer[2] = 'D';
     buffer[3] = address;
     write(0, buffer, 4);
-    Serial.print("Setting address to ");
-    Serial.println(address);
+    DEBUG_SERIAL.print("Setting address to ");
+    DEBUG_SERIAL.println(address);
     digitalWrite(MESSAGE_LED, LOW);
 }
