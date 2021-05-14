@@ -1,14 +1,16 @@
-#include "../include/rs485Handler.h"
+#include "rs485Handler.h"
 
-Rs485Handler::Rs485Handler(int busAddress, void(*callback)(String)){
+Rs485Handler::Rs485Handler(HardwareSerial *serial, int txPin, int busAddress, void(*callback)(String)){
+    this->serial = serial;
     this->busAddress = busAddress;
     this->callback = callback;
-    pinMode(RS485_TX, OUTPUT);
-    digitalWrite(RS485_TX, LOW);
+    this->serial->begin(115200, SERIAL_8N1_RXINV_TXINV);
+    pinMode(txPin, OUTPUT);
+    this->serial->transmitterEnable(txPin);
 }
 void Rs485Handler::handle_messages(){
-    if(RS485_SERIAL.available()){
-        char x = RS485_SERIAL.read();
+    if(serial->available()){
+        char x = serial->read();
         if(x == '\n'){
             if(command[0] == busAddress){
                 callback(command.remove(0, 1));

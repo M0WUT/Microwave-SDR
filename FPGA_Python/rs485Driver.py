@@ -20,7 +20,7 @@ class RS485Driver():
         self.mioFile = None
         self.serial = None
         try:
-            self.serial = serial.Serial(serialFile, baud, timeout=0.2)
+            self.serial = serial.Serial(serialFile, baud, timeout=0.1)
         except serial.serialutil.SerialException:
             self.warnings.add_error(
                 "Controller", "Transverter Control",

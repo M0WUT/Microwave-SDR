@@ -1,8 +1,9 @@
-#include "../include/addressEeprom.h"
+#include "addressEeprom.h"
 
 #define ADDRESS_RS485_ADDRESS 3
 
-AddressEeprom::AddressEeprom(int deviceAddress) : EEPROM(deviceAddress){
+AddressEeprom::AddressEeprom(int deviceAddress, DEBUG_SERIAL_CLASS *debugSerial, int messageLED, Panicker *panicker) : EEPROM(deviceAddress, debugSerial, panicker){
+    this->messageLED = messageLED;
     if(!initialised()){
         first_time_setup();
     }
@@ -27,13 +28,13 @@ int AddressEeprom::get_address(){
 
 void AddressEeprom::first_time_setup(){
     address = 0;
-    digitalWrite(MESSAGE_LED, HIGH);
-    DEBUG_SERIAL.begin(9600);
-    while(!DEBUG_SERIAL);
-    DEBUG_SERIAL.println("Uninitialised EEPROM found. Please enter address and press Enter");
-    DEBUG_SERIAL.setTimeout(2000);
+    digitalWrite(messageLED, HIGH);
+    this->serial->begin(9600);
+    while(!*this->serial);
+    this->serial->println("Uninitialised EEPROM found. Please enter address and press Enter");
+    this->serial->setTimeout(2000);
     uint8_t buffer[4];
-    while(DEBUG_SERIAL.readBytesUntil('\n', buffer, 3) == 0);
+    while(this->serial->readBytesUntil('\n', buffer, 3) == 0);
 
     // buffer now contains address in ASCII
     for(int i = 0; i < 3; i++){
@@ -48,7 +49,7 @@ void AddressEeprom::first_time_setup(){
     buffer[2] = 'D';
     buffer[3] = address;
     write(0, buffer, 4);
-    DEBUG_SERIAL.print("Setting address to ");
-    DEBUG_SERIAL.println(address);
-    digitalWrite(MESSAGE_LED, LOW);
+    this->serial->print("Setting address to ");
+    this->serial->println(address);
+    digitalWrite(messageLED, LOW);
 }

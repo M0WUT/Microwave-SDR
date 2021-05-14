@@ -3,11 +3,12 @@
 
 #include "panic.h"
 #include <i2c_t3.h>
+#include <globalConfig.h>
 
 class EEPROM
 {
     public:
-        EEPROM(int deviceAddress);
+        EEPROM(int deviceAddress, DEBUG_SERIAL_CLASS *serial, Panicker *panicker);
         void write(uint16_t address, uint8_t data);
         void write(uint16_t startAddress, uint8_t *data, int length);
         uint8_t read(uint16_t address);
@@ -15,6 +16,8 @@ class EEPROM
     protected:
         void check_device();
         void send_address(uint16_t address);
+        DEBUG_SERIAL_CLASS *serial;
+        Panicker *panicker;
     private:
         int deviceAddress;
 };

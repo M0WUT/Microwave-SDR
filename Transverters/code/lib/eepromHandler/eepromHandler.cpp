@@ -1,7 +1,9 @@
-#include "../include/eepromHandler.h"
+#include "eepromHandler.h"
 
-EEPROM::EEPROM(int deviceAddress){
+EEPROM::EEPROM(int deviceAddress, DEBUG_SERIAL_CLASS *serial, Panicker *panicker){
     this->deviceAddress = deviceAddress;
+    this->serial = serial;
+    this->panicker = panicker;
     this->check_device();
 }
 
@@ -15,8 +17,12 @@ void EEPROM::check_device(){
             break;
         default:
             char buffer [128];
-            sprintf(buffer, "Couldn't find address EEPROM in address 0x%02X", this->deviceAddress);
-            panic(buffer);
+            sprintf(
+                buffer,
+                "Couldn't find address EEPROM in address 0x%02X",
+                this->deviceAddress
+            );
+            this->panicker->panic(buffer);
     }
 }
 
@@ -40,7 +46,6 @@ uint8_t EEPROM::read(uint16_t address){
     uint8_t x;
     read(&x, address, 1);
     return x;
-
 }
 
 void EEPROM::read(uint8_t *buffer, uint16_t startAddress, int length){
