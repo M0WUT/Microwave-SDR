@@ -3,37 +3,73 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="zsys_wrapper_tb_behav.wdb" id="1">
+      <db_ref path="adau1361_handler_tb_behav.wdb" id="1">
          <top_modules>
+            <top_module name="adau1361_handler_tb" />
             <top_module name="glbl" />
-            <top_module name="zsys_wrapper_tb" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="544185330fs"></ZoomStartTime>
-      <ZoomEndTime time="6411940434fs"></ZoomEndTime>
-      <Cursor1Time time="5433981250fs"></Cursor1Time>
+      <ZoomStartTime time="499180010fs"></ZoomStartTime>
+      <ZoomEndTime time="500282148fs"></ZoomEndTime>
+      <Cursor1Time time="500000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="204"></NameColumnWidth>
-      <ValueColumnWidth column_width="196"></ValueColumnWidth>
+      <ValueColumnWidth column_width="192"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="2" />
+   <WVObjectSize size="11" />
    <wave_markers>
-      <marker label="" time="5273000" />
       <marker label="" time="20038000" />
       <marker label="" time="76800000" />
+      <marker label="" time="500006000" />
+      <marker label="" time="106597000" />
+      <marker label="" time="114945000" />
    </wave_markers>
-   <wvobject type="array" fp_name="/zsys_wrapper_tb/UUT/zsys_i/cordic_0/oS_xOut">
-      <obj_property name="ElementShortName">oS_xOut[15:0]</obj_property>
-      <obj_property name="ObjectShortName">oS_xOut[15:0]</obj_property>
-      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
-      <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
+   <wvobject type="array" fp_name="/adau1361_handler_tb/UUT/iS_left_dac_data">
+      <obj_property name="ElementShortName">iS_left_dac_data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">iS_left_dac_data[15:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/zsys_wrapper_tb/UUT/zsys_i/fir_compiler_0/m_axis_data_tdata">
-      <obj_property name="ElementShortName">m_axis_data_tdata[23:0]</obj_property>
-      <obj_property name="ObjectShortName">m_axis_data_tdata[23:0]</obj_property>
-      <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
+   <wvobject type="logic" fp_name="/adau1361_handler_tb/UUT/i_left_dac_valid">
+      <obj_property name="ElementShortName">i_left_dac_valid</obj_property>
+      <obj_property name="ObjectShortName">i_left_dac_valid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/adau1361_handler_tb/UUT/iS_right_dac_data">
+      <obj_property name="ElementShortName">iS_right_dac_data[15:0]</obj_property>
+      <obj_property name="ObjectShortName">iS_right_dac_data[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/adau1361_handler_tb/UUT/i_right_dac_valid">
+      <obj_property name="ElementShortName">i_right_dac_valid</obj_property>
+      <obj_property name="ObjectShortName">i_right_dac_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/adau1361_handler_tb/UUT/o_dacData">
+      <obj_property name="ElementShortName">o_dacData</obj_property>
+      <obj_property name="ObjectShortName">o_dacData</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/adau1361_handler_tb/UUT/o_error">
+      <obj_property name="ElementShortName">o_error</obj_property>
+      <obj_property name="ObjectShortName">o_error</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/adau1361_handler_tb/UUT/r_started">
+      <obj_property name="ElementShortName">r_started</obj_property>
+      <obj_property name="ObjectShortName">r_started</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/adau1361_handler_tb/UUT/i_clk">
+      <obj_property name="ElementShortName">i_clk</obj_property>
+      <obj_property name="ObjectShortName">i_clk</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/adau1361_handler_tb/UUT/r_bitCounter">
+      <obj_property name="ElementShortName">r_bitCounter[5:0]</obj_property>
+      <obj_property name="ObjectShortName">r_bitCounter[5:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/adau1361_handler_tb/UUT/w_lrclk">
+      <obj_property name="ElementShortName">w_lrclk</obj_property>
+      <obj_property name="ObjectShortName">w_lrclk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/adau1361_handler_tb/UUT/w_bclk">
+      <obj_property name="ElementShortName">w_bclk</obj_property>
+      <obj_property name="ObjectShortName">w_bclk</obj_property>
    </wvobject>
 </wave_config>

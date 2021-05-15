@@ -23,23 +23,33 @@
 
 
 module adc_handler(
-        input wire i_clk,
+        // Output AXIS
+        (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_S TDATA" *)
+        output reg signed [15:0] oS_data, // Transfer Data (optional)
+        (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_S TVALID" *)
+        output reg o_valid, // Transfer valid (required)
+
         input wire signed [15:0] i_data,
-        input wire i_overflow,
+        input wire i_overflow,  // TODO handler overflow warnings
         input wire i_random,    // These are passed through but are needed to allow 
                                 // correct decode of the data                            
         input wire i_dither,
-        output reg signed [15:0] o_data,
-        output wire o_random,
-        output wire o_dither
+        output reg o_random,
+        output reg o_dither,
+
+        // AXI Clock
+        (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 i_clk CLK" *)
+        (* X_INTERFACE_PARAMETER = "ASSOCIATED_BUSIF M_AXIS_S" *)
+        input wire i_clk
 );
 
-    assign o_random = i_random;
-    assign o_dither = i_dither;
 
 
 always @(negedge i_clk) begin
-    o_data <= (i_random ? {
+    o_random <= i_random;
+    o_dither <= i_dither;
+    o_valid <= 1'b1;
+    oS_data <= (i_random ? {
             i_data[15] ^ i_data[0],
             i_data[14] ^ i_data[0],
             i_data[13] ^ i_data[0],
@@ -56,6 +66,6 @@ always @(negedge i_clk) begin
             i_data[2] ^ i_data[0],
             i_data[1] ^ i_data[0],
             i_data[0]
-        } :(i_data <<< 1));
+        } : i_data);
 end
 endmodule

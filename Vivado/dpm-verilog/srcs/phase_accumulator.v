@@ -31,7 +31,7 @@ module phase_accumulator(
     (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS_ANGLE_DELTA TVALID" *)
     input wire i_valid, // Transfer valid (required)
 
-    // X.sin(theta) + Y.cos(theta) output
+    // Phase angle output
     (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_ANGLE TDATA" *)
     output reg signed [31:0] oS_phaseAngle, // Transfer Data (optional)
     (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_ANGLE TVALID" *)

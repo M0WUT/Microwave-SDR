@@ -1,7 +1,7 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"0.294904",
-   "Default View_TopLeft":"-214,-448",
+   "Default View_ScaleFactor":"0.778256",
+   "Default View_TopLeft":"57,204",
    "ExpandedHierarchyInLayout":"",
    "comment_0":"Constant 1",
    "comment_1":"Constant 0",
@@ -29,13 +29,13 @@ preplace inst xlconstant_0 -pg 1 -lvl 1 -x 100 -y 660 -defaultsOSRD
 preplace inst xlconstant_3 -pg 1 -lvl 2 -x 390 -y 820 -defaultsOSRD
 preplace inst xlslice_3 -pg 1 -lvl 6 -x 1950 -y 80 -defaultsOSRD
 preplace inst xlslice_4 -pg 1 -lvl 6 -x 1950 -y 340 -defaultsOSRD
-preplace inst phase_accumulator_0 -pg 1 -lvl 2 -x 390 -y 620 -defaultsOSRD
 preplace inst cordic_0 -pg 1 -lvl 3 -x 880 -y 560 -defaultsOSRD
 preplace inst cordic_1 -pg 1 -lvl 8 -x 2850 -y 170 -defaultsOSRD
 preplace inst cordic_2 -pg 1 -lvl 8 -x 2850 -y 430 -defaultsOSRD
-preplace inst phase_accumulator_1 -pg 1 -lvl 7 -x 2320 -y 540 -defaultsOSRD
 preplace inst xlconcat_0 -pg 1 -lvl 10 -x 3530 -y 460 -defaultsOSRD
 preplace inst axis_subset_converter_0 -pg 1 -lvl 10 -x 3530 -y 720 -defaultsOSRD
+preplace inst phase_accumulator_0 -pg 1 -lvl 2 -x 390 -y 620 -defaultsOSRD
+preplace inst phase_accumulator_1 -pg 1 -lvl 7 -x 2320 -y 540 -defaultsOSRD
 preplace netloc cordic_1_oS_xOut 1 3 1 1140 360n
 preplace netloc cordic_1_oS_yOut 1 3 1 1160 380n
 preplace netloc cordic_1_o_xValid 1 3 2 NJ 550 1390
@@ -59,11 +59,11 @@ preplace netloc cordic_2_o_error 1 8 2 N 460 NJ
 preplace netloc cordic_0_o_error 1 3 7 1150J 250 NJ 250 NJ 250 NJ 250 2540J 30 NJ 30 3340
 preplace netloc xlconcat_0_dout 1 10 1 NJ 460
 preplace netloc c_addsub_0_S 1 9 1 3340 700n
-preplace netloc phase_accumulator_0_M_AXIS_ANGLE 1 2 1 590 580n
 preplace netloc cic_compiler_2_M_AXIS_DATA 1 7 1 N 90
-preplace netloc S_AXIS_AF_1 1 0 3 NJ 500 NJ 500 NJ
-preplace netloc cic_compiler_1_M_AXIS_DATA 1 7 1 N 350
 preplace netloc axis_subset_converter_0_M_AXIS 1 10 1 NJ 720
+preplace netloc S_AXIS_AF_1 1 0 3 NJ 500 NJ 500 NJ
+preplace netloc phase_accumulator_0_M_AXIS_ANGLE 1 2 1 590 580n
+preplace netloc cic_compiler_1_M_AXIS_DATA 1 7 1 N 350
 preplace cgraphic comment_1 place left -95 -7 textcolor 4 linecolor 3 linewidth 2
 preplace cgraphic comment_0 place left -114 -5 textcolor 4 linecolor 3 linewidth 2
 levelinfo -pg 1 -10 100 390 880 1280 1620 1950 2320 2850 3230 3530 3740

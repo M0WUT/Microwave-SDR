@@ -75,7 +75,7 @@ module adau1361_handler #(
 // so need 8 bonus bits to perform extra division by 256 for o_lrclk
 
 reg [$clog2(MCLK_DIVIDER) + 8 - 1 : 0] r_dividerCounter = 0;
-reg r_started = 1;
+reg r_started = 0;
 
 reg signed [31:0] r_dacData = 0;
 reg [31:0] r_adcData = 0;
@@ -100,10 +100,10 @@ always @(posedge i_clk) begin
         r_started <= 0;
         o_left_adc_valid <= 0;
         o_right_adc_valid <= 0;
-    end else if(~r_started) begin
+    end else if(!r_started) begin
         // Waiting for initial start of frame
         if (i_left_dac_valid) begin
-            r_dividerCounter <= 0;
+            r_dividerCounter <= 1;
             o_mclk <= w_mclk;
             o_bclk <= w_bclk;
             o_lrclk <= w_lrclk;
@@ -111,7 +111,6 @@ always @(posedge i_clk) begin
             r_bitCounter <= 6'd31;
             o_dacData <= 0;
             o_error <= 0;
-            r_dividerCounter <= 1;
             r_started <= 1;
             o_left_adc_valid <= 0;
             o_right_adc_valid <= 0;
@@ -135,6 +134,7 @@ always @(posedge i_clk) begin
                 if(i_left_dac_valid && i_right_dac_valid) begin
                     r_dacData <= {iS_left_dac_data, iS_right_dac_data};
                     o_error <= 0;
+                    o_dacData <= iS_left_dac_data[15];
                 end else begin
                     o_error <= 1;
                 end
