@@ -1,3 +1,4 @@
+from json.decoder import JSONDecodeError
 import logging
 import json
 from rs485Driver import RS485Driver, RS485Packet
@@ -34,4 +35,9 @@ class TransverterHandler:
                     self.warnings.add_warning(
                         "RS485",
                         "Malformed message received"
+                        )
+                except JSONDecodeError:
+                    self.warnings.add_warning(
+                        "RS485",
+                        "Received message contains invalid JSON"
                         )

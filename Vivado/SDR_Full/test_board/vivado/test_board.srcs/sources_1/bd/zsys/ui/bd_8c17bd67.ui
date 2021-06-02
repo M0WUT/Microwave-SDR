@@ -1,42 +1,14 @@
 {
    "ActiveEmotionalView":"Default View",
-   "Default View_ScaleFactor":"0.948567",
-   "Default View_TopLeft":"-58,-132",
+   "Default View_ScaleFactor":"1.0",
+   "Default View_TopLeft":"-382,-89",
    "ExpandedHierarchyInLayout":"",
    "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 TLS
 #  -string -flagsOSRD
-preplace port rf_adc_random -pg 1 -lvl 3 -x 930 -y 410 -defaultsOSRD
-preplace port rf_adc_dither -pg 1 -lvl 3 -x 930 -y 430 -defaultsOSRD
-preplace port rf_adc_clk -pg 1 -lvl 0 -x 0 -y 100 -defaultsOSRD
-preplace port rf_adc_overflow -pg 1 -lvl 0 -x 0 -y 410 -defaultsOSRD
-preplace port i_resetn -pg 1 -lvl 0 -x 0 -y 120 -defaultsOSRD
-preplace port o_af_data_valid -pg 1 -lvl 3 -x 930 -y 110 -defaultsOSRD
-preplace port i_adcRandom -pg 1 -lvl 0 -x 0 -y 430 -defaultsOSRD
-preplace port i_adcDither -pg 1 -lvl 0 -x 0 -y 450 -defaultsOSRD
-preplace portBus rf_adc_data_in -pg 1 -lvl 0 -x 0 -y 390 -defaultsOSRD
-preplace portBus af_data -pg 1 -lvl 3 -x 930 -y 90 -defaultsOSRD
-preplace portBus i_phaseAccumulator1Delta -pg 1 -lvl 0 -x 0 -y 80 -defaultsOSRD
-preplace portBus raw_adc_data -pg 1 -lvl 3 -x 930 -y 180 -defaultsOSRD
-preplace inst adc_handler_0 -pg 1 -lvl 2 -x 770 -y 410 -defaultsOSRD
-preplace inst signed_to_unsigned_0 -pg 1 -lvl 2 -x 770 -y 100 -defaultsOSRD
-preplace inst AM_Demodulator_0 -pg 1 -lvl 1 -x 430 -y 90 -defaultsOSRD
-preplace inst ila_0 -pg 1 -lvl 2 -x 770 -y -80 -defaultsOSRD
-preplace netloc adc_handler_0_o_random 1 2 1 NJ 410
-preplace netloc adc_handler_0_o_dither 1 2 1 NJ 430
-preplace netloc rf_adc_clk_1 1 0 2 20 0 600
-preplace netloc rf_adc_data_in_1 1 0 2 NJ 390 NJ
-preplace netloc rf_adc_overflow_1 1 0 2 NJ 410 NJ
-preplace netloc adc_handler_0_o_data 1 0 3 30 -10 620J 180 910
-preplace netloc i_resetn_2 1 0 1 N 120
-preplace netloc signed_to_unsigned_0_o_data 1 2 1 NJ 90
-preplace netloc signed_to_unsigned_0_o_valid 1 1 2 630 20 910J
-preplace netloc i_adcRandom_1 1 0 2 NJ 430 NJ
-preplace netloc i_adcDither_1 1 0 2 NJ 450 NJ
-preplace netloc i_phaseAccumulator1Delta_1 1 0 1 NJ 80
-preplace netloc AM_Demodulator_0_oS_audio 1 1 1 590 -60n
-preplace netloc AM_Demodulator_0_o_valid 1 1 1 610 -80n
-levelinfo -pg 1 0 430 770 930
-pagesize -pg 1 -db -bbox -sgen -290 -180 1130 510
+preplace inst TX -pg 1 -lvl 1 -x 180 -y 210 -defaultsOSRD
+preplace inst RX -pg 1 -lvl 1 -x 180 -y 50 -defaultsOSRD
+levelinfo -pg 1 0 180 360
+pagesize -pg 1 -db -bbox -sgen 0 0 360 340
 "
 }
 0

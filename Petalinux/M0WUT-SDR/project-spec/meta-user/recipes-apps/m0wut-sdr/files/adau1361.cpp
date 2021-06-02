@@ -272,11 +272,13 @@ void adau1361::setOutputSource(channel_t channel, output_source_t source) {
     left = _leftOutputChannel->source();
     right = _rightOutputChannel->source();
 
-    if((left == LEFT_DAC) || (right == LEFT_DAC))
+    if((left == LEFT_DAC) || (right == LEFT_DAC)){
         data[0] |= 0b01;
+    }
 
-    if((left == RIGHT_DAC) || (right == RIGHT_DAC))
+    if((left == RIGHT_DAC) || (right == RIGHT_DAC)){
         data[0] |= 0b10;
+    }
 
     _iic->write_block(ADAU1361_REG_DAC0, data, 3);
 

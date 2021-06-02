@@ -408,7 +408,8 @@
       "meta": {
         "version": 0
       },
-      "model_mode": 0
+      "model_mode": 0,
+      "workbook_filename": ""
     },
     "page_layout_descr_file": "",
     "plot_directory": "",
@@ -421,26 +422,6 @@
     [
       "c0082fb8-e3c3-49ba-b34f-8adff07d94a5",
       ""
-    ],
-    [
-      "745fae2b-7fc1-46bc-9431-1e0bf9836935",
-      "Transverter 1"
-    ],
-    [
-      "ac7f6aed-a3e1-4c62-a3e9-3f982cc30d5d",
-      "Transverter 2"
-    ],
-    [
-      "0350a56e-1889-43d3-a66a-777871d7547d",
-      "Transverter 3"
-    ],
-    [
-      "5e7af7d1-479a-47c9-9386-4c7368da2ce9",
-      "Transverter 4"
-    ],
-    [
-      "39e17300-f9bb-475c-a074-970e52e226aa",
-      "Transverter 5"
     ]
   ],
   "text_variables": {}
