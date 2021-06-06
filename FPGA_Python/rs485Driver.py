@@ -2,10 +2,11 @@ import serial
 from time import sleep
 from os import path
 import logging
+from typing import List
 
 
 class RS485Packet():
-    def __init__(self, address, command, payload=[]):
+    def __init__(self, address: int, command: int, payload: List[bytes] = []):
         self.address = address
         self.command = command
         self.payload = payload
@@ -16,7 +17,7 @@ class RS485Driver():
     TX = 1
     RX = 0
 
-    def __init__(self, mio, serialFile, baud):
+    def __init__(self, mio: int, serialFile: str, baud: int):
         self.mioFile = None
         self.serial = None
         try:
@@ -40,7 +41,7 @@ class RS485Driver():
         self.set_direction(self.RX)
         self.serial.reset_input_buffer()
 
-    def set_direction(self, x):
+    def set_direction(self, x: int):
         assert x in [self.TX, self.RX]
         with open(self.mioFile, 'w') as file:
             file.write(str(x))
@@ -64,17 +65,14 @@ class RS485Driver():
         sleep(0.01)
         self.serial.reset_input_buffer()
 
-    def read(self):
+    def read(self) -> str:
         return self.serial.readline()
 
-    def query(self, x):
-        self.write(x)
+    def query(self, address: int) -> str:
+        self.write(address)
         return self.read()
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args, **kwargs):
+    def __del__(self):
         with open("/sys/class/gpio/unexport", 'w') as file:
             file.write(str(self.mio))
         if self.serial:
