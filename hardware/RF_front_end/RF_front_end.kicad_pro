@@ -84,8 +84,8 @@
         "padstack": "error",
         "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
-        "silk_over_copper": "error",
-        "silk_overlap": "error",
+        "silk_over_copper": "warning",
+        "silk_overlap": "warning",
         "skew_out_of_range": "error",
         "too_many_vias": "error",
         "track_dangling": "warning",
@@ -117,12 +117,17 @@
         "use_height_for_length_calcs": true
       },
       "track_widths": [
-        0.0
+        0.0,
+        0.25
       ],
       "via_dimensions": [
         {
           "diameter": 0.0,
           "drill": 0.0
+        },
+        {
+          "diameter": 0.45,
+          "drill": 0.2
         }
       ],
       "zones_allow_external_fillets": false,
@@ -360,9 +365,9 @@
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.25,
-        "via_diameter": 0.6,
-        "via_drill": 0.3,
+        "track_width": 0.4,
+        "via_diameter": 0.45,
+        "via_drill": 0.2,
         "wire_width": 6.0
       }
     ],
@@ -423,6 +428,34 @@
     [
       "40a6227f-3acc-4758-bfa2-7ac2bf7e801e",
       ""
+    ],
+    [
+      "252479cc-af31-4b51-bb44-c6eb506168c7",
+      "20dB Gain Block"
+    ],
+    [
+      "70d3ec45-b6cf-4b10-9226-5e15ff41ffee",
+      "RF Switch"
+    ],
+    [
+      "dd3cae6a-0b6b-477f-86d5-aef1dbba5c15",
+      "20dB Gain Block1"
+    ],
+    [
+      "96e871d5-259c-40a0-a70c-d5a84fff356d",
+      "RF Switch1"
+    ],
+    [
+      "69a67e23-5fc6-42e6-8fde-0591c8b02d00",
+      "Adjustable Attenuator"
+    ],
+    [
+      "2a98e36a-32f1-4eb4-9672-185a87e5884e",
+      "20dB Gain Block2"
+    ],
+    [
+      "bb425172-1f6d-4c45-b73f-86d12394c644",
+      "Generic Filter"
     ]
   ],
   "text_variables": {}
