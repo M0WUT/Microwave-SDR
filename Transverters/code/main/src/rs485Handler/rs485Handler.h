@@ -2,15 +2,14 @@
 #define RS485_H
 
 #include <Arduino.h>
-#include <globalConfig.h>
+#include "../../config.h"
 
 class Rs485Handler{
     public:
-        Rs485Handler(HardwareSerial *serial, int txPin, int busAddress, void(*callback)(String));
-        void handle_messages();
+        Rs485Handler(HardwareSerial *serial, int txPin, int busAddress);
+        String rx_messages();
     private:
         int busAddress;
-        void(*callback)(String);
         String command = "";
         HardwareSerial* serial;
 

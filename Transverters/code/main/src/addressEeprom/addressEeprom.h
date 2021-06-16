@@ -1,9 +1,9 @@
 #ifndef ADDRESSEEPROM_H
 #define ADDRESSEEPROM_H
 
-#include "eepromHandler.h"
-#include <globalConfig.h>
-#include <panic.h>
+#include "../eepromHandler/eepromHandler.h"
+#include "../../config.h"
+#include "../panic/panic.h"
 
 class AddressEeprom: public EEPROM{
     public:

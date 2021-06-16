@@ -6,6 +6,11 @@ AddressEeprom::AddressEeprom(int deviceAddress, DEBUG_SERIAL_CLASS *debugSerial,
     this->messageLED = messageLED;
     if(!initialised()){
         first_time_setup();
+    } else{
+        #ifdef DEBUG
+            DEBUG_SERIAL.print("RS485 address loaded as: ");
+            DEBUG_SERIAL.println(get_address());
+        #endif
     }
 }
 

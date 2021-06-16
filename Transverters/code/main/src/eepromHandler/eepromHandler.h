@@ -1,9 +1,9 @@
 #ifndef EEPROM_H
 #define EEPROM_H
 
-#include "panic.h"
+#include "../panic/panic.h"
 #include <i2c_t3.h>
-#include <globalConfig.h>
+#include "../../config.h"
 
 class EEPROM
 {

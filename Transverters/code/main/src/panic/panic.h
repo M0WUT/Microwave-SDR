@@ -2,7 +2,7 @@
 #define PANICKER_H
 
 #include <Arduino.h>
-#include <globalConfig.h>
+#include "../../config.h"
 
 class Panicker{
     public:
