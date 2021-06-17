@@ -5,10 +5,10 @@
 #include <i2c_t3.h>
 #include "../../config.h"
 
-class EEPROM
+class I2CDevice
 {
     public:
-        EEPROM(int deviceAddress, DEBUG_SERIAL_CLASS *serial, Panicker *panicker);
+        I2CDevice(const char *deviceName, int deviceAddress, int registerAddressSize, DEBUG_SERIAL_CLASS *serial, Panicker *panicker);
         void write(uint16_t address, uint8_t data);
         void write(uint16_t startAddress, uint8_t *data, int length);
         uint8_t read(uint16_t address);
@@ -20,6 +20,8 @@ class EEPROM
         Panicker *panicker;
     private:
         int deviceAddress;
+        const char *deviceName;
+        int registerAddressSize;
 };
 
 

@@ -1,12 +1,13 @@
 #include "config.h"
-#include <ArduinoJson.h>
-#include "src/addressEeprom/addressEeprom.h"
-#include "src/rs485Handler/rs485Handler.h"
-#include "src/panic/panic.h"
 #include "src/TransverterController/TransverterController.h"
+#include "src/pct2075/pct2075.h" // DEBUG
 
 int main(){
     TransverterController app;
+    PCT2075 test(
+        0x48,
+        app.panicker
+    );
     app.run();
     return 0;
 }

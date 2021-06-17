@@ -2,7 +2,7 @@
 
 #define ADDRESS_RS485_ADDRESS 3
 
-AddressEeprom::AddressEeprom(int deviceAddress, DEBUG_SERIAL_CLASS *debugSerial, int messageLED, Panicker *panicker) : EEPROM(deviceAddress, debugSerial, panicker){
+AddressEeprom::AddressEeprom(int deviceAddress, DEBUG_SERIAL_CLASS *debugSerial, int messageLED, Panicker *panicker) : I2CDevice("Address EEPROM", deviceAddress, 2, debugSerial, panicker){
     this->messageLED = messageLED;
     if(!initialised()){
         first_time_setup();

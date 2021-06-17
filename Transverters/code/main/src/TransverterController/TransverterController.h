@@ -14,9 +14,10 @@ class TransverterController
         TransverterController();
         void run();
         void process_command(String x);
+        Panicker *panicker;  // DEBUG - should be private
     private:
         void setup();
-        Panicker *panicker;
+        
         AddressEeprom *addressEeprom;
         Rs485Handler *rs485Handler;     
 };

@@ -1,4 +1,4 @@
-(kicad_sch (version 20210406) (generator eeschema)
+(kicad_sch (version 20210606) (generator eeschema)
 
   (uuid dd82d445-cc2b-46de-9f8b-8d0cf1cb045d)
 
@@ -1615,7 +1615,7 @@
     (uuid 463d95cf-71a3-423a-a2ea-9bac39646c22)
   )
 
-  (text "I2C Address = 0x4F" (at 43.18 236.22 180)
+  (text "I2C Address = 0x48" (at 43.18 236.22 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 4eb562d3-a0a8-4d78-9699-7fa0912d867e)
   )
@@ -1648,7 +1648,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid e35390e1-80e1-46da-89be-4b0ae8a9892a)
   )
-  (label "~R~{slash}W" (at 105.41 110.49 0)
+  (label "~{R}{slash}W" (at 105.41 110.49 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid be529f0c-e5a7-4cf8-a3b0-b0251a77866c)
   )
@@ -1708,7 +1708,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 01310619-9f91-462b-842f-457a611a6ffe)
   )
-  (label "~R~{slash}W" (at 306.07 64.77 0)
+  (label "~{R}{slash}W" (at 306.07 64.77 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 3f15c1d1-d2af-4d01-a6de-d177984576bb)
   )
