@@ -3,10 +3,11 @@
 
 #include "../temperatureSensor/temperatureSensor.h"
 #include "../i2cDevice/i2cDevice.h"
+#include "../panic/panic.h"
 
-class PCT2075 : public TemperatureSensor, public I2CDevice{
+class PCT2075 : public TemperatureSensor, I2CDevice {
     public:
-        PCT2075(int deviceAddress, Panicker *panicker);
+        PCT2075(const char *name, int deviceAddress, Panicker *panicker);
         float read_temperature();
 };
 

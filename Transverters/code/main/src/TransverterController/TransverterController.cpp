@@ -1,10 +1,10 @@
 #include "TransverterController.h"
 
-TransverterController::TransverterController() {
+TransverterController::TransverterController(){
     setup();
 }
 
-void TransverterController::setup() {
+void TransverterController::setup(){
 
     // Digital IO
     pinMode(LED_RX, OUTPUT);
@@ -30,8 +30,7 @@ void TransverterController::setup() {
         digitalWrite(LED_ERROR, LOW);
     #endif
 
-     // Setup class to handler errors
-    panicker = new Panicker(LED_STATUS, LED_ERROR, &DEBUG_SERIAL);
+    this->panicker = new Panicker(LED_STATUS, LED_ERROR, &DEBUG_SERIAL);
 
     //Setup I2C
     Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_EXT, 400000);
@@ -42,6 +41,24 @@ void TransverterController::setup() {
 
     // Setup Handler for RS485 messages
     rs485Handler = new Rs485Handler(&RS485_SERIAL, RS485_TX_PIN, addressEeprom->get_address());
+
+    this->transverter = new TRANSVERTER_CLASS(panicker);
+
+    while(true){
+        DEBUG_SERIAL.println("START");
+        static float u[2];
+        int numSensors = transverter->read_temperature(u);
+        DEBUG_SERIAL.println("BOOP");
+        DEBUG_SERIAL.print(numSensors);
+        DEBUG_SERIAL.print(" ");
+        DEBUG_SERIAL.println(u[0]);
+        DEBUG_SERIAL.flush();
+
+        delay(500);
+        DEBUG_SERIAL.println("HERE ");
+    }
+    DEBUG_SERIAL.println("HERE 2");
+
     
 }
 

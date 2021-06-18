@@ -1,4 +1,4 @@
-#ifndef TRASNVERTER_CONTROLLER_H
+#ifndef TRANSVERTER_CONTROLLER_H
 #define TRANSVERTER_CONTROLLER_H
 
 #include <Arduino.h>
@@ -7,6 +7,7 @@
 #include "../rs485Handler/rs485Handler.h"
 #include "../panic/panic.h"
 #include <ArduinoJson.h>
+#include "../transverter_configs/baseTransverterConfig/baseTransverterConfig.h"
 
 class TransverterController
 {
@@ -14,10 +15,10 @@ class TransverterController
         TransverterController();
         void run();
         void process_command(String x);
-        Panicker *panicker;  // DEBUG - should be private
     private:
         void setup();
-        
+        BaseTransverterConfig *transverter;
+        Panicker *panicker;
         AddressEeprom *addressEeprom;
         Rs485Handler *rs485Handler;     
 };

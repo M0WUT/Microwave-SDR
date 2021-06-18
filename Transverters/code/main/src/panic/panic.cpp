@@ -1,6 +1,6 @@
 #include "panic.h"
 
-Panicker::Panicker(int onLed, int messageLed, DEBUG_SERIAL_CLASS *serial){
+Panicker::Panicker(int onLed, int messageLed, Stream *serial){
     this->onLed = onLed;
     this->messageLed = messageLed;
     this->serial = serial;
@@ -11,8 +11,8 @@ void Panicker::panic(String errorMessage){
     while(1){
         digitalWrite(messageLed, HIGH);
         serial->println(errorMessage);
-        delay(1000);
+        delay(250);
         digitalWrite(messageLed, LOW);
-        delay(1000);
+        delay(250);
     }
 }

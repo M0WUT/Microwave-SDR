@@ -2,7 +2,7 @@
 
 #define ADDRESS_RS485_ADDRESS 3
 
-AddressEeprom::AddressEeprom(int deviceAddress, DEBUG_SERIAL_CLASS *debugSerial, int messageLED, Panicker *panicker) : I2CDevice("Address EEPROM", deviceAddress, 2, debugSerial, panicker){
+AddressEeprom::AddressEeprom(int deviceAddress, Stream *debugSerial, int messageLED, Panicker *panicker) : I2CDevice("Address EEPROM", deviceAddress, 2, debugSerial, panicker){
     this->messageLED = messageLED;
     if(!initialised()){
         first_time_setup();
@@ -34,8 +34,6 @@ int AddressEeprom::get_address(){
 void AddressEeprom::first_time_setup(){
     address = 0;
     digitalWrite(messageLED, HIGH);
-    this->serial->begin(9600);
-    while(!*this->serial);
     this->serial->println("Uninitialised EEPROM found. Please enter address and press Enter");
     this->serial->setTimeout(2000);
     uint8_t buffer[4];

@@ -2,7 +2,7 @@
 
 I2CDevice::I2CDevice(
         const char *deviceName, int deviceAddress,
-        int registerAddressSize, DEBUG_SERIAL_CLASS *serial,
+        int registerAddressSize, Stream *serial,
         Panicker *panicker
 ): deviceName {deviceName}{
     this->deviceAddress = deviceAddress;

@@ -2,16 +2,15 @@
 #define PANICKER_H
 
 #include <Arduino.h>
-#include "../../config.h"
 
 class Panicker{
     public:
-        Panicker(int onLed, int messageLed, DEBUG_SERIAL_CLASS *serial);
+        Panicker(int onLed, int messageLed, Stream *serial);
         void panic(String errorMessage);
     private:
         int onLed;
         int messageLed;
-        DEBUG_SERIAL_CLASS *serial;
+        Stream *serial;
 };
 
 #endif
