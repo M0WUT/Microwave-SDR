@@ -5,7 +5,7 @@
 // Transverter Parameters //
 ////////////////////////////
 
-// Display name of the transverter
+// Display name of the transverter - must be in double quotes (")
 #define NAME "Anglian"
 // Local oscillator frequency
 #define LO_FREQ 116e6

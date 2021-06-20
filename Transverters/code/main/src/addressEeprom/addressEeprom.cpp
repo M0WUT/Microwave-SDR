@@ -77,10 +77,7 @@ void AddressEeprom::first_time_setup(){
             DEBUG_SERIAL.print("Failed to set address to ");
             DEBUG_SERIAL.print(address);
             DEBUG_SERIAL.print(". Readback address: ");
-            DEBUG_SERIAL.println(read(ADDRESS_RS485_ADDRESS));
-            DEBUG_SERIAL.println(read(ADDRESS_RS485_ADDRESS));
-            DEBUG_SERIAL.println(read(ADDRESS_RS485_ADDRESS));
-            
+            DEBUG_SERIAL.println(read(ADDRESS_RS485_ADDRESS));           
             DEBUG_SERIAL.println("Please enter new address and press Enter");
         }
     }
