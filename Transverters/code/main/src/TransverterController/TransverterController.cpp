@@ -45,21 +45,20 @@ void TransverterController::setup(){
     this->transverter = new TRANSVERTER_CLASS(panicker);
 
     while(true){
-        DEBUG_SERIAL.println("START");
-        static float u[2];
-        int numSensors = transverter->read_temperature(u);
-        DEBUG_SERIAL.println("BOOP");
-        DEBUG_SERIAL.print(numSensors);
-        DEBUG_SERIAL.print(" ");
-        DEBUG_SERIAL.println(u[0]);
-        DEBUG_SERIAL.flush();
+        TemperatureReading temps[transverter->get_num_temp_sensors()];
+        transverter->read_temperatures(temps);
+        Serial.print("Temperature: ");
 
+        for(int i = 0; i < transverter->get_num_temp_sensors(); i++){
+            Serial.print(temps[i].name);
+            Serial.print(": ");
+            Serial.print(temps[i].temperature);
+            Serial.print("\t");
+        }
+        Serial.println("");
         delay(500);
-        DEBUG_SERIAL.println("HERE ");
+     
     }
-    DEBUG_SERIAL.println("HERE 2");
-
-    
 }
 
 void TransverterController::process_command(String x){

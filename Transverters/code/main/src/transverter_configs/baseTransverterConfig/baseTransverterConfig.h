@@ -3,17 +3,20 @@
 
 #include "../../temperatureSensor/temperatureSensor.h"
 #include "../../panic/panic.h"
+#include <vector>
 
 
 class BaseTransverterConfig{
     public:
         BaseTransverterConfig(Panicker *panicker);
-        int read_temperature(float *outBuffer);
+        int read_temperatures(TemperatureReading *outBuffer);
+        int get_num_temp_sensors();
     protected:
-        TemperatureSensor *tempSensors;
-        void set_temp_sensors(TemperatureSensor *x, int numTempSensors);
         int numTempSensors;
         Panicker *panicker;
+        void add_temp_sensor(TemperatureSensor *sensor);
+    private:
+        std::vector<TemperatureSensor*> tempSensors;
     
 };
 

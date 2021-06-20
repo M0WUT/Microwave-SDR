@@ -2,22 +2,23 @@
 
 BaseTransverterConfig::BaseTransverterConfig(Panicker *panicker){
     this->panicker = panicker;
+    this->numTempSensors = 0;
 }
 
-void BaseTransverterConfig::set_temp_sensors(TemperatureSensor *x, int numTempSensors){
-    tempSensors = (TemperatureSensor *)malloc(sizeof(TemperatureSensor)  * numTempSensors);
-    for (int i = 0; i < numTempSensors; i++){
-        tempSensors[i] = x[i];
-    }
-    this->numTempSensors = numTempSensors;
+void BaseTransverterConfig::add_temp_sensor(TemperatureSensor *sensor){
+    this->tempSensors.push_back(sensor);
+    this->numTempSensors++;
 }
 
-int BaseTransverterConfig::read_temperature(float *outBuffer){
+int BaseTransverterConfig::read_temperatures(TemperatureReading *outBuffer){
     for(int i = 0; i < numTempSensors; i++){
-        Serial.println(tempSensors[i].read_temperature());
-
-        outBuffer[i] = 2.7;
-        
+        TemperatureReading x;
+        x = tempSensors[i]->read_temperature();        
+        outBuffer[i] = x;
     }
+    return numTempSensors;
+}
+
+int BaseTransverterConfig::get_num_temp_sensors(){
     return numTempSensors;
 }

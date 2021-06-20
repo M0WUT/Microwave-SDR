@@ -1,5 +1,5 @@
-#ifndef CONFIG_ANGLIAN_H
-#define CONFIG_ANGLIAN_H
+#ifndef CONFIG_HF_ALLBAND_H
+#define CONFIG_HF_ALLBAND_H
 
 // Pin definitions
 #define LED_RX 13
@@ -9,7 +9,7 @@
 #define RS485_TX_PIN 9
 
 // Bodge to ensure Transverter is created with the correct type
-#define TRANSVERTER_CLASS Anglian
+#define TRANSVERTER_CLASS HfAllband
 
 #define DEBUG_SERIAL Serial
 #define RS485_SERIAL Serial1
@@ -20,15 +20,12 @@
 
 #define DEBUG
 
-// Number of different peripherals
-#define NUM_TEMP_SENSORS 1
-
 #include "../baseTransverterConfig/baseTransverterConfig.h"
 #include "../../panic/panic.h"
 
-class Anglian : public BaseTransverterConfig{
+class HfAllband : public BaseTransverterConfig{
     public:
-        Anglian(Panicker *panicker);
+        HfAllband(Panicker *panicker);
 }; 
 
 #endif

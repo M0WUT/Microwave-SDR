@@ -8,6 +8,7 @@
 #include "../panic/panic.h"
 #include <ArduinoJson.h>
 #include "../transverter_configs/baseTransverterConfig/baseTransverterConfig.h"
+#include "../temperatureSensor/temperatureSensor.h"
 
 class TransverterController
 {

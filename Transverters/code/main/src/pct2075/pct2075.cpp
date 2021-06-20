@@ -7,14 +7,20 @@
 #define REG_IDLE 4
 
 PCT2075::PCT2075(const char *name, int deviceAddress, Panicker *panicker) 
-    : TemperatureSensor(name), I2CDevice(name, deviceAddress, 1, &DEBUG_SERIAL, panicker) {
-
+    : TemperatureSensor(name), 
+    I2CDevice(
+        (String(name) + String(" Temperature Sensor")).c_str(),
+        deviceAddress,
+        1,
+        &DEBUG_SERIAL,
+        panicker
+    ){
     write(REG_CONF, 0);
-    delay(100);
 }
 
 
-float PCT2075::read_temperature(){
+TemperatureReading PCT2075::read_temperature(){
+    
     uint8_t result[2];
     read(result, REG_TEMP, 2);
     int16_t x = result[0]; 
@@ -23,6 +29,8 @@ float PCT2075::read_temperature(){
     x = x >> 5;
     float y = x;
     y *= 0.125;
-
-    return y;
+    TemperatureReading returnValue;
+    returnValue.name = _name;
+    returnValue.temperature = y;
+    return returnValue;
 }

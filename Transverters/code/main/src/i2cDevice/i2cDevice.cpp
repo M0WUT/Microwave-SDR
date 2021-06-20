@@ -23,7 +23,7 @@ void I2CDevice::check_device(){
             #ifdef DEBUG
                 sprintf(
                     buffer,
-                    "Found %s in address 0x%02X",
+                    "Found %s in I2C address 0x%02X",
                     this->deviceName,
                     this->deviceAddress
                 );
@@ -87,5 +87,4 @@ void I2CDevice::read(uint8_t *buffer, uint16_t startAddress, int length){
     Wire.requestFrom(this->deviceAddress, length);
     for(int i = 0; i < length; i++)
         buffer[i] = Wire.read();
-    Wire.endTransmission();
 }
