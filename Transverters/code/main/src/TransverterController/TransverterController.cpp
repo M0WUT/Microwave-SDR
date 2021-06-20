@@ -11,6 +11,7 @@ void TransverterController::setup(){
     pinMode(LED_TX, OUTPUT);
     pinMode(LED_STATUS, OUTPUT);
     pinMode(LED_ERROR, OUTPUT);
+    pinMode(PIN_WP, INPUT);
     pinMode(RS485_TX_PIN, OUTPUT);
 
     digitalWrite(LED_RX, LOW);
@@ -24,8 +25,8 @@ void TransverterController::setup(){
         digitalWrite(LED_ERROR, HIGH);
         DEBUG_SERIAL.begin(9600);
         while(!DEBUG_SERIAL);
+        delay(100);
         DEBUG_SERIAL.println("Starting program...");
-        DEBUG_SERIAL.flush();
         digitalWrite(LED_STATUS, HIGH);
         digitalWrite(LED_ERROR, LOW);
     #endif
@@ -33,32 +34,17 @@ void TransverterController::setup(){
     this->panicker = new Panicker(LED_STATUS, LED_ERROR, &DEBUG_SERIAL);
 
     //Setup I2C
-    Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_EXT, 400000);
+    Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_EXT, 100000);
     Wire.setDefaultTimeout(10000); // 10ms
 
     // Setup EEPROM containing slot address for RS485 bus
-    addressEeprom = new AddressEeprom(ADDRESS_EEPROM_I2C_ADDRESS, &DEBUG_SERIAL, LED_STATUS, panicker);
+    addressEeprom = new AddressEeprom(ADDRESS_EEPROM_I2C_ADDRESS, panicker);
 
     // Setup Handler for RS485 messages
-    rs485Handler = new Rs485Handler(&RS485_SERIAL, RS485_TX_PIN, addressEeprom->get_address());
+    rs485Handler = new Rs485Handler(addressEeprom->get_address());
 
     this->transverter = new TRANSVERTER_CLASS(panicker);
 
-    while(true){
-        TemperatureReading temps[transverter->get_num_temp_sensors()];
-        transverter->read_temperatures(temps);
-        Serial.print("Temperature: ");
-
-        for(int i = 0; i < transverter->get_num_temp_sensors(); i++){
-            Serial.print(temps[i].name);
-            Serial.print(": ");
-            Serial.print(temps[i].temperature);
-            Serial.print("\t");
-        }
-        Serial.println("");
-        delay(500);
-     
-    }
 }
 
 void TransverterController::process_command(String x){
@@ -69,7 +55,7 @@ void TransverterController::process_command(String x){
         return;
     }
     else {
-        DynamicJsonDocument doc(200);
+        DynamicJsonDocument response(200);
         digitalWrite(LED_ERROR, HIGH);
 
         switch(x[0]){
@@ -77,15 +63,25 @@ void TransverterController::process_command(String x){
                 #ifdef DEBUG
                     DEBUG_SERIAL.println("Received discovery request");
                 #endif
-                doc["name"] = "Anglian" ;
-                doc["message"] = "Oh hai";
+                response["name"] = NAME;
+                response["message"] = "Oh hai";
 
                 break;
             case 'S':
                 #ifdef DEBUG
                   DEBUG_SERIAL.println("Received status request");
-                #endif
+                #endif 
+
+                // Add temperature sensors
+                JsonObject tempsResponse = response.createNestedObject("temperatures");
+                int numTempSensors = transverter->get_num_temp_sensors();
+                TemperatureReading temps[numTempSensors];
+                transverter->read_temperatures(temps);
+                for(int i = 0; i < numTempSensors; i++){
+                    tempsResponse[temps[i].name] = temps[i].temperature;
+                }
                 break;
+
             default:
                 #ifdef DEBUG
                 String result = "";
@@ -100,16 +96,23 @@ void TransverterController::process_command(String x){
             break;
         }
         delay(50);
-        serializeJson(doc, RS485_SERIAL); 
+        serializeJson(response, RS485_SERIAL); 
+        #ifdef DEBUG
+            DEBUG_SERIAL.print("Response: ");
+            serializeJsonPretty(response, DEBUG_SERIAL);
+            DEBUG_SERIAL.println("");
+        #endif
         RS485_SERIAL.flush();
-        
         digitalWrite(LED_ERROR, LOW);
     }
 }
 
 void TransverterController::run(){
+    
     while(true){
-        process_command(rs485Handler->rx_messages());
+        //process_command(rs485Handler->rx_messages());
+        process_command("S");
+        delay(1000);
     }
 }
     

@@ -2,12 +2,10 @@
 
 I2CDevice::I2CDevice(
         const char *deviceName, int deviceAddress,
-        int registerAddressSize, Stream *serial,
-        Panicker *panicker
-): deviceName {deviceName}{
+        int registerAddressSize, Panicker *panicker){
+    this->deviceName = deviceName;
     this->deviceAddress = deviceAddress;
     this->registerAddressSize = registerAddressSize;
-    this->serial = serial;
     this->panicker = panicker;
     this->check_device();
 }
@@ -52,13 +50,14 @@ void I2CDevice::write(uint16_t startAddress, uint8_t *data, int length){
         uint8_t addr[2];
         addr[0] = (startAddress >> 8) & 0xFF;
         addr[1] = startAddress & 0xFF;
-        Wire.send(addr, 2);
+        Wire.write(addr, 2);
     }
     else{
-        Wire.send(startAddress & 0xFF);
+        Wire.write(startAddress & 0xFF);
     }
-    Wire.send(data, length);
+    Wire.write(data, length);
     Wire.endTransmission();
+    delay(5);  // Important if device is something like an EEPROM that needs write time
 }
 
 uint8_t I2CDevice::read(uint16_t address){
@@ -76,10 +75,10 @@ void I2CDevice::read(uint8_t *buffer, uint16_t startAddress, int length){
         uint8_t addr[2];
         addr[0] = (startAddress >> 8) & 0xFF;
         addr[1] = startAddress & 0xFF;
-        Wire.send(addr, 2);
+        Wire.write(addr, 2);
     }
     else{
-        Wire.send(startAddress & 0xFF);
+        Wire.write(startAddress & 0xFF);
     }
     Wire.endTransmission(false);
 

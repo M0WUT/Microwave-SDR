@@ -12,7 +12,6 @@ PCT2075::PCT2075(const char *name, int deviceAddress, Panicker *panicker)
         (String(name) + String(" Temperature Sensor")).c_str(),
         deviceAddress,
         1,
-        &DEBUG_SERIAL,
         panicker
     ){
     write(REG_CONF, 0);

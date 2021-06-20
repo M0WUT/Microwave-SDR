@@ -6,12 +6,11 @@
 
 class Rs485Handler{
     public:
-        Rs485Handler(HardwareSerial *serial, int txPin, int busAddress);
+        Rs485Handler(int busAddress);
         String rx_messages();
     private:
         int busAddress;
         String command = "";
-        HardwareSerial* serial;
 
 };
 

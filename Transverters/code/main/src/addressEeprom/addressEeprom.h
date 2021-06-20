@@ -7,13 +7,12 @@
 
 class AddressEeprom: public I2CDevice{
     public:
-        AddressEeprom(int deviceAddress, Stream *debugSerial, int messageLED, Panicker *panicker);
+        AddressEeprom(int deviceAddress, Panicker *panicker);
         bool initialised();
         int get_address();
         void first_time_setup();
     private:
         int address = -1;
-        int messageLED;
         Panicker *panicker;
 };
 #endif
