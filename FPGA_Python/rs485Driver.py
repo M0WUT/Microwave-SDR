@@ -1,8 +1,9 @@
 import serial
 from time import sleep
-from os import path
 import logging
 from typing import List
+from gpio import AxiGpio, MIO, GPIO
+import atexit
 
 
 class RS485Packet():
@@ -13,40 +14,30 @@ class RS485Packet():
 
 
 class RS485Driver():
-    MIO_BASE_ADDRESS = 1023
     TX = 1
     RX = 0
 
-    def __init__(self, mio: int, serialFile: str, baud: int):
-        self.mioFile = None
+    def __init__(self, gpio: int, serialFile: str, baud: int):
         self.serial = None
         try:
-            self.serial = serial.Serial(serialFile, baud, timeout=0.1)
+            self.serial = serial.Serial(serialFile, baud, timeout=0.2)
         except serial.serialutil.SerialException:
             self.warnings.add_error(
                 "Controller", "Transverter Control",
                 "Couldn't open serial port: {}".format(serialFile)
             )
 
-        self.mio = mio + self.MIO_BASE_ADDRESS
-        if not path.exists("/sys/class/gpio/gpio{}".format(self.mio)):
-            # Only export GPIO if it doesn't already exist
-            with open("/sys/class/gpio/export", 'w') as file:
-                file.write(str(self.mio))
+        atexit.register(self.cleanup)
 
-        with open("/sys/class/gpio/gpio{}/direction".format(self.mio), 'w') as file:
-            file.write("out")
+        self.gpio = AxiGpio(0, GPIO.OUTPUT)
 
-        self.mioFile = "/sys/class/gpio/gpio{}/value".format(self.mio)
         self.set_direction(self.RX)
         self.serial.reset_input_buffer()
 
-    def set_direction(self, x: int):
-        assert x in [self.TX, self.RX]
-        with open(self.mioFile, 'w') as file:
-            file.write(str(x))
+    def set_direction(self, x: bool):
+        self.gpio.write(x)
 
-    def write(self, x):
+    def write(self, x: RS485Packet):
         address = x.address.to_bytes(1, 'big')
         command = x.command.encode("utf-8")
         self.set_direction(self.TX)
@@ -62,18 +53,21 @@ class RS485Driver():
 
         # Changing RS485 from TX to RX introduces glitches on the
         # RX line so clear the buffer
-        sleep(0.01)
         self.serial.reset_input_buffer()
 
     def read(self) -> str:
-        return self.serial.readline()
+        x = self.serial.readline()
+        if x == b'':
+            return x
+        else:
+            if x[0] != 0:  # Master should have RS485 address of 0
+                logging.warning("Response to RS485 query was not addressed to master")
+            return x[1:]  # Remove address character
 
     def query(self, address: int) -> str:
         self.write(address)
         return self.read()
 
-    def __del__(self):
-        with open("/sys/class/gpio/unexport", 'w') as file:
-            file.write(str(self.mio))
+    def cleanup(self):
         if self.serial:
             self.serial.close()

@@ -25,9 +25,9 @@ TemperatureReading PCT2075::read_temperature(){
     int16_t x = result[0]; 
     x = x << 8;
     x |= result[1];
-    x = x >> 5;
+    x = x >> 7;
     float y = x;
-    y *= 0.125;
+    y *= 0.5;
     TemperatureReading returnValue;
     returnValue.name = _name;
     returnValue.temperature = y;

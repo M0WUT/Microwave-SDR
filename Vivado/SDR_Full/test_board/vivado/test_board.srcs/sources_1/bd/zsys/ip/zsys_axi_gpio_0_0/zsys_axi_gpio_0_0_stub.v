@@ -1,7 +1,7 @@
 // Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
-// Date        : Mon May 10 22:37:51 2021
+// Date        : Mon Jun 21 19:40:20 2021
 // Host        : dan-Desktop running 64-bit Ubuntu 18.04.5 LTS
 // Command     : write_verilog -force -mode synth_stub
 //               /home/dan/Microwave-SDR/Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/bd/zsys/ip/zsys_axi_gpio_0_0/zsys_axi_gpio_0_0_stub.v
@@ -17,8 +17,8 @@
 module zsys_axi_gpio_0_0(s_axi_aclk, s_axi_aresetn, s_axi_awaddr, 
   s_axi_awvalid, s_axi_awready, s_axi_wdata, s_axi_wstrb, s_axi_wvalid, s_axi_wready, 
   s_axi_bresp, s_axi_bvalid, s_axi_bready, s_axi_araddr, s_axi_arvalid, s_axi_arready, 
-  s_axi_rdata, s_axi_rresp, s_axi_rvalid, s_axi_rready, gpio_io_o)
-/* synthesis syn_black_box black_box_pad_pin="s_axi_aclk,s_axi_aresetn,s_axi_awaddr[8:0],s_axi_awvalid,s_axi_awready,s_axi_wdata[31:0],s_axi_wstrb[3:0],s_axi_wvalid,s_axi_wready,s_axi_bresp[1:0],s_axi_bvalid,s_axi_bready,s_axi_araddr[8:0],s_axi_arvalid,s_axi_arready,s_axi_rdata[31:0],s_axi_rresp[1:0],s_axi_rvalid,s_axi_rready,gpio_io_o[0:0]" */;
+  s_axi_rdata, s_axi_rresp, s_axi_rvalid, s_axi_rready, gpio_io_i, gpio_io_o, gpio_io_t)
+/* synthesis syn_black_box black_box_pad_pin="s_axi_aclk,s_axi_aresetn,s_axi_awaddr[8:0],s_axi_awvalid,s_axi_awready,s_axi_wdata[31:0],s_axi_wstrb[3:0],s_axi_wvalid,s_axi_wready,s_axi_bresp[1:0],s_axi_bvalid,s_axi_bready,s_axi_araddr[8:0],s_axi_arvalid,s_axi_arready,s_axi_rdata[31:0],s_axi_rresp[1:0],s_axi_rvalid,s_axi_rready,gpio_io_i[2:0],gpio_io_o[2:0],gpio_io_t[2:0]" */;
   input s_axi_aclk;
   input s_axi_aresetn;
   input [8:0]s_axi_awaddr;
@@ -38,5 +38,7 @@ module zsys_axi_gpio_0_0(s_axi_aclk, s_axi_aresetn, s_axi_awaddr,
   output [1:0]s_axi_rresp;
   output s_axi_rvalid;
   input s_axi_rready;
-  output [0:0]gpio_io_o;
+  input [2:0]gpio_io_i;
+  output [2:0]gpio_io_o;
+  output [2:0]gpio_io_t;
 endmodule

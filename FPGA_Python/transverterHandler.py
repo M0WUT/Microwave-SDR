@@ -9,7 +9,7 @@ class TransverterHandler:
     def __init__(self, filename, warnings, numSlots=8):
         self.warnings = warnings
         self.numSlots = numSlots  # @TODO Read from EEPROM
-        self.driver = RS485Driver(mio=0, serialFile="/dev/ttyPS2", baud=115200)
+        self.driver = RS485Driver(gpio=0, serialFile="/dev/ttyPS1", baud=115200)
         while(True):
             self.run_discovery()
             sleep(0.1)

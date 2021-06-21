@@ -576,7 +576,7 @@
       bit  IRQ_P2F_SPI1;
       bit  IRQ_P2F_UART1;
       bit  IRQ_P2F_CAN1;
-      bit  [0 : 0] IRQ_F2P;
+      bit  [1 : 0] IRQ_F2P;
       bit  Core0_nFIQ;
       bit  Core0_nIRQ;
       bit  Core1_nFIQ;
@@ -677,6 +677,9 @@
 
 //MODULE DECLARATION
  module zsys_processing_system7_0_0 (
+  GPIO_I,
+  GPIO_O,
+  GPIO_T,
   TTC0_WAVE0_OUT,
   TTC0_WAVE1_OUT,
   TTC0_WAVE2_OUT,
@@ -830,7 +833,7 @@
       parameter C_S_AXI_HP3_DATA_WIDTH = 64;
       parameter C_M_AXI_GP0_THREAD_ID_WIDTH = 12;
       parameter C_M_AXI_GP1_THREAD_ID_WIDTH = 12;
-      parameter C_NUM_F2P_INTR_INPUTS = 1;
+      parameter C_NUM_F2P_INTR_INPUTS = 2;
       parameter C_IRQ_F2P_MODE = "DIRECT";
       parameter C_DQ_WIDTH = 32;
       parameter C_DQS_WIDTH = 4;
@@ -858,6 +861,9 @@
 
 //INPUT AND OUTPUT PORTS
 
+      input  [63 : 0] GPIO_I;
+      output  [63 : 0] GPIO_O;
+      output  [63 : 0] GPIO_T;
       output  TTC0_WAVE0_OUT;
       output  TTC0_WAVE1_OUT;
       output  TTC0_WAVE2_OUT;
@@ -952,7 +958,7 @@
       input  [5 : 0] S_AXI_HP0_WID;
       input  [63 : 0] S_AXI_HP0_WDATA;
       input  [7 : 0] S_AXI_HP0_WSTRB;
-      input  [0 : 0] IRQ_F2P;
+      input  [1 : 0] IRQ_F2P;
       output  FCLK_CLK0;
       output  FCLK_RESET0_N;
       inout  [53 : 0] MIO;
@@ -979,6 +985,8 @@
 
 //REG DECLARATIONS
 
+      reg [63 : 0] GPIO_O;
+      reg [63 : 0] GPIO_T;
       reg TTC0_WAVE0_OUT;
       reg TTC0_WAVE1_OUT;
       reg TTC0_WAVE2_OUT;
@@ -1251,6 +1259,14 @@ end
 always@(negedge IRQ_F2P[0])
 begin
     ps7_set_input_IRQ_F2P(0,0);
+end
+always@(posedge IRQ_F2P[1])
+begin
+    ps7_set_input_IRQ_F2P(1,1);
+end
+always@(negedge IRQ_F2P[1])
+begin
+    ps7_set_input_IRQ_F2P(1,0);
 end
 
 always@(posedge M_AXI_GP0_ACLK)

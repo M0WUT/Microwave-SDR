@@ -96,7 +96,9 @@ void TransverterController::process_command(String x){
             break;
         }
         delay(50);
+        RS485_SERIAL.print('\0');  // Master address
         serializeJson(response, RS485_SERIAL); 
+        RS485_SERIAL.print('\n');
         #ifdef DEBUG
             DEBUG_SERIAL.print("Response: ");
             serializeJsonPretty(response, DEBUG_SERIAL);
@@ -109,10 +111,8 @@ void TransverterController::process_command(String x){
 
 void TransverterController::run(){
     
-    while(true){
-        //process_command(rs485Handler->rx_messages());
-        process_command("S");
-        delay(1000);
+    while(1){
+        process_command(rs485Handler->rx_messages());
     }
 }
     

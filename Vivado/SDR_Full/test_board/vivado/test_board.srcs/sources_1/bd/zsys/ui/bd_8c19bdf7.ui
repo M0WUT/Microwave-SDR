@@ -45,9 +45,9 @@ preplace netloc i_ptt_n_1 1 0 3 NJ 440 NJ 440 NJ
 preplace netloc i_ptt_cw_n_1 1 0 3 NJ 460 NJ 460 NJ
 preplace netloc ptt_mux_0_o_ptt 1 3 1 N 450
 preplace netloc Tone_M_AXIS_X_COS_THETA_MINUS_Y_SIN_THETA 1 3 1 N 290
-preplace netloc axis_demux_0_M_AXIS_OUTPUT0 1 2 1 N 60
 preplace netloc SSB_M_AXIS_SSB 1 3 1 1150 100n
 preplace netloc S_AXIS_AF_1 1 0 2 NJ 100 NJ
+preplace netloc axis_demux_0_M_AXIS_OUTPUT0 1 2 1 N 60
 levelinfo -pg 1 0 120 430 900 1350 1640 1770
 pagesize -pg 1 -db -bbox -sgen -220 0 1950 570
 "

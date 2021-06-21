@@ -2,7 +2,7 @@
 
 Rs485Handler::Rs485Handler(int busAddress){
     this->busAddress = busAddress;
-    RS485_SERIAL.begin(115200, SERIAL_8N1_RXINV_TXINV);
+    RS485_SERIAL.begin(115200, SERIAL_8N1);
     pinMode(RS485_TX_PIN, OUTPUT);
     RS485_SERIAL.transmitterEnable(RS485_TX_PIN);
 }
@@ -13,15 +13,17 @@ String Rs485Handler::rx_messages(){
         
         if(x == '\n'){
             if(command[0] == busAddress){
-                return command.remove(0, 1);  // Strip address character out
+                String y = command;  // Bit of faff to wipe command
+                command = "";
+                return y.remove(0, 1);  // Strip address character out
             }
             else{
-                return "";
+                command = "";
+                return command;
             }
         }
 
-        else if((command != "") || (x != 0)){
-            // Can't have address 0 as tristating the bus is read as 0
+        else {
             command += x;
         }
     }
