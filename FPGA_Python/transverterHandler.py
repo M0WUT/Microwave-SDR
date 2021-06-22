@@ -1,6 +1,8 @@
 from json.decoder import JSONDecodeError
 import logging
 import json
+from os import read
+from usefulFunctions import readableFreq
 from rs485Driver import RS485Driver, RS485Packet
 from time import sleep
 
@@ -9,7 +11,9 @@ class TransverterHandler:
     def __init__(self, filename, warnings, numSlots=8):
         self.warnings = warnings
         self.numSlots = numSlots  # @TODO Read from EEPROM
-        self.driver = RS485Driver(gpio=0, serialFile="/dev/ttyPS1", baud=115200)
+        self.driver = RS485Driver(
+            gpio=0, serialFile="/dev/ttyPS1", baud=115200
+        )
         while(True):
             self.run_discovery()
             sleep(0.1)
@@ -24,10 +28,29 @@ class TransverterHandler:
             )
             response = self.driver.query(packet)
             if response:
+                if(response[0] != ord('D')):
+                    self.warnings.add_warning(
+                        "RS485",
+                        "Response to discovery request was not a discovery response"
+                    )
+
                 try:
-                    jsonResponse = json.loads(response.decode('utf-8'))
+                    jsonResponse = json.loads(response[1:].decode('utf-8'))
+                    if jsonResponse["loAdd"]:
+                        # Output freq = LO + IF
+                        minFreq = jsonResponse["loFreq"] + jsonResponse["minIfFreq"]
+                        maxFreq = jsonResponse["loFreq"] + jsonResponse["maxIfFreq"]
+                    else:
+                        # Output = LO - IF
+                        minFreq = jsonResponse["loFreq"] - jsonResponse["maxIfFreq"]
+                        maxFreq = jsonResponse["loFreq"] - jsonResponse["minIfFreq"]
+
+                    minFreq = readableFreq(minFreq)
+                    maxFreq = readableFreq(maxFreq)
+
                     logging.info(
-                        "Transverter {} discovered in slot {}".format(
+                        "{}-{} transverter \"{}\" discovered in slot {}".format(
+                            minFreq, maxFreq,
                             jsonResponse['name'], x
                         )
                     )

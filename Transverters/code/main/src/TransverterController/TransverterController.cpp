@@ -64,8 +64,13 @@ void TransverterController::process_command(String x){
                     DEBUG_SERIAL.println("Received discovery request");
                 #endif
                 response["name"] = NAME;
-                response["message"] = "Oh hai";
-
+                response["loFreq"] = int(LO_FREQ);
+                response["loAdd"] = RF_EQUALS_IF_PLUS_LO;
+                response["minIfFreq"] = int(MIN_IF_FREQ);
+                response["maxIfFreq"] = int(MAX_IF_FREQ);
+                response["minPower"] = int(MIN_TX_POWER);
+                response["maxPower"] = int(MAX_TX_POWER);
+                response["allowTx"] = ALLOW_TX;
                 break;
             case 'S':
                 #ifdef DEBUG
@@ -97,6 +102,7 @@ void TransverterController::process_command(String x){
         }
         delay(50);
         RS485_SERIAL.print('\0');  // Master address
+        RS485_SERIAL.print(x[0]);  // Response must have same command type as request
         serializeJson(response, RS485_SERIAL); 
         RS485_SERIAL.print('\n');
         #ifdef DEBUG

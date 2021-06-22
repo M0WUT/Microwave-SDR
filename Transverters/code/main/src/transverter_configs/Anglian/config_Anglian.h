@@ -6,16 +6,21 @@
 ////////////////////////////
 
 // Display name of the transverter - must be in double quotes (")
-#define NAME "Anglian"
+#define NAME "Anglian 3L"
 // Local oscillator frequency
 #define LO_FREQ 116e6
-// Set to 1 if RF = IF + LO, set to 0 if RF = LO - IF
-#define RF_EQUALS_IF_PLUS_LO 1
+// Set to true if RF = IF + LO, set to false if RF = LO - IF
+#define RF_EQUALS_IF_PLUS_LO true
+#define MIN_IF_FREQ 28e6
+#define MAX_IF_FREQ 30e6
+#define MIN_TX_POWER 20
+#define MAX_TX_POWER 20
+#define ALLOW_TX true
 
 ////////////////////////////////////////
 // Uncomment to enable debug messages //
 ////////////////////////////////////////
-//#define DEBUG
+#define DEBUG
 
 ///////////////////////
 // PCB Configuration //
