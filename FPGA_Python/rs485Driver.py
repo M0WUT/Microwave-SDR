@@ -17,7 +17,7 @@ class RS485Driver():
     TX = 1
     RX = 0
 
-    def __init__(self, gpio: int, serialFile: str, baud: int):
+    def __init__(self, gpio: GPIO, serialFile: str, baud: int):
         self.serial = None
         try:
             self.serial = serial.Serial(serialFile, baud, timeout=0.2)
@@ -29,7 +29,7 @@ class RS485Driver():
 
         atexit.register(self.cleanup)
 
-        self.gpio = AxiGpio(0, GPIO.OUTPUT)
+        self.gpio = gpio
 
         self.set_direction(self.RX)
         self.serial.reset_input_buffer()
@@ -68,6 +68,6 @@ class RS485Driver():
         self.write(address)
         return self.read()
 
-    def cleanup(self):
+    def cleanup(self) -> None:
         if self.serial:
             self.serial.close()

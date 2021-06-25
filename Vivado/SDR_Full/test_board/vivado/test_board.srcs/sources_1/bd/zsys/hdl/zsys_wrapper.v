@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
-//Date        : Mon Jun 21 19:52:16 2021
+//Date        : Fri Jun 25 22:43:29 2021
 //Host        : dan-Desktop running 64-bit Ubuntu 18.04.5 LTS
 //Command     : generate_target zsys_wrapper.bd
 //Design      : zsys_wrapper
@@ -57,6 +57,8 @@ module zsys_wrapper
     af_mclk,
     cw_key_n,
     debug_leds,
+    eeprom_iic_scl_io,
+    eeprom_iic_sda_io,
     gpio_rs485_tri_io,
     i_ptt_cw_n,
     i_ptt_n,
@@ -112,6 +114,8 @@ module zsys_wrapper
   output af_mclk;
   input cw_key_n;
   output [7:0]debug_leds;
+  inout eeprom_iic_scl_io;
+  inout eeprom_iic_sda_io;
   inout [2:0]gpio_rs485_tri_io;
   input i_ptt_cw_n;
   input i_ptt_n;
@@ -174,6 +178,14 @@ module zsys_wrapper
   wire af_mclk;
   wire cw_key_n;
   wire [7:0]debug_leds;
+  wire eeprom_iic_scl_i;
+  wire eeprom_iic_scl_io;
+  wire eeprom_iic_scl_o;
+  wire eeprom_iic_scl_t;
+  wire eeprom_iic_sda_i;
+  wire eeprom_iic_sda_io;
+  wire eeprom_iic_sda_o;
+  wire eeprom_iic_sda_t;
   wire [0:0]gpio_rs485_tri_i_0;
   wire [1:1]gpio_rs485_tri_i_1;
   wire [2:2]gpio_rs485_tri_i_2;
@@ -204,6 +216,16 @@ module zsys_wrapper
         .IO(af_i2c_sda_io),
         .O(af_i2c_sda_i),
         .T(af_i2c_sda_t));
+  IOBUF eeprom_iic_scl_iobuf
+       (.I(eeprom_iic_scl_o),
+        .IO(eeprom_iic_scl_io),
+        .O(eeprom_iic_scl_i),
+        .T(eeprom_iic_scl_t));
+  IOBUF eeprom_iic_sda_iobuf
+       (.I(eeprom_iic_sda_o),
+        .IO(eeprom_iic_sda_io),
+        .O(eeprom_iic_sda_i),
+        .T(eeprom_iic_sda_t));
   IOBUF gpio_rs485_tri_iobuf_0
        (.I(gpio_rs485_tri_o_0),
         .IO(gpio_rs485_tri_io[0]),
@@ -271,6 +293,12 @@ module zsys_wrapper
         .af_mclk(af_mclk),
         .cw_key_n(cw_key_n),
         .debug_leds(debug_leds),
+        .eeprom_iic_scl_i(eeprom_iic_scl_i),
+        .eeprom_iic_scl_o(eeprom_iic_scl_o),
+        .eeprom_iic_scl_t(eeprom_iic_scl_t),
+        .eeprom_iic_sda_i(eeprom_iic_sda_i),
+        .eeprom_iic_sda_o(eeprom_iic_sda_o),
+        .eeprom_iic_sda_t(eeprom_iic_sda_t),
         .gpio_rs485_tri_i({gpio_rs485_tri_i_2,gpio_rs485_tri_i_1,gpio_rs485_tri_i_0}),
         .gpio_rs485_tri_o({gpio_rs485_tri_o_2,gpio_rs485_tri_o_1,gpio_rs485_tri_o_0}),
         .gpio_rs485_tri_t({gpio_rs485_tri_t_2,gpio_rs485_tri_t_1,gpio_rs485_tri_t_0}),

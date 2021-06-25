@@ -77,7 +77,9 @@ class NetworkDevice(object):
         self._tab = QWidget(self._tabWidget)
         if(self.mac == get_mac()):
             # Ensure that the controller in use goes first
-            self._tabWidget.insertTab(0, self._tab, f"{self.name}\n{self.ipAddr}")
+            self._tabWidget.insertTab(
+                0, self._tab, f"{self.name}\n{self.ipAddr}"
+            )
         else:
             # Other device, put at end
             self._tabWidget.addTab(self._tab, f"{self.name}\n{self.ipAddr}")

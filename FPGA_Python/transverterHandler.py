@@ -1,10 +1,10 @@
 from json.decoder import JSONDecodeError
 import logging
 import json
-from os import read
 from usefulFunctions import readableFreq
 from rs485Driver import RS485Driver, RS485Packet
 from time import sleep
+from gpio import AxiGpio, GPIO
 
 
 class TransverterHandler:
@@ -12,7 +12,9 @@ class TransverterHandler:
         self.warnings = warnings
         self.numSlots = numSlots  # @TODO Read from EEPROM
         self.driver = RS485Driver(
-            gpio=0, serialFile="/dev/ttyPS1", baud=115200
+            gpio=AxiGpio(0, GPIO.OUTPUT),
+            serialFile="/dev/ttyPS1",
+            baud=115200
         )
         while(True):
             self.run_discovery()

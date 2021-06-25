@@ -383,10 +383,10 @@ inout
 <B>MIO 10</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-I2C 0
+GPIO
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-scl
+gpio[10]
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
 LVCMOS 3.3V
@@ -406,10 +406,10 @@ inout
 <B>MIO 11</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-I2C 0
+GPIO
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-sda
+gpio[11]
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
 LVCMOS 3.3V
@@ -1211,10 +1211,10 @@ inout
 <B>MIO 46</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-SD 1
+GPIO
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-data[0]
+gpio[46]
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
 LVCMOS 1.8V
@@ -1234,10 +1234,10 @@ inout
 <B>MIO 47</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-SD 1
+GPIO
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-cmd
+gpio[47]
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
 LVCMOS 1.8V
@@ -1257,10 +1257,10 @@ inout
 <B>MIO 48</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-SD 1
+GPIO
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-clk
+gpio[48]
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
 LVCMOS 1.8V
@@ -1280,10 +1280,10 @@ inout
 <B>MIO 49</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-SD 1
+GPIO
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-data[1]
+gpio[49]
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
 LVCMOS 1.8V
@@ -1303,10 +1303,10 @@ inout
 <B>MIO 50</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-SD 1
+GPIO
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-data[2]
+gpio[50]
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
 LVCMOS 1.8V
@@ -1326,10 +1326,10 @@ inout
 <B>MIO 51</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-SD 1
+GPIO
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-data[3]
+gpio[51]
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
 LVCMOS 1.8V
@@ -1813,17 +1813,6 @@ IO PLL
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
 125.000000
-</TD>
-</TR>
-<TR valign="top">
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>SDIO Freq (MHz)</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-IO PLL
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-100.000000
 </TD>
 </TR>
 <TR valign="top">
@@ -6637,10 +6626,10 @@ SLCR_LOCK
 <B>2</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>1</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>2</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>SDIO Controller 1 Clock control. 0: disable, 1: enable</B>
@@ -6700,7 +6689,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>a03</B>
+<B>a01</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>SDIO Ref Clock Control</B>
@@ -7473,10 +7462,10 @@ SLCR_LOCK
 <B>800</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>1</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>800</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>SDIO controller 1 AMBA Clock control 0: disable, 1: enable</B>
@@ -7716,7 +7705,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1fc0c4d</B>
+<B>1fc044d</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>AMBA Peripheral Clock Control</B>
@@ -24935,28 +24924,6 @@ SD0_WP_CD_SEL
 </TR>
 <TR valign="top">
 <TD width=15% BGCOLOR=#FBF5EF>
-<A href="#SD1_WP_CD_SEL">
-SD1_WP_CD_SEL
-</A>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0XF8000834</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>32</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>RW</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0x000000</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>SDIO 1 WP CD select</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
 <A href="#SLCR_LOCK">
 SLCR_LOCK
 </A>
@@ -31585,10 +31552,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>2</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>40</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 10 (bank 0), Input/Output 001: CAN 0 Rx, Input 010: I2C 0 Serial Clock, Input/Ouput 011: PJTAG TDI, Input 100: SDIO 1 IO Bit 0, Input/Output 101: SPI 1 MOSI, Input/Output 110: reserved 111: UART 0 RxD, Input</B>
@@ -31688,7 +31655,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1640</B>
+<B>1600</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 10 Control</B>
@@ -31852,10 +31819,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>2</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>40</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 11 (bank 0), Input/Output 001: CAN 0 Tx, Output 010: I2C 0 Serial Data, Input/Output 011: PJTAG TDO, Output 100: SDIO 1 Command, Input/Output 101: SPI 1 MISO, Input/Output 110: reserved 111: UART 0 TxD, Output</B>
@@ -31955,7 +31922,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1640</B>
+<B>1600</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 11 Control</B>
@@ -41197,10 +41164,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 46 (bank 1), Input/Output 001: CAN 0 Rx, Input 010: I2C 0 Serial Clock, Input/Ouput 011: PJTAG TDI, Input 100: SDIO 1 IO Bit 0, Input/Output 101: SPI 1 MOSI, Input/Output 110: reserved 111: UART 0 RxD, Input</B>
@@ -41300,7 +41267,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 46 Control</B>
@@ -41464,10 +41431,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 47 (bank 1), Input/Output 001: CAN 0 Tx, Output 010: I2C 0 Serial Data, Input/Output 011: PJTAG TDO, Output 100: SDIO 1 Command, Input/Output 101: SPI 1 MISO, Input/Output 110: reserved 111: UART 0 TxD, Output</B>
@@ -41567,7 +41534,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 47 Control</B>
@@ -41731,10 +41698,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 48 (bank 1), Input/Output 001: CAN 1 Tx, Output 010: I2C 1 Serial Clock, Input/Output 011: PJTAG TCK, Input 100: SDIO 1 Clock, Input/Output 101: SPI 1 Serial Clock, Input/Output 110: reserved 111: UART 1 TxD, Output</B>
@@ -41834,7 +41801,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 48 Control</B>
@@ -41998,10 +41965,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 49 (bank 1), Input/Output 001: CAN 1 Rx, Input 010: I2C 1 Serial Data, Input/Output 011: PJTAG TMS, Input 100: SDIO 1 IO Bit 1, Input/Output 101: SPI 1 Select 0, Input/Output 110: reserved 111: UART 1 RxD, Input</B>
@@ -42101,7 +42068,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 49 Control</B>
@@ -42265,10 +42232,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 50 (bank 1), Input/Output 001: CAN 0 Rx, Input 010: I2C 0 Serial Clock, Input/Ouput 011: SWDT Clock, Input 100: SDIO 1 IO Bit 2, Input/Output 101: SPI 1 Slave Select 1, Output 110: reserved 111: UART 0 RxD, Input</B>
@@ -42368,7 +42335,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 50 Control</B>
@@ -42532,10 +42499,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 51 (bank 1), Input/Output 001: CAN 0 Tx, Output 010: I2C 0 Serial Data, Input/Output 011: SWDT Reset, Output 100: SDIO 1 IO Bit 3, Input/Output 101: SPI 1 Slave Select 2, Output 110: reserved 111: UART 0 TxD, Output</B>
@@ -42635,7 +42602,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 51 Control</B>
@@ -43300,133 +43267,6 @@ SLCR_LOCK
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>SDIO 0 WP CD select</B>
-</TD>
-</TR>
-</TABLE>
-<P>
-<H2><a name="SD1_WP_CD_SEL">Register (<A href=#mod___slcr> slcr </A>)SD1_WP_CD_SEL</a></H2>
-<TABLE border=1 cellspacing=0 BORDERCOLOR=black WIDTH=100%">
-<TR valign="top">
-<TD width=15% BGCOLOR=#FFFF00>
-<B>Register Name</B>
-</TD>
-<TD width=15% BGCOLOR=#FFFF00>
-<B>Address</B>
-</TD>
-<TD width=10% BGCOLOR=#FFFF00>
-<B>Width</B>
-</TD>
-<TD width=10% BGCOLOR=#FFFF00>
-<B>Type</B>
-</TD>
-<TD width=15% BGCOLOR=#FFFF00>
-<B>Reset Value</B>
-</TD>
-<TD width=35% BGCOLOR=#FFFF00>
-<B>Description</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>SD1_WP_CD_SEL</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0XF8000834</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>32</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>rw</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0x00000000</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>--</B>
-</TD>
-</TR>
-</TABLE>
-<P>
-<TABLE border=1 cellspacing=0 BORDERCOLOR=black WIDTH=100%">
-<TR valign="top">
-<TD width=15% BGCOLOR=#C0FFC0>
-<B>Field Name</B>
-</TD>
-<TD width=15% BGCOLOR=#C0FFC0>
-<B>Bits</B>
-</TD>
-<TD width=10% BGCOLOR=#C0FFC0>
-<B>Mask</B>
-</TD>
-<TD width=10% BGCOLOR=#C0FFC0>
-<B>Value</B>
-</TD>
-<TD width=15% BGCOLOR=#C0FFC0>
-<B>Shifted Value</B>
-</TD>
-<TD width=35% BGCOLOR=#C0FFC0>
-<B>Description</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>SDIO1_WP_SEL</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>5:0</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>3f</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>39</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>39</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>SDIO 1 WP Select. Values 53:0 select MIO input (any pin except 7 and 8) Values 63:54 select EMIO input</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>SDIO1_CD_SEL</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>21:16</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>3f0000</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>3a</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>3a0000</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>SDIO 1 CD Select. Values 53:0 select MIO input (any pin except bits 7 and 8) Values 63:54 select EMIO input</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#C0C0C0>
-<B>SD1_WP_CD_SEL@0XF8000834</B>
-</TD>
-<TD width=15% BGCOLOR=#C0C0C0>
-<B>31:0</B>
-</TD>
-<TD width=10% BGCOLOR=#C0C0C0>
-<B>3f003f</B>
-</TD>
-<TD width=10% BGCOLOR=#C0C0C0>
-<B></B>
-</TD>
-<TD width=15% BGCOLOR=#C0C0C0>
-<B>3a0039</B>
-</TD>
-<TD width=35% BGCOLOR=#C0C0C0>
-<B>SDIO 1 WP CD select</B>
 </TD>
 </TR>
 </TABLE>
@@ -52370,10 +52210,10 @@ SLCR_LOCK
 <B>2</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>1</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>2</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>SDIO Controller 1 Clock control. 0: disable, 1: enable</B>
@@ -52433,7 +52273,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>a03</B>
+<B>a01</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>SDIO Ref Clock Control</B>
@@ -53206,10 +53046,10 @@ SLCR_LOCK
 <B>800</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>1</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>800</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>SDIO controller 1 AMBA Clock control 0: disable, 1: enable</B>
@@ -53449,7 +53289,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1fc0c4d</B>
+<B>1fc044d</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>AMBA Peripheral Clock Control</B>
@@ -71777,28 +71617,6 @@ SD0_WP_CD_SEL
 </TR>
 <TR valign="top">
 <TD width=15% BGCOLOR=#FBF5EF>
-<A href="#SD1_WP_CD_SEL">
-SD1_WP_CD_SEL
-</A>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0XF8000834</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>32</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>RW</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0x000000</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>SDIO 1 WP CD select</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
 <A href="#SLCR_LOCK">
 SLCR_LOCK
 </A>
@@ -78447,10 +78265,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>2</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>40</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 10 (bank 0) 001: CAN 0 Rx 010: I2C 0 Serial Clock 011: PJTAG TDI 100: SDIO 1 IO Bit 0 101: SPI 1 MOSI 110: reserved 111: UART 0 RxD</B>
@@ -78550,7 +78368,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1640</B>
+<B>1600</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 10 Control</B>
@@ -78714,10 +78532,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>2</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>40</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 11 (bank 0) 001: CAN 0 Tx 010: I2C Serial Data 011: PJTAG TDO 100: SDIO 1 Command 101: SPI 1 MISO 110: reserved 111: UART 0 TxD</B>
@@ -78817,7 +78635,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1640</B>
+<B>1600</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 11 Control</B>
@@ -88059,10 +87877,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 46 (bank 1) 001: CAN 0 Rx 010: I2C 0 Serial Clock 011: PJTAG TDI 100: SDIO 1 IO Bit 0 101: SPI 1 MOSI 110: reserved 111: UART 0 RxD</B>
@@ -88162,7 +87980,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 46 Control</B>
@@ -88326,10 +88144,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 47 (bank 1) 001: CAN 0 Tx 010: I2C 0 Serial Data 011: PJTAG TDO 100: SDIO 1 Command 101: SPI 1 MISO 110: reserved 111: UART 0 TxD</B>
@@ -88429,7 +88247,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 47 Control</B>
@@ -88593,10 +88411,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 48 (bank 1) 001: CAN 1 Tx 010: I2C 1 Serial Clock 011: PJTAG TCK 100: SDIO 1 Clock 101: SPI 1 Serial Clock 110: reserved 111: UART 1 TxD</B>
@@ -88696,7 +88514,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 48 Control</B>
@@ -88860,10 +88678,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 49 (bank 1) 001: CAN 1 Rx 010: I2C Serial Data 011: PJTAG TMS 100: SDIO 1 IO Bit 1 101: SPI 1 Select 0 110: reserved 111: UART 1 RxD</B>
@@ -88963,7 +88781,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 49 Control</B>
@@ -89127,10 +88945,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 50 (bank 1) 001: Can 0 Rx 010: I2C 0 Serial Clock 011: SWDT Clock Input 100: SDIO 1 IO Bit 2 101: SPI 1 Slave Select 1 110: reserved 111: UART 0 RxD</B>
@@ -89230,7 +89048,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 50 Control</B>
@@ -89394,10 +89212,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 000: GPIO 51 (bank 1) 001: CAN 0 Tx 010: I2C 0 Serial Data 011: SWDT Reset Output 100: SDIO 1 IO Bit 3 101: SPI 1 Slave Select 1 110: reserved 111: UART 0 TxD</B>
@@ -89497,7 +89315,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Pin 51 Control</B>
@@ -90162,133 +89980,6 @@ SLCR_LOCK
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>SDIO 0 WP CD select</B>
-</TD>
-</TR>
-</TABLE>
-<P>
-<H2><a name="SD1_WP_CD_SEL">Register (<A href=#mod___slcr> slcr </A>)SD1_WP_CD_SEL</a></H2>
-<TABLE border=1 cellspacing=0 BORDERCOLOR=black WIDTH=100%">
-<TR valign="top">
-<TD width=15% BGCOLOR=#FFFF00>
-<B>Register Name</B>
-</TD>
-<TD width=15% BGCOLOR=#FFFF00>
-<B>Address</B>
-</TD>
-<TD width=10% BGCOLOR=#FFFF00>
-<B>Width</B>
-</TD>
-<TD width=10% BGCOLOR=#FFFF00>
-<B>Type</B>
-</TD>
-<TD width=15% BGCOLOR=#FFFF00>
-<B>Reset Value</B>
-</TD>
-<TD width=35% BGCOLOR=#FFFF00>
-<B>Description</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>SD1_WP_CD_SEL</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0XF8000834</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>32</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>rw</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0x00000000</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>--</B>
-</TD>
-</TR>
-</TABLE>
-<P>
-<TABLE border=1 cellspacing=0 BORDERCOLOR=black WIDTH=100%">
-<TR valign="top">
-<TD width=15% BGCOLOR=#C0FFC0>
-<B>Field Name</B>
-</TD>
-<TD width=15% BGCOLOR=#C0FFC0>
-<B>Bits</B>
-</TD>
-<TD width=10% BGCOLOR=#C0FFC0>
-<B>Mask</B>
-</TD>
-<TD width=10% BGCOLOR=#C0FFC0>
-<B>Value</B>
-</TD>
-<TD width=15% BGCOLOR=#C0FFC0>
-<B>Shifted Value</B>
-</TD>
-<TD width=35% BGCOLOR=#C0FFC0>
-<B>Description</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>SDIO1_WP_SEL</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>5:0</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>3f</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>39</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>39</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>SDIO 1 WP Select. Values 53:0 select MIO input (any pin except 7 and 8) Values 63:54 select EMIO input</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>SDIO1_CD_SEL</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>21:16</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>3f0000</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>3a</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>3a0000</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>SDIO 1 CD Select. Values 53:0 select MIO input (any pin except bits 7 and 8) Values 63:54 select EMIO input</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#C0C0C0>
-<B>SD1_WP_CD_SEL@0XF8000834</B>
-</TD>
-<TD width=15% BGCOLOR=#C0C0C0>
-<B>31:0</B>
-</TD>
-<TD width=10% BGCOLOR=#C0C0C0>
-<B>3f003f</B>
-</TD>
-<TD width=10% BGCOLOR=#C0C0C0>
-<B></B>
-</TD>
-<TD width=15% BGCOLOR=#C0C0C0>
-<B>3a0039</B>
-</TD>
-<TD width=35% BGCOLOR=#C0C0C0>
-<B>SDIO 1 WP CD select</B>
 </TD>
 </TR>
 </TABLE>
@@ -99271,10 +98962,10 @@ SLCR_LOCK
 <B>2</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>1</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>2</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>SDIO 1 Clock active. 0 - Clock is disabled. 1 - Clock is enabled.</B>
@@ -99334,7 +99025,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>a03</B>
+<B>a01</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>SDIO Reference Clock Control</B>
@@ -100107,10 +99798,10 @@ SLCR_LOCK
 <B>800</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>1</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>800</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>SDIO 1 AMBA Clock active. 0 - Clock is disabled. 1 - Clock is enabled.</B>
@@ -100350,7 +100041,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1fc0c4d</B>
+<B>1fc044d</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>AMBA Peripheral Clock Control</B>
@@ -118060,28 +117751,6 @@ SD0_WP_CD_SEL
 </TR>
 <TR valign="top">
 <TD width=15% BGCOLOR=#FBF5EF>
-<A href="#SD1_WP_CD_SEL">
-SD1_WP_CD_SEL
-</A>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0XF8000834</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>32</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>RW</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0x000000</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>SDIO 1 WP CD select register</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
 <A href="#SLCR_LOCK">
 SLCR_LOCK
 </A>
@@ -124710,10 +124379,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>2</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>40</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 0= gpio0, Input, gpio_0_pin_in[10]- (GPIO bank 0) 0= gpio0, Output, gpio_0_pin_out[10]- (GPIO bank 0) 1= can0, Input, can0_phy_rx- (Can RX signal) 2= i2c0, Input, i2c0_scl_input- (SCL signal) 2= i2c0, Output, i2c0_scl_out- (SCL signal) 3= Not Used 4= sd1, Input, sd1_data_in[0]- (4-bit Data bus) 4= sd1, Output, sd1_data_out[0]- (4-bit Data bus) 5= spi1, Output, spi1_mo- (MOSI signal) 5= spi1, Input, spi1_si- (MOSI signal) 6= Not Used 7= ua0, Input, ua0_rxd- (UART receiver serial input)</B>
@@ -124813,7 +124482,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1640</B>
+<B>1600</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Control for Pin 10</B>
@@ -124977,10 +124646,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>2</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>40</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 0= gpio0, Input, gpio_0_pin_in[11]- (GPIO bank 0) 0= gpio0, Output, gpio_0_pin_out[11]- (GPIO bank 0) 1= can0, Output, can0_phy_tx- (Can TX signal) 2= i2c0, Input, i2c0_sda_input- (SDA signal) 2= i2c0, Output, i2c0_sda_out- (SDA signal) 3= Not Used 4= sd1, Input, sd1_cmd_in- (Command Indicator) 4= sd1, Output, sd1_cmd_out- (Command Indicator) 5= spi1, Input, spi1_mi- (MISO signal) 5= spi1, Output, spi1_so- (MISO signal) 6= Not Used 7= ua0, Output, ua0_txd- (UART transmitter serial output)</B>
@@ -125080,7 +124749,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1640</B>
+<B>1600</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Control for Pin 11</B>
@@ -134322,10 +133991,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 0= gpio1, Input, gpio_1_pin_in[14]- (GPIO bank 1) 0= gpio1, Output, gpio_1_pin_out[14]- (GPIO bank 1) 1= can0, Input, can0_phy_rx- (Can RX signal) 2= i2c0, Input, i2c0_scl_input- (SCL signal) 2= i2c0, Output, i2c0_scl_out- (SCL signal) 3= Not Used 4= sd1, Input, sd1_data_in[0]- (4-bit Data bus) 4= sd1, Output, sd1_data_out[0]- (4-bit Data bus) 5= spi1, Output, spi1_mo- (MOSI signal) 5= spi1, Input, spi1_si- (MOSI signal) 6= Not Used 7= ua0, Input, ua0_rxd- (UART receiver serial input)</B>
@@ -134425,7 +134094,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Control for Pin 46</B>
@@ -134589,10 +134258,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 0= gpio1, Input, gpio_1_pin_in[15]- (GPIO bank 1) 0= gpio1, Output, gpio_1_pin_out[15]- (GPIO bank 1) 1= can0, Output, can0_phy_tx- (Can TX signal) 2= i2c0, Input, i2c0_sda_input- (SDA signal) 2= i2c0, Output, i2c0_sda_out- (SDA signal) 3= Not Used 4= sd1, Input, sd1_cmd_in- (Command Indicator) 4= sd1, Output, sd1_cmd_out- (Command Indicator) 5= spi1, Input, spi1_mi- (MISO signal) 5= spi1, Output, spi1_so- (MISO signal) 6= Not Used 7= ua0, Output, ua0_txd- (UART transmitter serial output)</B>
@@ -134692,7 +134361,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Control for Pin 47</B>
@@ -134856,10 +134525,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 0= gpio1, Input, gpio_1_pin_in[16]- (GPIO bank 1) 0= gpio1, Output, gpio_1_pin_out[16]- (GPIO bank 1) 1= can1, Output, can1_phy_tx- (Can TX signal) 2= i2c1, Input, i2c1_scl_input- (SCL signal) 2= i2c1, Output, i2c1_scl_out- (SCL signal) 3= Not Used 4= sd1, Input, sd1_clk_in- (SDSDIO clock) 4= sd1, Output, sd1_clk_out- (SDSDIO clock) 5= spi1, Input, spi1_sclk_in- (SPI Clock) 5= spi1, Output, spi1_sclk_out- (SPI Clock) 6= Not Used 7= ua1, Output, ua1_txd- (UART transmitter serial output)</B>
@@ -134959,7 +134628,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Control for Pin 48</B>
@@ -135123,10 +134792,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 0= gpio1, Input, gpio_1_pin_in[17]- (GPIO bank 1) 0= gpio1, Output, gpio_1_pin_out[17]- (GPIO bank 1) 1= can1, Input, can1_phy_rx- (Can RX signal) 2= i2c1, Input, i2c1_sda_input- (SDA signal) 2= i2c1, Output, i2c1_sda_out- (SDA signal) 3= Not Used 4= sd1, Input, sd1_data_in[1]- (4-bit Data bus) 4= sd1, Output, sd1_data_out[1]- (4-bit Data bus) 5= spi1, Input, spi1_n_ss_in- (SPI Master Selects) 5= spi1, Output, spi1_n_ss_out[0]- (SPI Master Selects) 6= Not Used 7= ua1, Input, ua1_rxd- (UART receiver serial input)</B>
@@ -135226,7 +134895,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Control for Pin 49</B>
@@ -135390,10 +135059,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 0= gpio1, Input, gpio_1_pin_in[18]- (GPIO bank 1) 0= gpio1, Output, gpio_1_pin_out[18]- (GPIO bank 1) 1= can0, Input, can0_phy_rx- (Can RX signal) 2= i2c0, Input, i2c0_scl_input- (SCL signal) 2= i2c0, Output, i2c0_scl_out- (SCL signal) 3= wdt, Input, wdt_clk_in- (Watch Dog Timer Input clock) 4= sd1, Input, sd1_data_in[2]- (4-bit Data bus) 4= sd1, Output, sd1_data_out[2]- (4-bit Data bus) 5= spi1, Output, spi1_n_ss_out[1]- (SPI Master Selects) 6= Not Used 7= ua0, Input, ua0_rxd- (UART receiver serial input)</B>
@@ -135493,7 +135162,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Control for Pin 50</B>
@@ -135657,10 +135326,10 @@ SLCR_LOCK
 <B>e0</B>
 </TD>
 <TD width=10% BGCOLOR=#FBF5EF>
-<B>4</B>
+<B>0</B>
 </TD>
 <TD width=15% BGCOLOR=#FBF5EF>
-<B>80</B>
+<B>0</B>
 </TD>
 <TD width=35% BGCOLOR=#FBF5EF>
 <B>Level 3 Mux Select 0= gpio1, Input, gpio_1_pin_in[19]- (GPIO bank 1) 0= gpio1, Output, gpio_1_pin_out[19]- (GPIO bank 1) 1= can0, Output, can0_phy_tx- (Can TX signal) 2= i2c0, Input, i2c0_sda_input- (SDA signal) 2= i2c0, Output, i2c0_sda_out- (SDA signal) 3= wdt, Output, wdt_rst_out- (Watch Dog Timer Output clock) 4= sd1, Input, sd1_data_in[3]- (4-bit Data bus) 4= sd1, Output, sd1_data_out[3]- (4-bit Data bus) 5= spi1, Output, spi1_n_ss_out[2]- (SPI Master Selects) 6= Not Used 7= ua0, Output, ua0_txd- (UART transmitter serial output)</B>
@@ -135760,7 +135429,7 @@ SLCR_LOCK
 <B></B>
 </TD>
 <TD width=15% BGCOLOR=#C0C0C0>
-<B>1280</B>
+<B>1200</B>
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>MIO Control for Pin 51</B>
@@ -136425,133 +136094,6 @@ SLCR_LOCK
 </TD>
 <TD width=35% BGCOLOR=#C0C0C0>
 <B>SDIO 0 WP CD select register</B>
-</TD>
-</TR>
-</TABLE>
-<P>
-<H2><a name="SD1_WP_CD_SEL">Register (<A href=#mod___slcr> slcr </A>)SD1_WP_CD_SEL</a></H2>
-<TABLE border=1 cellspacing=0 BORDERCOLOR=black WIDTH=100%">
-<TR valign="top">
-<TD width=15% BGCOLOR=#FFFF00>
-<B>Register Name</B>
-</TD>
-<TD width=15% BGCOLOR=#FFFF00>
-<B>Address</B>
-</TD>
-<TD width=10% BGCOLOR=#FFFF00>
-<B>Width</B>
-</TD>
-<TD width=10% BGCOLOR=#FFFF00>
-<B>Type</B>
-</TD>
-<TD width=15% BGCOLOR=#FFFF00>
-<B>Reset Value</B>
-</TD>
-<TD width=35% BGCOLOR=#FFFF00>
-<B>Description</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>SD1_WP_CD_SEL</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0XF8000834</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>32</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>rw</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>0x00000000</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>--</B>
-</TD>
-</TR>
-</TABLE>
-<P>
-<TABLE border=1 cellspacing=0 BORDERCOLOR=black WIDTH=100%">
-<TR valign="top">
-<TD width=15% BGCOLOR=#C0FFC0>
-<B>Field Name</B>
-</TD>
-<TD width=15% BGCOLOR=#C0FFC0>
-<B>Bits</B>
-</TD>
-<TD width=10% BGCOLOR=#C0FFC0>
-<B>Mask</B>
-</TD>
-<TD width=10% BGCOLOR=#C0FFC0>
-<B>Value</B>
-</TD>
-<TD width=15% BGCOLOR=#C0FFC0>
-<B>Shifted Value</B>
-</TD>
-<TD width=35% BGCOLOR=#C0FFC0>
-<B>Description</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>SDIO1_WP_SEL</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>5:0</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>3f</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>39</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>39</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>SDIO1 WP Select. 0-53 = Selects matching MIO input however bits 7/8 are not supported and should not be used as they will conflict with the VCFG inputs. 54-63 = Selects the FMIO source</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>SDIO1_CD_SEL</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>21:16</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>3f0000</B>
-</TD>
-<TD width=10% BGCOLOR=#FBF5EF>
-<B>3a</B>
-</TD>
-<TD width=15% BGCOLOR=#FBF5EF>
-<B>3a0000</B>
-</TD>
-<TD width=35% BGCOLOR=#FBF5EF>
-<B>SDIO1 CD Select. 0-53 = Selects matching MIO input however bits 7/8 are not supported and should not be used as they will conflict with the VCFG inputs. 54-63 = Selects the FMIO source</B>
-</TD>
-</TR>
-<TR valign="top">
-<TD width=15% BGCOLOR=#C0C0C0>
-<B>SD1_WP_CD_SEL@0XF8000834</B>
-</TD>
-<TD width=15% BGCOLOR=#C0C0C0>
-<B>31:0</B>
-</TD>
-<TD width=10% BGCOLOR=#C0C0C0>
-<B>3f003f</B>
-</TD>
-<TD width=10% BGCOLOR=#C0C0C0>
-<B></B>
-</TD>
-<TD width=15% BGCOLOR=#C0C0C0>
-<B>3a0039</B>
-</TD>
-<TD width=35% BGCOLOR=#C0C0C0>
-<B>SDIO 1 WP CD select register</B>
 </TD>
 </TR>
 </TABLE>
