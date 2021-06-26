@@ -1,49 +1,80 @@
-import typing
 import logging
 from fcntl import ioctl
+import os
+from warningHandler import WarningHandler
 
 
 class I2CDevice:
     # Magic number to change I2C slave address - not my code
     I2C_CHANGE_ADDRESS_COMMAND = 0x0706
 
-    def __init__(self, deviceFile: str, deviceName: str, deviceAddress: int):
+    def __init__(
+        self, deviceFile: str, deviceName: str,
+        deviceAddress: int, warnings: WarningHandler = None
+    ):
         self.dev = deviceFile
         self.name = deviceName
         self.address = deviceAddress
+        self.warnings = warnings
 
         self.check_device()
-        logging.info(
-            "Found {} in I2C Address {}".format(
-                self.name,
-                hex(self.address)
-            )
-        )
 
     def check_device(self) -> None:
-        pass
+        try:
+            self.read(0)
+            logging.info(
+                "Found {} in I2C address {}".format(
+                    self.name,
+                    hex(self.address)
+                )
+            )
+        except OSError:
+            self.warnings.add_error(
+                "I2C",
+                "Device {} at address {} not found".format(
+                    self.name,
+                    hex(self.address)
+                )
+            )
 
     def set_device_address(self, file):
         # Set I2C Slave Address
-        logging.critical(
-            ioctl(
-                file, I2CDevice.I2C_CHANGE_ADDRESS_COMMAND, self.address
-            )
+
+        ioctl(
+            file, I2CDevice.I2C_CHANGE_ADDRESS_COMMAND, self.address
         )
 
     def read(self, address: int) -> int:
         with open(self.dev, 'wb') as file:
             self.set_device_address(file)
-            file.write(b'0')
-        with open(self.dev, 'rb') as file:
+            file.write(address.to_bytes(2, byteorder='big', signed=False))
+        file = os.open(self.dev, os.O_RDONLY)
+        ioctl(
+            file, I2CDevice.I2C_CHANGE_ADDRESS_COMMAND, self.address
+        )
+        x = ""
+        try:
+            x = os.read(file, 1)
+        except Exception:
+            self.warnings.add_warning(
+                    "I2C",
+                    "I2C read from {} failed".format(self.name)
+                )
+        finally:
+            os.close(file)
+            return int.from_bytes(x, "big")
+
+    def write(self, address: int, data: int) -> None:
+        with open(self.dev, 'wb') as file:
             self.set_device_address(file)
-            return(file.read())
+            x = ((address << 8) & 0xFFFF00) | (data & 0xFF)
+            if (file.write(x.to_bytes(2, byteorder='big', signed=False)) != 3):
+                self.warnings.add_warning(
+                    "I2C",
+                    "I2C write to {} failed".format(self.name)
+                )
 
 
-
-
-
-    
 if __name__ == '__main__':
 
     logging.basicConfig(
@@ -52,5 +83,5 @@ if __name__ == '__main__':
         datefmt='%Y-%m-%d %H:%M:%S'
     )
 
-    x = I2CDevice("/dev/i2c-1", "test", 0x50)
+    x = I2CDevice("/dev/i2c-0", "test", 0x50)
     x.read(1)

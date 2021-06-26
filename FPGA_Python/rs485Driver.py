@@ -30,6 +30,8 @@ class RS485Driver():
         atexit.register(self.cleanup)
 
         self.gpio = gpio
+        self.gpio.set_direction(GPIO.OUTPUT)
+        self.gpio.write(GPIO.LOW)
 
         self.set_direction(self.RX)
         self.serial.reset_input_buffer()

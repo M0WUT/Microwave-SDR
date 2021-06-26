@@ -1,3 +1,4 @@
+from gpio import AxiGpio
 import logging
 from mqttHandler import MqttHandler
 from vfo import Vfo
@@ -8,6 +9,8 @@ import time
 from usefulFunctions import get_ip
 import sys
 from transverterHandler import TransverterHandler
+from eepromHandler import Eeprom
+
 
 logging.basicConfig(
     format='%(asctime)s %(levelname)-8s %(message)s',
@@ -25,8 +28,9 @@ mqtt = MqttHandler("192.168.0.26", 1883, warnings)
 warnings.register_mqtt(mqtt)
 network = NetworkHandler(mqtt, warnings)
 status = StatusRegs("/dev/statusregs", warnings)
-transverters = TransverterHandler("/dev/ttyPS1", warnings)
+#transverters = TransverterHandler("/dev/ttyPS1", warnings)
 v = Vfo('A', mqtt, status, warnings)
+x = Eeprom("/dev/i2c-0", "Baseboard Config", 0x50, AxiGpio(2), warnings)
 
 
 while(True):
