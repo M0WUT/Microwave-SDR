@@ -48,13 +48,16 @@ class GPIO():
             return int(file.read().strip())
 
     def cleanup(self):
+        if(self.direction == GPIO.OUTPUT):
+            self.write(GPIO.LOW)
+            self.set_direction(GPIO.INPUT)
         with open("/sys/class/gpio/unexport", 'w') as file:
             file.write(str(self.gpio))
 
 
 class AxiGpio(GPIO):
 
-    AXI_GPIO_BASE_ADDRESS = 1021
+    AXI_GPIO_BASE_ADDRESS = 1018
 
     def __init__(
         self, AxiGpio: int, direction: bool = GPIO.INPUT,
@@ -67,7 +70,7 @@ class AxiGpio(GPIO):
 
 class MIO(GPIO):
 
-    AXI_GPIO_BASE_ADDRESS = 903
+    AXI_GPIO_BASE_ADDRESS = 900
 
     def __init__(
         self, mio: int, direction: bool = GPIO.INPUT,

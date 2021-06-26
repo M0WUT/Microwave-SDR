@@ -10,4 +10,11 @@ Anglian::Anglian(Panicker *panicker) : BaseTransverterConfig(panicker){
             this->panicker
         )
     );
+    add_temp_sensor(
+        new PCT2075 (
+            "Test",
+            0x37,
+            this->panicker
+        )
+    );
 }

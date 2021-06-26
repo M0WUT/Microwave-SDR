@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
-//Date        : Fri Jun 25 22:43:29 2021
+//Date        : Sat Jun 26 12:16:34 2021
 //Host        : dan-Desktop running 64-bit Ubuntu 18.04.5 LTS
 //Command     : generate_target zsys.bd
 //Design      : zsys
@@ -1731,7 +1731,7 @@ module s00_couplers_imp_VUXL0C
         .s_axi_wvalid(s00_couplers_to_auto_pc_WVALID));
 endmodule
 
-(* CORE_GENERATION_INFO = "zsys,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=zsys,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=73,numReposBlks=61,numNonXlnxBlks=2,numHierBlks=12,maxHierDepth=2,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=16,numPkgbdBlks=0,bdsource=USER,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=38,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_board_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=5,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_clkrst_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=3,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_ps7_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=1,\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"=2,\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"=1,\"\"\"\"\"\"da_board_cnt\"\"\"\"\"\"=1,\"\"\"\"da_axi4_cnt\"\"\"\"=1,\"\"\"\"da_board_cnt\"\"\"\"=1,\"da_axi4_cnt\"=1,\"da_board_cnt\"=3,da_axi4_cnt=1,da_board_cnt=1,synth_mode=OOC_per_IP}" *) (* HW_HANDOFF = "zsys.hwdef" *) 
+(* CORE_GENERATION_INFO = "zsys,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=zsys,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=73,numReposBlks=61,numNonXlnxBlks=2,numHierBlks=12,maxHierDepth=2,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=16,numPkgbdBlks=0,bdsource=USER,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=38,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_board_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=5,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_clkrst_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=3,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_ps7_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=1,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=2,\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"=1,\"\"\"\"\"\"\"da_board_cnt\"\"\"\"\"\"\"=1,\"\"\"\"\"da_axi4_cnt\"\"\"\"\"=1,\"\"\"\"\"da_board_cnt\"\"\"\"\"=1,\"\"da_axi4_cnt\"\"=1,\"\"da_board_cnt\"\"=3,\"da_axi4_cnt\"=1,\"da_board_cnt\"=1,synth_mode=OOC_per_IP}" *) (* HW_HANDOFF = "zsys.hwdef" *) 
 module zsys
    (DDR_addr,
     DDR_ba,
@@ -1851,15 +1851,15 @@ module zsys
   (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.AF_MCLK CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.AF_MCLK, FREQ_HZ 100000000, INSERT_VIP 0, PHASE 0.000" *) output af_mclk;
   input cw_key_n;
   output [7:0]debug_leds;
-  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic " *) input eeprom_iic_scl_i;
-  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic " *) output eeprom_iic_scl_o;
-  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic " *) output eeprom_iic_scl_t;
-  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic " *) input eeprom_iic_sda_i;
-  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic " *) output eeprom_iic_sda_o;
-  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic " *) output eeprom_iic_sda_t;
-  (* X_INTERFACE_INFO = "xilinx.com:interface:gpio:1.0 gpio_rs485 TRI_I" *) input [2:0]gpio_rs485_tri_i;
-  (* X_INTERFACE_INFO = "xilinx.com:interface:gpio:1.0 gpio_rs485 TRI_O" *) output [2:0]gpio_rs485_tri_o;
-  (* X_INTERFACE_INFO = "xilinx.com:interface:gpio:1.0 gpio_rs485 TRI_T" *) output [2:0]gpio_rs485_tri_t;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic SCL_I" *) input eeprom_iic_scl_i;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic SCL_O" *) output eeprom_iic_scl_o;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic SCL_T" *) output eeprom_iic_scl_t;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic SDA_I" *) input eeprom_iic_sda_i;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic SDA_O" *) output eeprom_iic_sda_o;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:iic:1.0 eeprom_iic SDA_T" *) output eeprom_iic_sda_t;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:gpio:1.0 gpio_rs485 TRI_I" *) input [5:0]gpio_rs485_tri_i;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:gpio:1.0 gpio_rs485 TRI_O" *) output [5:0]gpio_rs485_tri_o;
+  (* X_INTERFACE_INFO = "xilinx.com:interface:gpio:1.0 gpio_rs485 TRI_T" *) output [5:0]gpio_rs485_tri_t;
   input i_ptt_cw_n;
   input i_ptt_n;
   output [13:0]oS_dacData;
@@ -1906,9 +1906,9 @@ module zsys
   wire [0:0]TX_rf_dac_mode;
   wire adc_clk_n_1;
   wire adc_clk_p_1;
-  wire [2:0]axi_gpio_0_GPIO_TRI_I;
-  wire [2:0]axi_gpio_0_GPIO_TRI_O;
-  wire [2:0]axi_gpio_0_GPIO_TRI_T;
+  wire [5:0]axi_gpio_0_GPIO_TRI_I;
+  wire [5:0]axi_gpio_0_GPIO_TRI_O;
+  wire [5:0]axi_gpio_0_GPIO_TRI_T;
   wire axi_iic_0_IIC_SCL_I;
   wire axi_iic_0_IIC_SCL_O;
   wire axi_iic_0_IIC_SCL_T;
@@ -2092,7 +2092,7 @@ module zsys
   assign af_i2c_sda_t = AF_iic_rtl_SDA_T;
   assign af_lrclk = AF_AF_ADC_DAC_LRCLK;
   assign af_mclk = AF_AF_ADC_DAC_MCLK;
-  assign axi_gpio_0_GPIO_TRI_I = gpio_rs485_tri_i[2:0];
+  assign axi_gpio_0_GPIO_TRI_I = gpio_rs485_tri_i[5:0];
   assign axi_iic_0_IIC_SCL_I = eeprom_iic_scl_i;
   assign axi_iic_0_IIC_SDA_I = eeprom_iic_sda_i;
   assign cw_key_n_1 = cw_key_n;
@@ -2101,8 +2101,8 @@ module zsys
   assign eeprom_iic_scl_t = axi_iic_0_IIC_SCL_T;
   assign eeprom_iic_sda_o = axi_iic_0_IIC_SDA_O;
   assign eeprom_iic_sda_t = axi_iic_0_IIC_SDA_T;
-  assign gpio_rs485_tri_o[2:0] = axi_gpio_0_GPIO_TRI_O;
-  assign gpio_rs485_tri_t[2:0] = axi_gpio_0_GPIO_TRI_T;
+  assign gpio_rs485_tri_o[5:0] = axi_gpio_0_GPIO_TRI_O;
+  assign gpio_rs485_tri_t[5:0] = axi_gpio_0_GPIO_TRI_T;
   assign i_ptt_cw_n_1 = i_ptt_cw_n;
   assign i_ptt_n_1 = i_ptt_n;
   assign oS_dacData[13:0] = TX_rf_dac_data;
@@ -2158,6 +2158,29 @@ module zsys
         .i_dispFrequency(i_dispFrequency_1),
         .i_dispFrequencyMode(i_dispFrequencyMode_1),
         .resetn(rst_ps7_0_100M_peripheral_aresetn));
+  zsys_axi_gpio_0_0 RS485_and_Status_LEDs
+       (.gpio_io_i(axi_gpio_0_GPIO_TRI_I),
+        .gpio_io_o(axi_gpio_0_GPIO_TRI_O),
+        .gpio_io_t(axi_gpio_0_GPIO_TRI_T),
+        .s_axi_aclk(util_ds_buf_0_IBUF_OUT1),
+        .s_axi_araddr(ps7_0_axi_periph_M03_AXI_ARADDR[8:0]),
+        .s_axi_aresetn(rst_ps7_0_100M_peripheral_aresetn),
+        .s_axi_arready(ps7_0_axi_periph_M03_AXI_ARREADY),
+        .s_axi_arvalid(ps7_0_axi_periph_M03_AXI_ARVALID),
+        .s_axi_awaddr(ps7_0_axi_periph_M03_AXI_AWADDR[8:0]),
+        .s_axi_awready(ps7_0_axi_periph_M03_AXI_AWREADY),
+        .s_axi_awvalid(ps7_0_axi_periph_M03_AXI_AWVALID),
+        .s_axi_bready(ps7_0_axi_periph_M03_AXI_BREADY),
+        .s_axi_bresp(ps7_0_axi_periph_M03_AXI_BRESP),
+        .s_axi_bvalid(ps7_0_axi_periph_M03_AXI_BVALID),
+        .s_axi_rdata(ps7_0_axi_periph_M03_AXI_RDATA),
+        .s_axi_rready(ps7_0_axi_periph_M03_AXI_RREADY),
+        .s_axi_rresp(ps7_0_axi_periph_M03_AXI_RRESP),
+        .s_axi_rvalid(ps7_0_axi_periph_M03_AXI_RVALID),
+        .s_axi_wdata(ps7_0_axi_periph_M03_AXI_WDATA),
+        .s_axi_wready(ps7_0_axi_periph_M03_AXI_WREADY),
+        .s_axi_wstrb(ps7_0_axi_periph_M03_AXI_WSTRB),
+        .s_axi_wvalid(ps7_0_axi_periph_M03_AXI_WVALID));
   zsys_SC0720_0_0 SC0720_0
        (.PHY_LED1(SC0720_0_PHY_LED1),
         .PHY_LED2(SC0720_0_PHY_LED2),
@@ -2220,29 +2243,6 @@ module zsys
         .o_tx_led(TX_o_tx_led),
         .rf_dac_data(TX_rf_dac_data),
         .rf_dac_mode(TX_rf_dac_mode));
-  zsys_axi_gpio_0_0 axi_gpio_0
-       (.gpio_io_i(axi_gpio_0_GPIO_TRI_I),
-        .gpio_io_o(axi_gpio_0_GPIO_TRI_O),
-        .gpio_io_t(axi_gpio_0_GPIO_TRI_T),
-        .s_axi_aclk(util_ds_buf_0_IBUF_OUT1),
-        .s_axi_araddr(ps7_0_axi_periph_M03_AXI_ARADDR[8:0]),
-        .s_axi_aresetn(rst_ps7_0_100M_peripheral_aresetn),
-        .s_axi_arready(ps7_0_axi_periph_M03_AXI_ARREADY),
-        .s_axi_arvalid(ps7_0_axi_periph_M03_AXI_ARVALID),
-        .s_axi_awaddr(ps7_0_axi_periph_M03_AXI_AWADDR[8:0]),
-        .s_axi_awready(ps7_0_axi_periph_M03_AXI_AWREADY),
-        .s_axi_awvalid(ps7_0_axi_periph_M03_AXI_AWVALID),
-        .s_axi_bready(ps7_0_axi_periph_M03_AXI_BREADY),
-        .s_axi_bresp(ps7_0_axi_periph_M03_AXI_BRESP),
-        .s_axi_bvalid(ps7_0_axi_periph_M03_AXI_BVALID),
-        .s_axi_rdata(ps7_0_axi_periph_M03_AXI_RDATA),
-        .s_axi_rready(ps7_0_axi_periph_M03_AXI_RREADY),
-        .s_axi_rresp(ps7_0_axi_periph_M03_AXI_RRESP),
-        .s_axi_rvalid(ps7_0_axi_periph_M03_AXI_RVALID),
-        .s_axi_wdata(ps7_0_axi_periph_M03_AXI_WDATA),
-        .s_axi_wready(ps7_0_axi_periph_M03_AXI_WREADY),
-        .s_axi_wstrb(ps7_0_axi_periph_M03_AXI_WSTRB),
-        .s_axi_wvalid(ps7_0_axi_periph_M03_AXI_WVALID));
   zsys_axi_iic_0_1 axi_iic_0
        (.iic2intc_irpt(axi_iic_0_iic2intc_irpt),
         .s_axi_aclk(util_ds_buf_0_IBUF_OUT1),

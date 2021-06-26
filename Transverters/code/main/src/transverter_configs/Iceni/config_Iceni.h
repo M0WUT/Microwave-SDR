@@ -6,13 +6,13 @@
 ////////////////////////////
 
 // Display name of the transverter - must be in double quotes (")
-#define NAME "Anglian 3L"
+#define NAME "Iceni"
 // Local oscillator frequency
-#define LO_FREQ 116e6
+#define LO_FREQ 404e6
 // Set to true if RF = IF + LO, set to false if RF = LO - IF
 #define RF_EQUALS_IF_PLUS_LO true
-#define MIN_FREQ 144e6
-#define MAX_FREQ 146e6
+#define MIN_FREQ 430e6
+#define MAX_FREQ 438e6
 #define MIN_TX_POWER 20
 #define MAX_TX_POWER 20
 #define ALLOW_TX true
@@ -20,7 +20,7 @@
 ////////////////////////////////////////
 // Uncomment to enable debug messages //
 ////////////////////////////////////////
-#define DEBUG
+//#define DEBUG
 
 ///////////////////////
 // PCB Configuration //
@@ -36,7 +36,7 @@
 #define PIN_WP 17
 
 // Bodge to ensure Transverter is created with the correct type
-#define TRANSVERTER_CLASS Anglian
+#define TRANSVERTER_CLASS Iceni
 
 #define DEBUG_SERIAL Serial
 #define RS485_SERIAL Serial1
@@ -48,9 +48,9 @@
 #include "../baseTransverterConfig/baseTransverterConfig.h"
 #include "../../panic/panic.h"
 
-class Anglian : public BaseTransverterConfig{
+class Iceni : public BaseTransverterConfig{
     public:
-        Anglian(Panicker *panicker);
+        Iceni(Panicker *panicker);
 }; 
 
 #endif

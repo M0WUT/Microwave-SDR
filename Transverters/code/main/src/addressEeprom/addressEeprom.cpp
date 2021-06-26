@@ -14,14 +14,11 @@ AddressEeprom::AddressEeprom(int deviceAddress, Panicker *panicker) : I2CDevice(
 }
 
 bool AddressEeprom::initialised(){
-    if( read(0) != 'L' || \
-        read(1) != 'I' || \
-        read(2) != 'D'
-    ){
-        return 0;
-    } else{
-        return 1;
-    }
+    return(
+        read(0) == 'L' &&
+        read(1) == 'I' &&
+        read(2) == 'D'
+    );
 }
 
 int AddressEeprom::get_address(){

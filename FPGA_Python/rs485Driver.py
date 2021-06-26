@@ -1,3 +1,4 @@
+from config import LED_ERROR
 import serial
 from time import sleep
 import logging
@@ -40,6 +41,7 @@ class RS485Driver():
         self.gpio.write(x)
 
     def write(self, x: RS485Packet):
+        LED_ERROR.write(GPIO.HIGH)
         address = x.address.to_bytes(1, 'big')
         command = x.command.encode("utf-8")
         self.set_direction(self.TX)
@@ -56,6 +58,7 @@ class RS485Driver():
         # Changing RS485 from TX to RX introduces glitches on the
         # RX line so clear the buffer
         self.serial.reset_input_buffer()
+        LED_ERROR.write(GPIO.LOW)
 
     def read(self) -> str:
         x = self.serial.readline()

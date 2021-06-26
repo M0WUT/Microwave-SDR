@@ -1,6 +1,6 @@
 import logging
 from statusHandler import StatusRegs
-from usefulFunctions import readableFreq, get_mac
+from usefulFunctions import readable_freq, get_mac
 import json
 
 
@@ -74,7 +74,7 @@ class Vfo():
             self.publish_info()
         logging.debug(
             "VFO {} set to {}".format(
-                self.name, readableFreq(self.freq)
+                self.name, readable_freq(self.freq)
             )
         )
 

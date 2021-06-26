@@ -2,6 +2,7 @@ import logging
 from fcntl import ioctl
 import os
 from warningHandler import WarningHandler
+from time import sleep
 
 
 class I2CDevice:
@@ -45,35 +46,43 @@ class I2CDevice:
         )
 
     def read(self, address: int) -> int:
-        with open(self.dev, 'wb') as file:
-            self.set_device_address(file)
-            file.write(address.to_bytes(2, byteorder='big', signed=False))
-        file = os.open(self.dev, os.O_RDONLY)
-        ioctl(
-            file, I2CDevice.I2C_CHANGE_ADDRESS_COMMAND, self.address
-        )
-        x = ""
+
+        x = b''
         try:
-            x = os.read(file, 1)
+            with open(self.dev, 'wb') as file:
+                self.set_device_address(file)
+                file.write(address.to_bytes(2, byteorder='big', signed=False))
+                file.flush()
+                file = os.open(self.dev, os.O_RDONLY)
+                ioctl(
+                    file, I2CDevice.I2C_CHANGE_ADDRESS_COMMAND, self.address
+                )
+                x = os.read(file, 1)
         except Exception:
             self.warnings.add_warning(
-                    "I2C",
-                    "I2C read from {} failed".format(self.name)
-                )
+                "General",
+                "I2C",
+                "I2C read from {} failed".format(self.name)
+            )
         finally:
             os.close(file)
             return int.from_bytes(x, "big")
 
     def write(self, address: int, data: int) -> None:
         with open(self.dev, 'wb') as file:
-            self.set_device_address(file)
-            x = ((address << 8) & 0xFFFF00) | (data & 0xFF)
-            if (file.write(x.to_bytes(2, byteorder='big', signed=False)) != 3):
+            try:
+                self.set_device_address(file)
+                x = ((address << 8) & 0xFFFF00) | (data & 0xFF)
+                if (file.write(x.to_bytes(3, byteorder='big', signed=False)) != 3):
+                    raise Exception
+                file.flush()
+                sleep(0.02)
+            except Exception:
                 self.warnings.add_warning(
+                    "General",
                     "I2C",
                     "I2C write to {} failed".format(self.name)
                 )
-
 
 if __name__ == '__main__':
 

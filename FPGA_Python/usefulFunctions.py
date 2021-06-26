@@ -3,7 +3,7 @@ import logging
 from uuid import getnode
 
 
-def readableFreq(freq):
+def readable_freq(freq):
     if(freq >= 1e9):
         return str(freq / 1e9) + "GHz"
     elif (freq >= 1e6):

@@ -63,11 +63,12 @@ void TransverterController::process_command(String x){
                 #ifdef DEBUG
                     DEBUG_SERIAL.println("Received discovery request");
                 #endif
+                response["type"] = "Transverter";
                 response["name"] = NAME;
                 response["loFreq"] = int(LO_FREQ);
                 response["loAdd"] = RF_EQUALS_IF_PLUS_LO;
-                response["minIfFreq"] = int(MIN_IF_FREQ);
-                response["maxIfFreq"] = int(MAX_IF_FREQ);
+                response["minFreq"] = int(MIN_FREQ);
+                response["maxFreq"] = int(MAX_FREQ);
                 response["minPower"] = int(MIN_TX_POWER);
                 response["maxPower"] = int(MAX_TX_POWER);
                 response["allowTx"] = ALLOW_TX;

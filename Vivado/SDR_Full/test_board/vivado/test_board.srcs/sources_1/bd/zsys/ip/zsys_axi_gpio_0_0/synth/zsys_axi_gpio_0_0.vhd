@@ -77,9 +77,9 @@ ENTITY zsys_axi_gpio_0_0 IS
     s_axi_rresp : OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
     s_axi_rvalid : OUT STD_LOGIC;
     s_axi_rready : IN STD_LOGIC;
-    gpio_io_i : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-    gpio_io_o : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-    gpio_io_t : OUT STD_LOGIC_VECTOR(2 DOWNTO 0)
+    gpio_io_i : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+    gpio_io_o : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
+    gpio_io_t : OUT STD_LOGIC_VECTOR(5 DOWNTO 0)
   );
 END zsys_axi_gpio_0_0;
 
@@ -125,9 +125,9 @@ ARCHITECTURE zsys_axi_gpio_0_0_arch OF zsys_axi_gpio_0_0 IS
       s_axi_rvalid : OUT STD_LOGIC;
       s_axi_rready : IN STD_LOGIC;
       ip2intc_irpt : OUT STD_LOGIC;
-      gpio_io_i : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
-      gpio_io_o : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-      gpio_io_t : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+      gpio_io_i : IN STD_LOGIC_VECTOR(5 DOWNTO 0);
+      gpio_io_o : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
+      gpio_io_t : OUT STD_LOGIC_VECTOR(5 DOWNTO 0);
       gpio2_io_i : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
       gpio2_io_o : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
       gpio2_io_t : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
@@ -138,7 +138,7 @@ ARCHITECTURE zsys_axi_gpio_0_0_arch OF zsys_axi_gpio_0_0 IS
   ATTRIBUTE CHECK_LICENSE_TYPE : STRING;
   ATTRIBUTE CHECK_LICENSE_TYPE OF zsys_axi_gpio_0_0_arch : ARCHITECTURE IS "zsys_axi_gpio_0_0,axi_gpio,{}";
   ATTRIBUTE CORE_GENERATION_INFO : STRING;
-  ATTRIBUTE CORE_GENERATION_INFO OF zsys_axi_gpio_0_0_arch: ARCHITECTURE IS "zsys_axi_gpio_0_0,axi_gpio,{x_ipProduct=Vivado 2019.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_gpio,x_ipVersion=2.0,x_ipCoreRevision=22,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_FAMILY=zynq,C_S_AXI_ADDR_WIDTH=9,C_S_AXI_DATA_WIDTH=32,C_GPIO_WIDTH=3,C_GPIO2_WIDTH=32,C_ALL_INPUTS=0,C_ALL_INPUTS_2=0,C_ALL_OUTPUTS=0,C_ALL_OUTPUTS_2=0,C_INTERRUPT_PRESENT=0,C_DOUT_DEFAULT=0x00000000,C_TRI_DEFAULT=0xFFFFFFFF,C_IS_DUAL=0,C_DOUT_DEFAULT_2=0x00000000,C_TRI_DEFAULT_2=0xFFFFFFFF}";
+  ATTRIBUTE CORE_GENERATION_INFO OF zsys_axi_gpio_0_0_arch: ARCHITECTURE IS "zsys_axi_gpio_0_0,axi_gpio,{x_ipProduct=Vivado 2019.2,x_ipVendor=xilinx.com,x_ipLibrary=ip,x_ipName=axi_gpio,x_ipVersion=2.0,x_ipCoreRevision=22,x_ipLanguage=VERILOG,x_ipSimLanguage=MIXED,C_FAMILY=zynq,C_S_AXI_ADDR_WIDTH=9,C_S_AXI_DATA_WIDTH=32,C_GPIO_WIDTH=6,C_GPIO2_WIDTH=32,C_ALL_INPUTS=0,C_ALL_INPUTS_2=0,C_ALL_OUTPUTS=0,C_ALL_OUTPUTS_2=0,C_INTERRUPT_PRESENT=0,C_DOUT_DEFAULT=0x00000000,C_TRI_DEFAULT=0xFFFFFFFF,C_IS_DUAL=0,C_DOUT_DEFAULT_2=0x00000000,C_TRI_DEFAULT_2=0xFFFFFFFF}";
   ATTRIBUTE X_INTERFACE_INFO : STRING;
   ATTRIBUTE X_INTERFACE_PARAMETER : STRING;
   ATTRIBUTE X_INTERFACE_INFO OF gpio_io_t: SIGNAL IS "xilinx.com:interface:gpio:1.0 GPIO TRI_T";
@@ -174,7 +174,7 @@ BEGIN
       C_FAMILY => "zynq",
       C_S_AXI_ADDR_WIDTH => 9,
       C_S_AXI_DATA_WIDTH => 32,
-      C_GPIO_WIDTH => 3,
+      C_GPIO_WIDTH => 6,
       C_GPIO2_WIDTH => 32,
       C_ALL_INPUTS => 0,
       C_ALL_INPUTS_2 => 0,

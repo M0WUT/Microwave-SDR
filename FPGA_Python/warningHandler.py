@@ -93,7 +93,7 @@ class WarningHandler:
         self.mqtt = x
 
     def add_warning(
-        self, category, message, broadcast=True, date=None, time=None
+        self, source, category, message, broadcast=True, date=None, time=None
     ):
         """
         Records new warnings
@@ -112,10 +112,10 @@ class WarningHandler:
         Raises:
             None
         """
-        logging.warning("{}: {}" .format(category, message))
+        logging.warning("[{}] {}: {}" .format(source, category, message))
         x = Sadness(
             "Warning",
-            NAME,
+            source,
             category,
             message,
             date,
@@ -158,12 +158,12 @@ class WarningHandler:
             date,
             time
         )
-        self._add_item(x)
+
         self.errors.append(x)
-        self._update_icon()
+
         if(broadcast):
             self.mqtt.publish(
-                '/discovery/warnings',
+                '/discovery/errors',
                 json.dumps(x.json())
             )
 
