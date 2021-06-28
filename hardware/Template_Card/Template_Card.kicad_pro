@@ -33,9 +33,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.762,
-          "height": 1.524,
-          "width": 1.524
+          "drill": 2.8,
+          "height": 2.8,
+          "width": 2.8
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
@@ -310,7 +310,6 @@
     ],
     "rule_severities": {
       "bus_definition_conflict": "error",
-      "bus_entry_needed": "error",
       "bus_label_syntax": "error",
       "bus_to_bus_conflict": "error",
       "bus_to_net_conflict": "error",
@@ -343,7 +342,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "rs485_test.kicad_pro",
+    "filename": "Template_Card.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -361,8 +360,8 @@
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.25,
-        "via_diameter": 0.6,
-        "via_drill": 0.3,
+        "via_diameter": 0.45,
+        "via_drill": 0.2,
         "wire_width": 6.0
       }
     ],
@@ -409,8 +408,7 @@
       "meta": {
         "version": 0
       },
-      "model_mode": 0,
-      "workbook_filename": ""
+      "model_mode": 0
     },
     "page_layout_descr_file": "",
     "plot_directory": "",
@@ -421,7 +419,7 @@
   },
   "sheets": [
     [
-      "c0082fb8-e3c3-49ba-b34f-8adff07d94a5",
+      "6e8e281e-e30f-459d-852f-231836068db5",
       ""
     ]
   ],
