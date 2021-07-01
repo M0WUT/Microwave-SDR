@@ -21,7 +21,7 @@
       "lockedItems": true,
       "otherItems": true,
       "pads": false,
-      "text": false,
+      "text": true,
       "tracks": true,
       "vias": true,
       "zones": true
