@@ -4,7 +4,7 @@ import os
 import logging
 import mainwindow
 from infohandler import InfoHandler
-from mqttHandler import mqttHandler
+from mqttHandler import MqttHandler
 from vfo import Vfo
 from config_developer import \
     TAB_HOME, TAB_INFO, TAB_NETWORK, TAB_SETTINGS, TAB_WARNINGS
@@ -41,7 +41,7 @@ class main(QWidget):
         )
 
         # MQTT Stuff
-        self.mqtt = mqttHandler(
+        self.mqtt = MqttHandler(
             MQTT_ADDRESS, MQTT_PORT, self.warnings
         )
         self.ui.label_mqttAddr.setText(MQTT_ADDRESS)

@@ -31,19 +31,25 @@ void TransverterController::setup(){
         digitalWrite(LED_ERROR, LOW);
     #endif
 
-    this->panicker = new Panicker(LED_STATUS, LED_ERROR, &DEBUG_SERIAL);
+    _panicker = new Panicker(LED_STATUS, LED_ERROR, &DEBUG_SERIAL);
 
     //Setup I2C
     Wire.begin(I2C_MASTER, 0x00, I2C_PINS_18_19, I2C_PULLUP_EXT, 100000);
     Wire.setDefaultTimeout(10000); // 10ms
 
     // Setup EEPROM containing slot address for RS485 bus
-    addressEeprom = new AddressEeprom(ADDRESS_EEPROM_I2C_ADDRESS, panicker);
+    _addressEeprom = new AddressEeprom(ADDRESS_EEPROM_I2C_ADDRESS, _panicker);
 
     // Setup Handler for RS485 messages
-    rs485Handler = new Rs485Handler(addressEeprom->get_address());
+    _rs485Handler = new Rs485Handler(_addressEeprom->get_address());
 
-    this->transverter = new TRANSVERTER_CLASS(panicker);
+    // Assume we're warming up and no SDR is controlling this transverter
+    set_state(WARMUP);
+    set_controller("");
+
+    _transverter = new TRANSVERTER_CLASS(_panicker);
+
+    process_command("D");  // Broadcast discovery information
 
 }
 
@@ -55,7 +61,7 @@ void TransverterController::process_command(String x){
         return;
     }
     else {
-        DynamicJsonDocument response(200);
+        DynamicJsonDocument response(1024);
         digitalWrite(LED_ERROR, HIGH);
 
         switch(x[0]){
@@ -71,21 +77,51 @@ void TransverterController::process_command(String x){
                 response["maxFreq"] = int(MAX_FREQ);
                 response["minPower"] = int(MIN_TX_POWER);
                 response["maxPower"] = int(MAX_TX_POWER);
-                response["allowTx"] = ALLOW_TX;
+                response["supportsRx"] = SUPPORTS_RX;
+                response["supportsTx"] = SUPPORTS_TX;
                 break;
             case 'S':
                 #ifdef DEBUG
                   DEBUG_SERIAL.println("Received status request");
                 #endif 
 
+                // Add warnings
+                // @TODO
+                response.createNestedObject("warnings");
+
+                // Add errors
+                // @TODO
+                response.createNestedObject("errors");
+
                 // Add temperature sensors
                 JsonObject tempsResponse = response.createNestedObject("temperatures");
-                int numTempSensors = transverter->get_num_temp_sensors();
+                int numTempSensors = _transverter->get_num_temp_sensors();
                 TemperatureReading temps[numTempSensors];
-                transverter->read_temperatures(temps);
+                _transverter->read_temperatures(temps);
                 for(int i = 0; i < numTempSensors; i++){
                     tempsResponse[temps[i].name] = temps[i].temperature;
                 }
+
+                // Add state
+                switch (_state){
+                    case RX: response["state"] = "rx"; break;
+                    case TX: response["state"] = "tx"; break;
+                    case IDLE: response["state"] = "idle"; break;
+                    case WARMUP: response["state"] = "warmup"; break;
+                    default: _panicker->panic("Transverter in an unknown state");
+                };
+
+                // Add RF power readings
+                // @TODO
+                response.createNestedObject("rfPowerReadings");
+
+                // Add DC power readings
+                // @TODO
+                response.createNestedObject("dcPowerReadings");
+
+                // Add MAC address of SDR controller
+                response["controller"] = _controllerMac;
+
                 break;
 
             default:
@@ -97,7 +133,7 @@ void TransverterController::process_command(String x){
                         result += ",";
                     }
                     result[result.length() - 1] = '\0';
-                this->panicker->panic("Received unknown command: " + x + "(" + result + ")");
+                _panicker->panic("Received unknown command: " + x + "(" + result + ")");
             #endif
             break;
         }
@@ -116,10 +152,18 @@ void TransverterController::process_command(String x){
     }
 }
 
+void TransverterController::set_state(TransverterState state){
+    _state = state;
+}
+
+void TransverterController::set_controller(String controllerMac){
+    _controllerMac = controllerMac;
+}
+
 void TransverterController::run(){
     
     while(1){
-        process_command(rs485Handler->rx_messages());
+        process_command(_rs485Handler->rx_messages());
     }
 }
     

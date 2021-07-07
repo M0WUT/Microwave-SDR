@@ -1,9 +1,8 @@
 from config import LED_ERROR
 import serial
-from time import sleep
 import logging
 from typing import List
-from gpio import AxiGpio, MIO, GPIO
+from gpio import GPIO
 import atexit
 
 
@@ -66,12 +65,18 @@ class RS485Driver():
             return x
         else:
             if x[0] != 0:  # Master should have RS485 address of 0
-                logging.warning("Response to RS485 query was not addressed to master")
+                logging.warning(
+                    "Response to RS485 query was not addressed to master"
+                )
             return x[1:]  # Remove address character
 
-    def query(self, address: int) -> str:
-        self.write(address)
-        return self.read()
+    def query(self, packet: RS485Packet) -> str:
+        self.write(packet)
+        response = self.read()
+        logging.debug(
+            "RS485 RX from address {}: {}".format(packet.address, response)
+        )
+        return response
 
     def cleanup(self) -> None:
         if self.serial:

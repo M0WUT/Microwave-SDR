@@ -1,5 +1,5 @@
 # This Python file uses the following encoding: utf-8
-from PySide2.QtWidgets import QWidget, QGridLayout, QLabel
+from PySide2.QtWidgets import QTabWidget, QWidget, QGridLayout, QLabel, QPushButton
 from PySide2.QtGui import QIcon
 from PySide2.QtCore import QSize
 from usefulFunctions import get_ip, get_mac
@@ -9,59 +9,21 @@ from datetime import datetime, timezone
 import logging
 from config_developer import MQTT_API_VERSION
 from config_user import NAME
+from typing import List
+from mqttHandler import MqttHandler
+from warningHandler import WarningHandler
 
 
 class NetworkDevice(object):
     def __init__(
-        self, type, ipAddr, mac, name, apiVersion, warnings, errors,
-        uptime, tabWidget, online
+        self, type: str, ipAddr: str, mac: str, name: str, apiVersion: str,
+        warnings: WarningHandler, errors, uptime: str, tabWidget: QTabWidget,
+        online: bool
     ):
         """
         Object containing information about any device on the MQTT network
-
-        Args:
-            type (str): Either "SDR" or "Controller"
-            ipAddr (str): IP Address of this device
-            mac (str): MAC Address of this device
-            name (str): Human readable device name
-            apiVersion (str): Version number of MQTT API
-            uptime (str): Uptime of device as (<a>d <b>h <c>m <d>s)
-                where <a>, <b>, <c> and <d> are in days, hours, minutes and
-                seconds respectively. Only needs to be complete to the largest
-                non-zero value e.g. a device up for 2 minutes can
-                report "2m 0s"
-                tabWidget (QTabWidget): widget this device can add itself to
-            online (bool):  True: device was online the last time we checked
-                            False: device did not respond last time we checked
-
-        Attributes:
-            type (str): Either "SDR" or "Controller"
-            ipAddr (str): IP Address of this device
-            mac (str): MAC Address of this device
-            name (str): Human readable device name
-            apiVersion (str): Version number of MQTT API
-            uptime (str): Uptime of device as (<a>d <b>h <c>m <d>s)
-                where <a>, <b>, <c> and <d> are in days, hours, minutes and
-                seconds respectively. Only needs to be complete to the largest
-                non-zero value e.g. a device up for 2 minutes can
-                report "2m 0s"
-                tabWidget (QTabWidget): widget this device can add itself to
-            online (bool):  True: device was online the last time we checked
-                            False: device did not respond last time we checked
-            _tab (QWidget): Tab created in __init__ for displaying info for
-                this device in self._tabWidget.
-            _grid (QGridLayout): Grid layout for self._tab
-            _ipLabel (QLabel): Label used to display this device's IP Address
-            _statusLabel (QLabel): Label used to display this device's status
-            _uptimeLabel (QLabel): Label used to display this device's uptime
-            _onlineLabel  (QLabel): Label used to display if device is online
-
-        Returns:
-            None
-
-        Raises:
-            None
         """
+
         self.type = type
         self.ipAddr = ipAddr
         self.mac = mac
@@ -134,22 +96,9 @@ class NetworkDevice(object):
         self._grid.addWidget(valueWidget, rowCount, 1)
         return valueWidget
 
-    def update_info(self, jsonDict):
+    def update_info(self, jsonDict: dict) -> None:
         """
-        Adds a row to self._tab with two QLabels horizontally laid
-        out. First contains the identifying string, second contains
-        value.
-
-        Args:
-            jsonDict (dict): A /discovery/info payload converted
-                from JSON to Python dictionary.
-
-        Returns:
-            None
-
-        Raises:
-            AssertionError: if updated information has a different type
-                to current device
+        Updates the information for an already existing entry in self._tab
         """
         assert jsonDict['type'] == self.type
         self.ipAddr = jsonDict['ip']
@@ -182,24 +131,14 @@ class NetworkDevice(object):
 
         logging.info(f"Updated info for device {self.mac} ({self.name})")
 
-    def _update_online_state(self, x):
+    def _update_online_state(self, online: bool):
         """
-        Updates devices online status and sets icon in self._tab
-
-        Args:
-            x (bool):   True - device is online
-                        False - device is offline
-
-        Returns:
-            None
-
-        Raises:
-            TypeError: if x is not a bool
+        Updates online status icon
         """
-        if not isinstance(x, bool):
-            raise TypeError(f"{x} not in (True, False)")
-        self.online = x
-        if x:
+        if not isinstance(online, bool):
+            raise TypeError(f"{online} not in (True, False)")
+        self.online = online
+        if online:
             icon = QIcon("resources/img/icon_tick.png")
         else:
             icon = QIcon("resources/img/icon_cross.png")
@@ -210,36 +149,11 @@ class NetworkDevice(object):
 class NetworkHandler:
     """
     Handler for incoming messsages on the MQTT network
-
-    Args:
-        tabWidget (QTabWidget): Place where network device info will
-            be displayed
-        mqtt (MqttHandler): Low level handler for MQTT messages
-        warnings (WarningHandler): Handler to report warnings to
-        buttons (List[QButton]): List of 6 buttons used to control
-            this handler's features
-
-    Attributes:
-        tabWidget (QTabWidget): Place where network device info will
-            be displayed
-        mqtt (MqttHandler): Low level handler for MQTT messages
-        warnings (WarningHandler): Handler to report warnings to
-        buttons (List[QButton]): List of 6 buttons used to control
-            this handler's features
-        button_refresh (QButton): Button assigned to refresh network devices
-        button_forceRefresh (QButton): Button assigned to erase network devices
-            and restart network discovery
-        devices (List[NetworkDevice]): Devices discovered on the MQTT network
-        startTime (datetime.datetime): Datetime object from when this software
-            started running
-
-    Returns:
-        None
-
-    Raises:
-        None
     """
-    def __init__(self, tabWidget, mqtt, warnings, buttons):
+    def __init__(
+        self, tabWidget: QTabWidget, mqtt: MqttHandler,
+        warnings: WarningHandler, buttons: List[QPushButton]
+    ):
         self.tabWidget = tabWidget
         self.mqtt = mqtt
         self.warnings = warnings
@@ -265,18 +179,7 @@ class NetworkHandler:
 
     def tab_enabled(self):
         """
-        Called when this tab becomes the active tab in the GUI
-        Applies settings for this tab to the 6 always-on buttons and
-        refreshes network device list
-
-        Args:
-            None
-
-        Returns:
-            None
-
-        Raises:
-            None
+        Sets up GUI elements when this tab becomes active
         """
         self.button_refresh.setText("Quick\nRefresh")
         self.button_refresh.setEnabled(True)
@@ -292,16 +195,7 @@ class NetworkHandler:
         """
         Requests discovery information from all devices and loads
         into table widget. Remembers all previously discovered
-        devices.
-
-        Args:
-            None
-
-        Returns:
-            None
-
-        Raises:
-            None
+        devices
         """
         for x in self.devices:
             x._update_online_state(False)
@@ -310,15 +204,6 @@ class NetworkHandler:
     def force_refresh(self):
         """
         Clears all knowledge of devices and then requests info
-
-        Args:
-            None
-
-        Returns:
-            None
-
-        Raises:
-            None
         """
         logging.info("Erasing all stored remote device information")
         self.devices = []

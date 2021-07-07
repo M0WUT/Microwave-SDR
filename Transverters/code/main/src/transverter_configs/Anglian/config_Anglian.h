@@ -15,7 +15,8 @@
 #define MAX_FREQ 146e6
 #define MIN_TX_POWER 20
 #define MAX_TX_POWER 20
-#define ALLOW_TX true
+#define SUPPORTS_RX true
+#define SUPPORTS_TX true
 
 ////////////////////////////////////////
 // Uncomment to enable debug messages //

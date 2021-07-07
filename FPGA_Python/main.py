@@ -19,7 +19,7 @@ import json
 
 logging.basicConfig(
     format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.INFO,
+    level=logging.DEBUG,
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
@@ -82,7 +82,8 @@ class Main:
             "api": MQTT_API_VERSION,
             "warnings": self.warnings.get_warnings(),
             "errors": self.warnings.get_errors(),
-            "transverters": self.transverters.get_transverters(),
+            "numSlots": self.transverters.numSlots,
+            "transverters": self.transverters.get_discovery_info(),
             "uptime": self.get_uptime()
         }
 
@@ -117,8 +118,6 @@ class Main:
             return "{}m {}s".format(minutes, seconds)
         else:
             return "{}s".format(seconds)
-
-
 
     def run(self):
         while(True):

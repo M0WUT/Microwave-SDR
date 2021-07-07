@@ -14,7 +14,7 @@ class RegisteredHandler(object):
         self.callbackFunction = callbackFunction
 
 
-class mqttHandler(QObject):
+class MqttHandler(QObject):
 
     # Signal to pass from RX Thread to main thread for message handling
     messageReceived = Signal(mqtt.MQTTMessage)
