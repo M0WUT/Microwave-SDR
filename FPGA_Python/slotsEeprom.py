@@ -1,7 +1,7 @@
 from eepromHandler import Eeprom
 from gpio import GPIO
 from warningHandler import WarningHandler
-from config import LED_ERROR, LED_STATUS
+from config_developer import LED_ERROR, LED_STATUS
 import logging
 
 

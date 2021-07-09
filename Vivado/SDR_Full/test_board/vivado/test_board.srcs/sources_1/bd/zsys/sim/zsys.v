@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
-//Date        : Sat Jun 26 12:16:34 2021
+//Date        : Thu Jul  8 20:59:22 2021
 //Host        : dan-Desktop running 64-bit Ubuntu 18.04.5 LTS
 //Command     : generate_target zsys.bd
 //Design      : zsys
@@ -1731,7 +1731,7 @@ module s00_couplers_imp_VUXL0C
         .s_axi_wvalid(s00_couplers_to_auto_pc_WVALID));
 endmodule
 
-(* CORE_GENERATION_INFO = "zsys,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=zsys,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=73,numReposBlks=61,numNonXlnxBlks=2,numHierBlks=12,maxHierDepth=2,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=16,numPkgbdBlks=0,bdsource=USER,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=38,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_board_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=5,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_clkrst_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=3,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_ps7_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=1,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=2,\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"=1,\"\"\"\"\"\"\"da_board_cnt\"\"\"\"\"\"\"=1,\"\"\"\"\"da_axi4_cnt\"\"\"\"\"=1,\"\"\"\"\"da_board_cnt\"\"\"\"\"=1,\"\"da_axi4_cnt\"\"=1,\"\"da_board_cnt\"\"=3,\"da_axi4_cnt\"=1,\"da_board_cnt\"=1,synth_mode=OOC_per_IP}" *) (* HW_HANDOFF = "zsys.hwdef" *) 
+(* CORE_GENERATION_INFO = "zsys,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=zsys,x_ipVersion=1.00.a,x_ipLanguage=VERILOG,numBlks=73,numReposBlks=61,numNonXlnxBlks=2,numHierBlks=12,maxHierDepth=2,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=16,numPkgbdBlks=0,bdsource=USER,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=38,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_board_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=5,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_clkrst_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=3,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_ps7_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=1,\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"=2,\"\"\"\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"\"\"\"=1,\"\"\"\"\"\"\"\"\"\"da_board_cnt\"\"\"\"\"\"\"\"\"\"=1,\"\"\"\"\"\"\"\"da_axi4_cnt\"\"\"\"\"\"\"\"=1,\"\"\"\"\"\"\"\"da_board_cnt\"\"\"\"\"\"\"\"=1,\"\"\"\"\"da_axi4_cnt\"\"\"\"\"=1,\"\"\"\"\"da_board_cnt\"\"\"\"\"=3,\"\"\"\"da_axi4_cnt\"\"\"\"=1,\"\"\"\"da_board_cnt\"\"\"\"=1,synth_mode=OOC_per_IP}" *) (* HW_HANDOFF = "zsys.hwdef" *) 
 module zsys
    (DDR_addr,
     DDR_ba,
@@ -1945,6 +1945,12 @@ module zsys
   wire processing_system7_0_FIXED_IO_PS_CLK;
   wire processing_system7_0_FIXED_IO_PS_PORB;
   wire processing_system7_0_FIXED_IO_PS_SRSTB;
+  wire processing_system7_0_IIC_1_SCL_I;
+  wire processing_system7_0_IIC_1_SCL_O;
+  wire processing_system7_0_IIC_1_SCL_T;
+  wire processing_system7_0_IIC_1_SDA_I;
+  wire processing_system7_0_IIC_1_SDA_O;
+  wire processing_system7_0_IIC_1_SDA_T;
   wire [31:0]processing_system7_0_M_AXI_GP0_ARADDR;
   wire [1:0]processing_system7_0_M_AXI_GP0_ARBURST;
   wire [3:0]processing_system7_0_M_AXI_GP0_ARCACHE;
@@ -2195,10 +2201,12 @@ module zsys
         .PL_pin_P22(PL_pin_P22_1),
         .ext_scl_i(1'b1),
         .ext_sda_i(1'b1),
-        .scl_o(1'b0),
-        .scl_t(1'b0),
-        .sda_o(1'b0),
-        .sda_t(1'b0));
+        .scl_i(processing_system7_0_IIC_1_SCL_I),
+        .scl_o(processing_system7_0_IIC_1_SCL_O),
+        .scl_t(processing_system7_0_IIC_1_SCL_T),
+        .sda_i(processing_system7_0_IIC_1_SDA_I),
+        .sda_o(processing_system7_0_IIC_1_SDA_O),
+        .sda_t(processing_system7_0_IIC_1_SDA_T));
   zsys_SDR_Status_Registers_0_0 SDR_Status_Registers_0
        (.o_adcDither(SDR_Status_Registers_0_o_adcDither),
         .o_adcRandom(SDR_Status_Registers_0_o_adcRandom),
@@ -2290,6 +2298,12 @@ module zsys
         .DDR_WEB(DDR_we_n),
         .FCLK_RESET0_N(processing_system7_0_FCLK_RESET0_N),
         .GPIO_I({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
+        .I2C1_SCL_I(processing_system7_0_IIC_1_SCL_I),
+        .I2C1_SCL_O(processing_system7_0_IIC_1_SCL_O),
+        .I2C1_SCL_T(processing_system7_0_IIC_1_SCL_T),
+        .I2C1_SDA_I(processing_system7_0_IIC_1_SDA_I),
+        .I2C1_SDA_O(processing_system7_0_IIC_1_SDA_O),
+        .I2C1_SDA_T(processing_system7_0_IIC_1_SDA_T),
         .IRQ_F2P(xlconcat_0_dout),
         .MIO(FIXED_IO_mio[53:0]),
         .M_AXI_GP0_ACLK(util_ds_buf_0_IBUF_OUT1),

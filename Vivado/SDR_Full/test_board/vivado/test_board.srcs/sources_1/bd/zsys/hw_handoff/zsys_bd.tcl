@@ -1192,7 +1192,7 @@ proc create_root_design { parentCell } {
    CONFIG.PCW_EN_EMIO_ENET1 {0} \
    CONFIG.PCW_EN_EMIO_GPIO {1} \
    CONFIG.PCW_EN_EMIO_I2C0 {0} \
-   CONFIG.PCW_EN_EMIO_I2C1 {0} \
+   CONFIG.PCW_EN_EMIO_I2C1 {1} \
    CONFIG.PCW_EN_EMIO_MODEM_UART0 {0} \
    CONFIG.PCW_EN_EMIO_MODEM_UART1 {0} \
    CONFIG.PCW_EN_EMIO_PJTAG {0} \
@@ -1213,7 +1213,7 @@ proc create_root_design { parentCell } {
    CONFIG.PCW_EN_ENET1 {0} \
    CONFIG.PCW_EN_GPIO {1} \
    CONFIG.PCW_EN_I2C0 {0} \
-   CONFIG.PCW_EN_I2C1 {0} \
+   CONFIG.PCW_EN_I2C1 {1} \
    CONFIG.PCW_EN_MODEM_UART0 {0} \
    CONFIG.PCW_EN_MODEM_UART1 {0} \
    CONFIG.PCW_EN_PJTAG {0} \
@@ -1282,13 +1282,13 @@ proc create_root_design { parentCell } {
    CONFIG.PCW_I2C0_PERIPHERAL_ENABLE {0} \
    CONFIG.PCW_I2C0_RESET_ENABLE {0} \
    CONFIG.PCW_I2C1_BASEADDR {0xE0005000} \
-   CONFIG.PCW_I2C1_GRP_INT_ENABLE {0} \
-   CONFIG.PCW_I2C1_GRP_INT_IO {<Select>} \
+   CONFIG.PCW_I2C1_GRP_INT_ENABLE {1} \
+   CONFIG.PCW_I2C1_GRP_INT_IO {EMIO} \
    CONFIG.PCW_I2C1_HIGHADDR {0xE0005FFF} \
-   CONFIG.PCW_I2C1_I2C1_IO {<Select>} \
-   CONFIG.PCW_I2C1_PERIPHERAL_ENABLE {0} \
+   CONFIG.PCW_I2C1_I2C1_IO {EMIO} \
+   CONFIG.PCW_I2C1_PERIPHERAL_ENABLE {1} \
    CONFIG.PCW_I2C1_RESET_ENABLE {0} \
-   CONFIG.PCW_I2C_PERIPHERAL_FREQMHZ {25} \
+   CONFIG.PCW_I2C_PERIPHERAL_FREQMHZ {111.111115} \
    CONFIG.PCW_I2C_RESET_ENABLE {0} \
    CONFIG.PCW_I2C_RESET_POLARITY {Active Low} \
    CONFIG.PCW_IMPORT_BOARD_PRESET {None} \
@@ -1938,6 +1938,7 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net axi_iic_0_IIC [get_bd_intf_ports eeprom_iic] [get_bd_intf_pins axi_iic_0/IIC]
   connect_bd_intf_net -intf_net processing_system7_0_DDR [get_bd_intf_ports DDR] [get_bd_intf_pins processing_system7_0/DDR]
   connect_bd_intf_net -intf_net processing_system7_0_FIXED_IO [get_bd_intf_ports FIXED_IO] [get_bd_intf_pins processing_system7_0/FIXED_IO]
+  connect_bd_intf_net -intf_net processing_system7_0_IIC_1 [get_bd_intf_pins SC0720_0/EMIO_I2C1] [get_bd_intf_pins processing_system7_0/IIC_1]
   connect_bd_intf_net -intf_net processing_system7_0_M_AXI_GP0 [get_bd_intf_pins processing_system7_0/M_AXI_GP0] [get_bd_intf_pins ps7_0_axi_periph/S00_AXI]
   connect_bd_intf_net -intf_net ps7_0_axi_periph_M00_AXI [get_bd_intf_pins AF/S_AXI] [get_bd_intf_pins ps7_0_axi_periph/M00_AXI]
   connect_bd_intf_net -intf_net ps7_0_axi_periph_M01_AXI [get_bd_intf_pins SDR_Status_Registers_0/S00_AXI] [get_bd_intf_pins ps7_0_axi_periph/M01_AXI]

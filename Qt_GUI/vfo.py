@@ -54,9 +54,6 @@ class Vfo(object):
         self.freq = None
         self.publishedFreq = None
         self.mode = None
-        self.mqtt.register_callback("/00:0A:35:00:1E:53/vfoA", self.rx_status)
-        self.publish_freq(28000000)
-        self.publish_mode("USB")
 
     def publish_freq(self, freq):
         x = {

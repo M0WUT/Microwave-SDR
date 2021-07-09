@@ -1,20 +1,34 @@
-from config import PIN_RS485_TX
+from config_developer import PIN_RS485_TX
 from json.decoder import JSONDecodeError
 import logging
 import json
 from usefulFunctions import readable_freq
 from rs485Driver import RS485Driver, RS485Packet
-from time import sleep
 
 
-class Transverter():
+class Card():
+    def __init__(self, type: str, address: int, name: str):
+        self.type = type
+        self.address = address
+        self.name = name
+        self.warnings = []
+        self.errors = []
+        self.temperatures = []
+        self.state = None
+        self.rfPowerReadings = []
+        self.dcPowerReadings = []
+
+    def __eq__(self, other):
+        return ((self.address == other.address) and (self.name == other.name))
+
+
+class Transverter(Card):
     def __init__(
         self, address: int, name: str, loFreq: int, loAdd: bool,
         minFreq: int, maxFreq: int, minPower: int,
         maxPower: int, supportsRx: bool, supportsTx: bool
     ):
-        self.address = address
-        self.name = name
+        super().__init__(type="transverter", address=address, name=name)
         self.loFreq = loFreq
         self.loAdd = loAdd
         self.minFreq = minFreq
@@ -23,19 +37,12 @@ class Transverter():
         self.maxPower = maxPower
         self.supportsRx = supportsRx
         self.supportsTx = supportsTx
-        self.warnings = []
-        self.errors = []
-        self.temperatures = []
-        self.state = None
-        self.rfPowerReadings = []
-        self.dcPowerReadings = []
         self.controller = None
 
-    def __eq__(self, other):
-        return ((self.address == other.address) and (self.name == other.name))
-
     def get_discovery_json(self) -> str:
-        return([{
+        return({
+            "type": "transverter",
+            "address": self.address,
             "name": self.name,
             "loFreq": self.loFreq,
             "loAdd": self.loAdd,
@@ -45,29 +52,27 @@ class Transverter():
             "maxPower": self.maxPower,
             "supportsRx": self.supportsRx,
             "supportsTx": self.supportsTx
-        }])
+        })
 
 
-class TransverterHandler:
+class CardHandler:
     def __init__(self, filename, warnings, numSlots=2):
         self.warnings = warnings
         self.numSlots = numSlots
-        self.transverters = []
+        self.cards = []
         self.driver = RS485Driver(
             gpio=PIN_RS485_TX,
             serialFile=filename,
             baud=115200
         )
         self.run_discovery_requests()
-        while(True):
-            self.run_status_requests()
-            sleep(0.5)
+        self.run_status_requests()
 
     def _process_packet(func):
         def wrapper(self, response: str, address: int, *args, **kwargs):
 
-            if "transverter" in kwargs:
-                id = kwargs.get("transverter").name
+            if "card" in kwargs:
+                id = kwargs.get("card").name
             else:
                 id = "Slot {}".format(address)
 
@@ -91,7 +96,7 @@ class TransverterHandler:
                 self.warnings.add_warning(
                     id,
                     "RS485",
-                    "Response from transverter "
+                    "Response from card "
                     "was not complete"
                 )
 
@@ -99,7 +104,7 @@ class TransverterHandler:
 
     def run_discovery_requests(self):
         logging.info("Starting RS485 discovery...")
-        discoveredTransverters = []
+        discoveredCards = []
         # Query all the slots
         for x in range(1, 1 + self.numSlots):
             packet = RS485Packet(
@@ -117,36 +122,39 @@ class TransverterHandler:
                     )
                     continue
                 else:
-                    newTransverter = self.handle_discovery_response(
+                    newCard = self.handle_discovery_response(
                         response, address=x
                     )
-                    if newTransverter:
-                        discoveredTransverters.append(newTransverter)
+                    if newCard:
+                        discoveredCards.append(newCard)
 
-        for t in self.transverters:
-            if t not in discoveredTransverters:
-                # We have lost a transverter!
+        for t in self.cards:
+            if t not in discoveredCards:
+                # We have lost a card!
                 self.warnings.add_error(
                     t.name,
                     "RS485",
-                    "Transverter no longer responding"
+                    "Card no longer responding"
                 )
-                self.transverters.remove(t)
+                self.cards.remove(t)
 
-        for t in discoveredTransverters:
-            if t not in self.transverters:
-                logging.info(
-                    "{}-{} transverter \"{}\" discovered in slot {}".format(
-                        readable_freq(t.minFreq), readable_freq(t.maxFreq),
-                        t.name, t.address
+        for t in discoveredCards:
+            if t not in self.cards:
+                if isinstance(t, Transverter):
+                    logging.info(
+                        "{}-{} transverter \"{}\" discovered in slot {}".format(
+                            readable_freq(t.minFreq), readable_freq(t.maxFreq),
+                            t.name, t.address
+                        )
                     )
-                )
-                self.transverters.append(t)
+                    self.cards.append(t)
+                else:
+                    raise NotImplementedError
 
         logging.info("Finished RS485 discovery")
 
     def run_status_requests(self):
-        for x in self.transverters:
+        for x in self.cards:
             address = x.address
             packet = RS485Packet(
                 address=address,
@@ -164,36 +172,36 @@ class TransverterHandler:
                     continue
                 else:
                     self.handle_status_response(
-                        response, address=address, transverter=x
+                        response, address=address, card=x
                     )
             else:
                 self.warnings.add_error(
                     x.name,
                     "RS485",
-                    "Transverter no longer responding"
+                    "Card no longer responding"
                 )
-                self.transverters.remove(x)
+                self.cards.remove(x)
 
     @_process_packet
     def handle_status_response(
-        self, response: str, address: int, transverter: Transverter
+        self, response: str, address: int, card: Card
     ):
-        transverter.warnings = response["warnings"]
-        transverter.errors = response["errors"]
-        transverter.temperatures = response["temperatures"]
-        transverter.state = response["state"]
-        transverter.rfPowerReadings = response["rfPowerReadings"]
-        transverter.dcPowerReadings = response["dcPowerReadings"]
-        transverter.controller = response["controller"]
+        card.warnings = response["warnings"]
+        card.errors = response["errors"]
+        card.temperatures = response["temperatures"]
+        card.state = response["state"]
+        card.rfPowerReadings = response["rfPowerReadings"]
+        card.dcPowerReadings = response["dcPowerReadings"]
+        card.controller = response["controller"]
         logging.debug(
             "Updated status info for {} in address {}".format(
-                transverter.name, address
+                card.name, address
             )
         )
 
     @_process_packet
     def handle_discovery_response(self, response: str, address: int):
-        if(response["type"] == "Transverter"):
+        if(response["type"] == "transverter"):
             newTransverter = Transverter(
                 address=address,
                 name=response["name"],
@@ -208,10 +216,15 @@ class TransverterHandler:
             )
             return newTransverter
         else:
-            raise NotImplementedError
+            self.warnings.add_error(
+                response["name"],
+                "RS485",
+                "Unsupported Card Type \"{}\" discovered".format(response["type"])
+            )
 
     def get_discovery_info(self):
+        self.run_discovery_requests()
         jsonBlob = []
-        for x in self.transverters:
+        for x in self.cards:
             jsonBlob.append(x.get_discovery_json())
         return jsonBlob

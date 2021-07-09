@@ -69,7 +69,7 @@ void TransverterController::process_command(String x){
                 #ifdef DEBUG
                     DEBUG_SERIAL.println("Received discovery request");
                 #endif
-                response["type"] = "Transverter";
+                response["type"] = "transverter";
                 response["name"] = NAME;
                 response["loFreq"] = int(LO_FREQ);
                 response["loAdd"] = RF_EQUALS_IF_PLUS_LO;

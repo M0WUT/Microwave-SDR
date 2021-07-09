@@ -1,6 +1,7 @@
-from config import LED_STATUS, MQTT_SERVER_IP_ADDRESS, \
-    MQTT_SERVER_PORT, SLOTS_EEPROM_ADDRESS, STATUS_REGISTERS_FILE, \
-    PIN_WP, SLOTS_I2C_FILE, TRANSVERTER_RS485_UART
+from config_developer import LED_STATUS, SLOTS_EEPROM_ADDRESS, \
+    STATUS_REGISTERS_FILE, PIN_WP, SLOTS_I2C_FILE, TRANSVERTER_RS485_UART, \
+    MQTT_API_VERSION
+from config_user import MQTT_SERVER_IP_ADDRESS, MQTT_SERVER_PORT, NAME
 from gpio import GPIO
 import logging
 from mqttHandler import MqttHandler
@@ -9,17 +10,15 @@ from statusHandler import StatusRegs
 from warningHandler import WarningHandler
 import time
 import sys
-from transverterHandler import TransverterHandler
+from cardHandler import CardHandler
 from slotsEeprom import slotsEeprom
 from datetime import datetime, timezone
 from usefulFunctions import get_ip, get_mac
-from config_user import NAME
-from config_developer import MQTT_API_VERSION
 import json
 
 logging.basicConfig(
     format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.DEBUG,
+    level=logging.INFO,
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
@@ -45,7 +44,7 @@ class Main:
             SLOTS_I2C_FILE, "Baseboard Config", SLOTS_EEPROM_ADDRESS,
             PIN_WP, self.warnings
         )
-        self.transverters = TransverterHandler(
+        self.cards = CardHandler(
             TRANSVERTER_RS485_UART, self.warnings,
             numSlots=self.slots.num_slots()
         )
@@ -56,7 +55,9 @@ class Main:
             self.send_discovery_info
         )
 
-    def send_discovery_info(self, msg):
+        self.send_discovery_info()
+
+    def send_discovery_info(self, msg=None):
         """
         Publishes all the discovery info to the "discovery/info" topic
         Takes message argument as all callback functions must take a message
@@ -75,16 +76,13 @@ class Main:
 
         """
         x = {
-            "type": "SDR",
+            "type": "sdr",
             "mac": get_mac(),
             "ip": get_ip(),
             "name": NAME,
             "api": MQTT_API_VERSION,
-            "warnings": self.warnings.get_warnings(),
-            "errors": self.warnings.get_errors(),
-            "numSlots": self.transverters.numSlots,
-            "transverters": self.transverters.get_discovery_info(),
-            "uptime": self.get_uptime()
+            "numSlots": self.cards.numSlots,
+            "cards": self.cards.get_discovery_info(),
         }
 
         self.mqtt.publish("/discovery/info", json.dumps(x))

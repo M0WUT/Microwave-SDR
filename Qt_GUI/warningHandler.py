@@ -9,13 +9,12 @@ from config_user import NAME
 import json
 
 
-class Sadness(object):
+class Sadness():
     """
     Object containing details of errors / warnings reported by any device
     on MQTT network
 
     Args:
-        type (str): Either "ERROR" or "Warning"
         sourceMac (str): MAC Address of the machine reporting the error
             expressed as xx:xx:xx:xx:xx:xx where x is a hexadecimal
             character (uppercase if letter). This is used to uniquely
@@ -26,7 +25,6 @@ class Sadness(object):
         message (str): Detailed explanation of the problem
 
     Attributes:
-        type (str): Either "ERROR" or "Warning"
         source (str): Name of the device reporting the error
         category (str): General category of section reporting the error
             This can be anything - it's not defined anywhere
@@ -38,13 +36,9 @@ class Sadness(object):
         None
 
     Raises:
-        ValueError: type argument is not "ERROR" or "Warning"
+        None
     """
-    def __init__(self, type, source, category, message, date=None, time=None):
-        if type not in ["ERROR", "Warning"]:
-            raise ValueError(
-                f"\"type\" should be \"ERROR\" or \"Warning\", got {type}"
-            )
+    def __init__(self, source, category, message, date=None, time=None):
         if date is not None:
             assert time is not None
             day, month, year = date.split('/')
@@ -56,7 +50,6 @@ class Sadness(object):
         else:
             self.time = datetime.now(timezone.utc)
 
-        self.type = type
         self.source = source
         self.category = category
         self.message = message
@@ -70,6 +63,16 @@ class Sadness(object):
             "message": self.message
         }
         return jsonBlob
+
+
+class Warning(Sadness):
+    def __init__(self, source, category, message, date=None, time=None):
+        super().__init__(source, category, message, date, time)
+
+
+class Error(Sadness):
+    def __init__(self, source, category, message, date=None, time=None):
+        super().__init__(source, category, message, date, time)
 
 
 class WarningHandler:
@@ -173,7 +176,7 @@ class WarningHandler:
             self.tabWidget.setTabEnabled(TAB_WARNINGS, False)
 
     def add_warning(
-        self, source, category, message, broadcast=True, date=None, time=None
+        self, source, category, message, broadcast=False, date=None, time=None
     ):
         """
         Records new warnings
@@ -184,7 +187,8 @@ class WarningHandler:
             category (str): Error category - can be anything
             message (str): Detailed description of the warning
             broadcast (str): True if warning should be published
-                to MQTT broker
+                to MQTT broker. This should only happen if the error
+                happens local to this application.
 
         Returns:
             None
@@ -193,8 +197,7 @@ class WarningHandler:
             None
         """
         logging.warning(f"[{source}] {category}: {message}")
-        x = Sadness(
-            "Warning",
+        x = Warning(
             source,
             category,
             message,
@@ -211,7 +214,7 @@ class WarningHandler:
             )
 
     def add_error(
-        self, source, category, message, broadcast=True, date=None, time=None
+        self, source, category, message, broadcast=False, date=None, time=None
     ):
         """
         Records new error
@@ -221,8 +224,9 @@ class WarningHandler:
                 reporting the error
             category (str): Error category - can be anything
             message (str): Detailed description of the error
-            broadcast (str): True if warning should be published
-                to MQTT broker
+            broadcast (str): True if error should be published
+                to MQTT broker. This should only happen if the error
+                happens local to this application
 
         Returns:
             None
@@ -231,8 +235,7 @@ class WarningHandler:
             None
         """
         logging.error(f"[{source}] {category}: {message}")
-        x = Sadness(
-            "ERROR",
+        x = Error(
             source,
             category,
             message,
@@ -248,7 +251,7 @@ class WarningHandler:
                 json.dumps(x.json())
             )
 
-    def _add_item(self, sadness):
+    def _add_item(self, sadness: Sadness):
 
         rowCount = self.warningTable.rowCount()
         self.warningTable.insertRow(rowCount)
@@ -267,7 +270,9 @@ class WarningHandler:
         x.setFlags(Qt.NoItemFlags)
         self.warningTable.setItem(rowCount, 2, x)
 
-        x = QTableWidgetItem(sadness.type)
+        x = QTableWidgetItem(
+            "ERROR" if isinstance(sadness, Error) else "Warning"
+        )
         x.setTextAlignment(Qt.AlignCenter)
         x.setFlags(Qt.NoItemFlags)
         self.warningTable.setItem(rowCount, 3, x)
@@ -281,12 +286,12 @@ class WarningHandler:
         x.setFlags(Qt.NoItemFlags)
         self.warningTable.setItem(rowCount, 5, x)
 
-        if(sadness.type == "ERROR"):
+        if(isinstance(sadness, Error)):
             self.warningTable.setRowHidden(rowCount, not self.showingErrors)
-        elif(sadness.type == "Warning"):
+        elif(isinstance(sadness, Warning)):
             self.warningTable.setRowHidden(rowCount, not self.showingWarnings)
         else:
-            raise ValueError(f"{type} not in [\"ERROR\", \"Warning\"]")
+            raise NotImplementedError
 
         self._update_icon()
 

@@ -1,4 +1,4 @@
-from config import LED_ERROR
+from config_developer import LED_ERROR
 import serial
 import logging
 from typing import List

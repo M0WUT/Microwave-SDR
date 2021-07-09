@@ -44,3 +44,9 @@ def get_link_speed():
             return '1Gbps'
         else:
             return str(speed) + "Mbps"
+
+
+class NamedValue():
+    def __init__(self, name: str, value: float):
+        self.name = name
+        self.value = float(value)

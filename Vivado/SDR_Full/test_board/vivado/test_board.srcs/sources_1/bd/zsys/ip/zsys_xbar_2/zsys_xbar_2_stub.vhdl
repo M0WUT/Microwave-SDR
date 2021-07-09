@@ -1,7 +1,7 @@
 -- Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
--- Date        : Fri Jun 25 22:44:34 2021
+-- Date        : Thu Jul  8 20:43:34 2021
 -- Host        : dan-Desktop running 64-bit Ubuntu 18.04.5 LTS
 -- Command     : write_vhdl -force -mode synth_stub
 --               /home/dan/Microwave-SDR/Vivado/SDR_Full/test_board/vivado/test_board.srcs/sources_1/bd/zsys/ip/zsys_xbar_2/zsys_xbar_2_stub.vhdl
