@@ -7,6 +7,8 @@ Iceni::Iceni(Panicker *panicker) : BaseTransverterConfig(panicker){
         new PCT2075 (
             "PA",
             0x48,
+            45,
+            60,
             this->panicker
         )
     );

@@ -65,7 +65,7 @@ void TransverterController::process_command(String x){
         digitalWrite(LED_ERROR, HIGH);
 
         switch(x[0]){
-            case 'D': 
+            case 'D': {
                 #ifdef DEBUG
                     DEBUG_SERIAL.println("Received discovery request");
                 #endif
@@ -80,7 +80,8 @@ void TransverterController::process_command(String x){
                 response["supportsRx"] = SUPPORTS_RX;
                 response["supportsTx"] = SUPPORTS_TX;
                 break;
-            case 'S':
+            }
+            case 'S': {
                 #ifdef DEBUG
                   DEBUG_SERIAL.println("Received status request");
                 #endif 
@@ -123,8 +124,9 @@ void TransverterController::process_command(String x){
                 response["controller"] = _controllerMac;
 
                 break;
+            }
 
-            default:
+            default: {
                 #ifdef DEBUG
                 String result = "";
                     for(int i = 0; x[i] != '\0'; i++){
@@ -134,8 +136,9 @@ void TransverterController::process_command(String x){
                     }
                     result[result.length() - 1] = '\0';
                 _panicker->panic("Received unknown command: " + x + "(" + result + ")");
-            #endif
-            break;
+                #endif
+                break;
+            }
         }
         delay(50);
         RS485_SERIAL.print('\0');  // Master address

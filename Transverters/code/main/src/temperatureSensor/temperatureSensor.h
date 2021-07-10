@@ -11,11 +11,12 @@ typedef struct{
 class TemperatureSensor
 {
     public:
-        TemperatureSensor(const char *name) : _name {name}{}
+        TemperatureSensor(const char *name, float warningTemp, float errorTemp) : _name {name}, _warningTemp {warningTemp}, _errorTemp {errorTemp}{}
         virtual TemperatureReading read_temperature();
         const char *name();
     protected:
         const char *_name;
+        const float _warningTemp, _errorTemp;
 };
 
 

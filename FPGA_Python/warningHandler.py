@@ -12,7 +12,6 @@ class Sadness(object):
     on MQTT network
 
     Args:
-        type (str): Either "ERROR" or "Warning"
         sourceMac (str): MAC Address of the machine reporting the error
             expressed as xx:xx:xx:xx:xx:xx where x is a hexadecimal
             character (uppercase if letter). This is used to uniquely
@@ -23,7 +22,7 @@ class Sadness(object):
         message (str): Detailed explanation of the problem
 
     Attributes:
-        type (str): Either "ERROR" or "Warning"
+
         source (str): Name of the device reporting the error
         category (str): General category of section reporting the error
             This can be anything - it's not defined anywhere
@@ -35,15 +34,9 @@ class Sadness(object):
         None
 
     Raises:
-        ValueError: type argument is not "ERROR" or "Warning"
+        None
     """
-    def __init__(self, type, source, category, message, date=None, time=None):
-        if type not in ["ERROR", "Warning"]:
-            raise ValueError(
-                "\"type\" should be \"ERROR\" or \"Warning\", "
-                "got {}".format(type)
-            )
-
+    def __init__(self, source, category, message, date=None, time=None):
         self.time = datetime.now(timezone.utc)
         self.type = type
         self.source = NAME + " - " + source
@@ -59,6 +52,16 @@ class Sadness(object):
             "message": self.message
         }
         return jsonBlob
+
+
+class Warning(Sadness):
+    def __init__(self, source, category, message, date=None, time=None):
+        super().__init__(source, category, message, date, time)
+
+
+class Error(Sadness):
+    def __init__(self, source, category, message, date=None, time=None):
+        super().__init__(source, category, message, date, time)
 
 
 class WarningHandler:
@@ -113,8 +116,7 @@ class WarningHandler:
             None
         """
         logging.warning("[{}] {}: {}" .format(source, category, message))
-        x = Sadness(
-            "Warning",
+        x = Warning(
             source,
             category,
             message,
@@ -150,8 +152,7 @@ class WarningHandler:
             None
         """
         logging.error("[{}] {}: {}" .format(source, category, message))
-        x = Sadness(
-            "ERROR",
+        x = Error(
             source,
             category,
             message,
@@ -189,13 +190,7 @@ class WarningHandler:
         myWarningList = [e for e in self.warnings if e.source == NAME]
         jsonBlob = []
         for x in myWarningList:
-            jsonBlob.append({
-                "date": x.time.strftime('%d/%m/%Y'),
-                "time": x.time.strftime('%H:%M:%S Z'),
-                "source": NAME,
-                "category": x.category,
-                "message": x.message
-            })
+            jsonBlob.append(x.json())
         return jsonBlob
 
     def get_errors(self):

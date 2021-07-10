@@ -6,8 +6,8 @@
 #define REG_OS 3
 #define REG_IDLE 4
 
-PCT2075::PCT2075(const char *name, int deviceAddress, Panicker *panicker) 
-    : TemperatureSensor(name), 
+PCT2075::PCT2075(const char *name, int deviceAddress, float warningTemp, float errorTemp, Panicker *panicker) 
+    : TemperatureSensor(name, warningTemp, errorTemp), 
     I2CDevice(
         (String(name) + String(" Temperature Sensor")).c_str(),
         deviceAddress,

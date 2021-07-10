@@ -84,7 +84,7 @@ class SDR(NetworkDevice):
                 self.warningHandler.add_warning(
                     self.name + f" - {x['name']}",
                     "RS485",
-                    f"Previously undiscovered new card found "
+                    f"Previously undiscovered card found "
                     f"in slot {x['address']}"
                 )
                 self.updated = True

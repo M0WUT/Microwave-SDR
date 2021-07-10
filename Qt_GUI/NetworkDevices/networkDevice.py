@@ -143,6 +143,25 @@ class NetworkDevice():
                 f"{self.mac} ({self.name})"
             )
 
+    def update_status_info(self, jsonDict: dict) -> None:
+        """
+        Updates the discovery information for an already existing
+        entry in self._tab.
+        """
+
+        self._update_online_state(True)
+
+        # Online is a bit special as we want a tick box
+        self._update_online_state(True)
+
+        self._uptimeLabel.setText(jsonDict['uptime'])
+
+        if self.updated:
+            logging.debug(
+                f"Updated status info for device "
+                f"{self.mac} ({self.name})"
+            )
+
     def _update_online_state(self, online: bool):
         """
         Updates online status icon

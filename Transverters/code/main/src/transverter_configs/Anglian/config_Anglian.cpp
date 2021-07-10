@@ -7,6 +7,8 @@ Anglian::Anglian(Panicker *panicker) : BaseTransverterConfig(panicker){
         new PCT2075 (
             "PA",
             0x48,
+            45,
+            60,
             this->panicker
         )
     );
@@ -14,6 +16,8 @@ Anglian::Anglian(Panicker *panicker) : BaseTransverterConfig(panicker){
         new PCT2075 (
             "Test",
             0x37,
+            45,
+            60,
             this->panicker
         )
     );

@@ -7,7 +7,7 @@
 
 class PCT2075 : public TemperatureSensor, I2CDevice {
     public:
-        PCT2075(const char *name, int deviceAddress, Panicker *panicker);
+        PCT2075(const char *name, int deviceAddress, float warningTemp, float errorTemp, Panicker *panicker);
         virtual TemperatureReading read_temperature() override;
 };
 

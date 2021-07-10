@@ -18,7 +18,7 @@ import json
 
 logging.basicConfig(
     format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.INFO,
+    level=logging.DEBUG,
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
@@ -55,7 +55,13 @@ class Main:
             self.send_discovery_info
         )
 
+        self.mqtt.register_callback(
+            "/status/request",
+            self.send_status_info
+        )
+
         self.send_discovery_info()
+        self.send_status_info()
 
     def send_discovery_info(self, msg=None):
         """
@@ -86,6 +92,18 @@ class Main:
         }
 
         self.mqtt.publish("/discovery/info", json.dumps(x))
+
+    def send_status_info(self, msg=None):
+        x = {
+            "type": "sdr",
+            "mac": get_mac(),
+            "warnings": self.warnings.get_warnings(),
+            "errors": self.warnings.get_errors(),
+            "uptime": self.get_uptime(),
+            "cards": self.cards.get_status_info()
+        }
+
+        self.mqtt.publish("/status/info", json.dumps(x))
 
     def get_uptime(self):
         """
