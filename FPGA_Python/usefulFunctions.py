@@ -14,6 +14,15 @@ def readable_freq(freq):
         return str(freq) + "Hz"
 
 
+def get_link_speed():
+    with open("/sys/class/net/eth0/speed") as file:
+        speed = file.readline().strip()
+        if(speed == '1000'):
+            return '1 Gbps'
+        else:
+            return str(speed) + " Mbps"
+
+
 def get_ip():
     """ Returns IP Address as string"""
     # Credit to Stack Overflow user2561747

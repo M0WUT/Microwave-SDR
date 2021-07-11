@@ -13,7 +13,7 @@ import sys
 from cardHandler import CardHandler
 from slotsEeprom import slotsEeprom
 from datetime import datetime, timezone
-from usefulFunctions import get_ip, get_mac
+from usefulFunctions import get_ip, get_mac, get_link_speed
 import json
 
 logging.basicConfig(
@@ -87,6 +87,7 @@ class Main:
             "ip": get_ip(),
             "name": NAME,
             "api": MQTT_API_VERSION,
+            "link": get_link_speed(),
             "numSlots": self.cards.numSlots,
             "cards": self.cards.get_discovery_info(),
         }

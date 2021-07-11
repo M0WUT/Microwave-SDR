@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 from PySide2.QtWidgets import QTabWidget, QPushButton
 from PySide2.QtCore import QTimer
-from usefulFunctions import get_ip, get_mac
+from usefulFunctions import get_ip, get_link_speed, get_mac
 import config_user
 import json
 from datetime import datetime, timezone
@@ -117,6 +117,7 @@ class NetworkHandler:
             "ip": get_ip(),
             "name": config_user.NAME,
             "api": MQTT_API_VERSION,
+            "link": get_link_speed()
         }
 
         self.mqtt.publish("/discovery/info", json.dumps(x))
@@ -214,7 +215,7 @@ class NetworkHandler:
             self.warningHandler.add_warning(
                 NAME,
                 "MQTT",
-                f"Undiscovered device \"{x['name']}\" ({x['mac']}) replying on network"
+                f"Undiscovered device ({x['mac']}) replying on network"
             )
 
     def receive_lwt(self, msg: str) -> None:

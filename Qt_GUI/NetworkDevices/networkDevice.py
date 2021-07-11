@@ -1,6 +1,6 @@
 from warningHandler import WarningHandler
 from PySide2.QtWidgets import \
-    QTabWidget, QWidget, QGridLayout, QLabel
+    QHBoxLayout, QTabWidget, QWidget, QGridLayout, QLabel
 from usefulFunctions import get_mac
 import logging
 from PySide2.QtGui import QIcon
@@ -23,8 +23,12 @@ class NetworkDevice():
         self.apiVersion = jsonDict['api']
         self.warningHandler = warningHandler
         self.uptime = ""
+        self.linkSpeed = jsonDict['link']
         self._tabWidget = tabWidget
         self.updated = False  # Flag if any info has been updated
+        self.warnings = []
+        self.errors = []
+        self.state = None
 
         # Create tab in the tab widget for this device
         self._tab = QWidget(self._tabWidget)
@@ -36,7 +40,12 @@ class NetworkDevice():
         else:
             # Other device, put at end
             self._tabWidget.addTab(self._tab, f"{self.name}\n{self.ipAddr}")
-        self._grid = QGridLayout(self._tab)
+        self._horizontalLayout = QHBoxLayout(self._tab)
+        self._grid = QGridLayout()
+        self._iconGrid = QGridLayout()
+        self._horizontalLayout.addLayout(self._grid)
+        self._horizontalLayout.addLayout(self._iconGrid)
+
         self._ipLabel = self.add_value_row("IP Address:", self.ipAddr)
 
         # These are the definition of a unique device so never need updating
@@ -50,10 +59,15 @@ class NetworkDevice():
         self._uptimeLabel = self.add_value_row("Uptime:", self.uptime)
         self._onlineLabel = self.add_value_row("Online:", "")
         self._update_online_state(True)
+        self._linkSpeedLabel = self.add_value_row(
+            "Link Speed:", self.linkSpeed
+        )
 
         self._grid.setRowStretch(self._grid.rowCount(), 1)
-        self._grid.setColumnStretch(self._grid.columnCount(), 1)
-        self._tab.setLayout(self._grid)
+        self._iconGrid.setColumnStretch(self._iconGrid.columnCount(), 1)
+        self._iconGrid.setRowStretch(self._iconGrid.rowCount(), 1)
+
+        self._tab.setLayout(self._horizontalLayout)
 
     def add_value_row(self, labelString, initialValue):
         """
@@ -125,8 +139,19 @@ class NetworkDevice():
             self.apiVersion = jsonDict['api']
             self.updated = True
 
+        if self.linkSpeed != jsonDict['link']:
+            self.warningHandler.add_warning(
+                self.name,
+                "Network",
+                f"Device {self.name} ({self.mac}) changed speed"
+                f"from {self.linkSpeed} to {jsonDict['link']}"
+            )
+            self.name = jsonDict['name']
+            self.updated = True
+
         self._ipLabel.setText(self.ipAddr)
         self._apiLabel.setText(self.apiVersion)
+        self._linkSpeedLabel.setText(self.linkSpeed)
 
         # Online is a bit special as we want a tick box
         self._update_online_state(True)

@@ -41,9 +41,9 @@ def get_link_speed():
     with open("/sys/class/net/eth0/speed") as file:
         speed = file.readline().strip()
         if(speed == '1000'):
-            return '1Gbps'
+            return '1 Gbps'
         else:
-            return str(speed) + "Mbps"
+            return str(speed) + " Mbps"
 
 
 class NamedValue():

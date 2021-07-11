@@ -720,7 +720,7 @@ border: 1px solid transparent;</string>
               <string notr="true">QTabBar::tab { height: 120px;}</string>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <property name="iconSize">
               <size>
@@ -1339,8 +1339,14 @@ color: #F0F0F0;</string>
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>400</width>
              <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>400</width>
+             <height>16777215</height>
             </size>
            </property>
            <property name="font">
@@ -1355,7 +1361,7 @@ color: #F0F0F0;</string>
             <string notr="true">width: 200px</string>
            </property>
            <property name="text">
-            <string>Button 1</string>
+            <string>Discovery</string>
            </property>
            <property name="checkable">
             <bool>true</bool>
@@ -1369,6 +1375,12 @@ color: #F0F0F0;</string>
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>290</width>
+             <height>0</height>
+            </size>
            </property>
            <property name="font">
             <font>
@@ -1391,6 +1403,12 @@ color: #F0F0F0;</string>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>290</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Waree</family>
@@ -1412,6 +1430,12 @@ color: #F0F0F0;</string>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>290</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="font">
             <font>
              <family>Waree</family>
@@ -1432,6 +1456,12 @@ color: #F0F0F0;</string>
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>290</width>
+             <height>0</height>
+            </size>
            </property>
            <property name="font">
             <font>
@@ -1456,7 +1486,7 @@ color: #F0F0F0;</string>
            </property>
            <property name="minimumSize">
             <size>
-             <width>0</width>
+             <width>290</width>
              <height>0</height>
             </size>
            </property>

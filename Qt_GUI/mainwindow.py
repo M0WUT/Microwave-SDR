@@ -730,7 +730,8 @@ class Ui_main(object):
         sizePolicy11.setVerticalStretch(0)
         sizePolicy11.setHeightForWidth(self.button_rhs_0.sizePolicy().hasHeightForWidth())
         self.button_rhs_0.setSizePolicy(sizePolicy11)
-        self.button_rhs_0.setMinimumSize(QSize(0, 0))
+        self.button_rhs_0.setMinimumSize(QSize(400, 0))
+        self.button_rhs_0.setMaximumSize(QSize(400, 16777215))
         self.button_rhs_0.setFont(font)
         self.button_rhs_0.setStyleSheet(u"width: 200px")
         self.button_rhs_0.setCheckable(True)
@@ -741,6 +742,7 @@ class Ui_main(object):
         self.button_rhs_1.setObjectName(u"button_rhs_1")
         sizePolicy11.setHeightForWidth(self.button_rhs_1.sizePolicy().hasHeightForWidth())
         self.button_rhs_1.setSizePolicy(sizePolicy11)
+        self.button_rhs_1.setMinimumSize(QSize(290, 0))
         self.button_rhs_1.setFont(font)
 
         self.verticalLayout.addWidget(self.button_rhs_1)
@@ -749,6 +751,7 @@ class Ui_main(object):
         self.button_rhs_2.setObjectName(u"button_rhs_2")
         sizePolicy11.setHeightForWidth(self.button_rhs_2.sizePolicy().hasHeightForWidth())
         self.button_rhs_2.setSizePolicy(sizePolicy11)
+        self.button_rhs_2.setMinimumSize(QSize(290, 0))
         self.button_rhs_2.setFont(font)
 
         self.verticalLayout.addWidget(self.button_rhs_2)
@@ -757,6 +760,7 @@ class Ui_main(object):
         self.button_rhs_3.setObjectName(u"button_rhs_3")
         sizePolicy11.setHeightForWidth(self.button_rhs_3.sizePolicy().hasHeightForWidth())
         self.button_rhs_3.setSizePolicy(sizePolicy11)
+        self.button_rhs_3.setMinimumSize(QSize(290, 0))
         self.button_rhs_3.setFont(font)
 
         self.verticalLayout.addWidget(self.button_rhs_3)
@@ -765,6 +769,7 @@ class Ui_main(object):
         self.button_rhs_4.setObjectName(u"button_rhs_4")
         sizePolicy11.setHeightForWidth(self.button_rhs_4.sizePolicy().hasHeightForWidth())
         self.button_rhs_4.setSizePolicy(sizePolicy11)
+        self.button_rhs_4.setMinimumSize(QSize(290, 0))
         self.button_rhs_4.setFont(font)
 
         self.verticalLayout.addWidget(self.button_rhs_4)
@@ -773,7 +778,7 @@ class Ui_main(object):
         self.button_rhs_5.setObjectName(u"button_rhs_5")
         sizePolicy11.setHeightForWidth(self.button_rhs_5.sizePolicy().hasHeightForWidth())
         self.button_rhs_5.setSizePolicy(sizePolicy11)
-        self.button_rhs_5.setMinimumSize(QSize(0, 0))
+        self.button_rhs_5.setMinimumSize(QSize(290, 0))
         self.button_rhs_5.setFont(font)
 
         self.verticalLayout.addWidget(self.button_rhs_5)
@@ -791,7 +796,7 @@ class Ui_main(object):
         self.retranslateUi(main)
 
         self.tab_widget.setCurrentIndex(2)
-        self.tabWidget_network.setCurrentIndex(2)
+        self.tabWidget_network.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(main)
@@ -857,7 +862,7 @@ class Ui_main(object):
         self.label_9.setText(QCoreApplication.translate("main", u"George M1GEO", None))
         self.pushButton_7.setText(QCoreApplication.translate("main", u"PushButton", None))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_info), QCoreApplication.translate("main", u"Info", None))
-        self.button_rhs_0.setText(QCoreApplication.translate("main", u"Button 1", None))
+        self.button_rhs_0.setText(QCoreApplication.translate("main", u"Discovery", None))
         self.button_rhs_1.setText(QCoreApplication.translate("main", u"PushButton", None))
         self.button_rhs_2.setText(QCoreApplication.translate("main", u"PushButton", None))
         self.button_rhs_3.setText(QCoreApplication.translate("main", u"PushButton", None))
