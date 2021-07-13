@@ -1,7 +1,9 @@
 from NetworkDevices.networkDevice import NetworkDevice
 from warningHandler import WarningHandler
-from PySide2.QtWidgets import QTabWidget, QLabel
+from PySide2.QtWidgets import QHBoxLayout, QTabWidget, QLabel
+from PySide2.QtCore import Qt
 import logging
+import re
 
 
 class Card():
@@ -40,11 +42,10 @@ class SDR(NetworkDevice):
             tabWidget=tabWidget
         )
 
-        self._iconGrid.setRowStretch(self._iconGrid.rowCount(), 0)
-
         self.numVfos = 2  # @DEBUG
 
         self.cards = {}
+        self._legendLayout = None
 
         for x in jsonDict['cards']:
             self.cards[x['address']] = Card(
@@ -63,7 +64,15 @@ class SDR(NetworkDevice):
         self._update_labels()
 
     def _update_labels(self):
-        # @TODO: Delete old cards
+
+        # Delete all the old labels - setting parent to None
+        # seems to be the nicest to to delete a widget
+        if self._legendLayout:
+            while self._legendLayout.itemAt(0):
+                self._legendLayout.itemAt(0).widget().setParent(None)
+            self._legendLayout.setParent(None)
+        while self._iconLayout.itemAt(0):
+            self._iconLayout.itemAt(0).widget().setParent(None)
 
         for i in range(self.numVfos):
             labelString = "{} - VFO {}".format(
@@ -77,9 +86,7 @@ class SDR(NetworkDevice):
                 "border: 2px solid white"
             )
 
-            # TODO: Add VFO status colouring
-
-            self._iconGrid.addWidget(labelWidget, self._iconGrid.rowCount(), 0)
+            self._iconLayout.addWidget(labelWidget)
 
         for i in range(1, self.numSlots + 1):
             try:
@@ -106,11 +113,35 @@ class SDR(NetworkDevice):
                 "border: 2px solid white;"
             )
 
-            self._iconGrid.addWidget(labelWidget, self._iconGrid.rowCount(), 0)
+            self._iconLayout.addWidget(labelWidget)
+
+        # Add legend
+        self._legendLayout = QHBoxLayout()
+        self._iconLayout.addLayout(self._legendLayout)
+        legend = {
+            'Error': 'red',
+            'Warning': 'yellow',
+            'Warmup': 'blue',
+            'Idle': 'transparent',
+            'RX': 'green',
+            'TX': 'red'
+        }
+
+        for state, colour in legend.items():
+            label = QLabel(state)
+            label.setStyleSheet(
+                "font: Waree; font-size: 36px; font-weight: bold;"
+                "border: 2px solid white;"
+                "background: {};".format(colour)
+            )
+            if state in ["Error", "Warning"]:
+                label.setStyleSheet(
+                    label.styleSheet() + "color: black;"
+                )
+            label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+            self._legendLayout.addWidget(label)
 
         self._update_label_colours()
-
-        self._iconGrid.setRowStretch(self._iconGrid.rowCount(), 1)
 
     def update_discovery_info(self, jsonDict: dict) -> None:
         """
@@ -152,7 +183,7 @@ class SDR(NetworkDevice):
         for x in savedAddresses:
             if x not in newAddresses:
                 cardToBeDeleted = None
-                for y in self.cards:
+                for _, y in self.cards.items():
                     if y.address == x:
                         cardToBeDeleted = y
                 self.warningHandler.add_warning(
@@ -162,39 +193,52 @@ class SDR(NetworkDevice):
                     f"{cardToBeDeleted.address}"
                 )
                 self.updated = True
-                self.cards.remove(cardToBeDeleted)
+                del self.cards[cardToBeDeleted.address]
                 self._update_labels()
+        self._update_labels()
         self._cardsLabel.setText(str(len(self.cards)))
 
         super().update_discovery_info(jsonDict)
 
     def _update_label_colours(self):
+        # TODO: Add VFO status colouring
+
         for _, x in self.cards.items():
             if x.errors:
-                x.label.setStyleSheet(
-                    x.label.styleSheet() +
-                    "background: red;"
-                )
+                colour = "red"
             elif x.warnings:
-                x.label.setStyleSheet(
-                    x.label.styleSheet() +
-                    "background: yellow;"
-                )
+                colour = "yellow"
             elif x.state == "warmup":
-                x.label.setStyleSheet(
-                    x.label.styleSheet() +
-                    "background: blue;"
-                )
+                colour = "blue"
             elif x.state == "rx":
-                x.label.setStyleSheet(
-                    x.label.styleSheet() +
-                    "background: green;"
-                )
+                colour = "green"
             elif x.state == "tx":
-                x.label.setStyleSheet(
-                    x.label.styleSheet() +
-                    "background: red;"
+                colour = "red"
+            elif x.state is None or x.state == "idle":
+                colour = "transparent"
+            else:
+                raise NotImplementedError
+
+            oldStyleSheet = x.label.styleSheet()
+            if "background" in oldStyleSheet:
+                newStyleSheet = re.sub(
+                    "background: .*;",
+                    "background: {};".format(colour),
+                    x.label.styleSheet()
                 )
+                newStyleSheet = re.sub(
+                    "color: .*;",
+                    "",
+                    newStyleSheet
+                )
+            else:
+                newStyleSheet = oldStyleSheet + \
+                    "background: {};".format(colour)
+
+            if x.errors or x.warnings:
+                newStyleSheet += "color: black;"
+
+            x.label.setStyleSheet(newStyleSheet)
 
     def update_status_info(self, jsonDict: dict) -> None:
         """

@@ -49,7 +49,7 @@ void TransverterController::setup(){
 
     _transverter = new TRANSVERTER_CLASS(_panicker);
 
-    process_command("D");  // Broadcast discovery information
+   send_discovery_info();
 
 }
 
@@ -61,68 +61,19 @@ void TransverterController::process_command(String x){
         return;
     }
     else {
-        DynamicJsonDocument response(1024);
-        digitalWrite(LED_ERROR, HIGH);
-
         switch(x[0]){
             case 'D': {
                 #ifdef DEBUG
                     DEBUG_SERIAL.println("Received discovery request");
                 #endif
-                response["type"] = "transverter";
-                response["name"] = NAME;
-                response["loFreq"] = int(LO_FREQ);
-                response["loAdd"] = RF_EQUALS_IF_PLUS_LO;
-                response["minFreq"] = int(MIN_FREQ);
-                response["maxFreq"] = int(MAX_FREQ);
-                response["minPower"] = int(MIN_TX_POWER);
-                response["maxPower"] = int(MAX_TX_POWER);
-                response["supportsRx"] = SUPPORTS_RX;
-                response["supportsTx"] = SUPPORTS_TX;
+                send_discovery_info();         
                 break;
             }
             case 'S': {
                 #ifdef DEBUG
                   DEBUG_SERIAL.println("Received status request");
                 #endif 
-
-                // Add warnings
-                // @TODO
-                response.createNestedObject("warnings");
-
-                // Add errors
-                // @TODO
-                response.createNestedObject("errors");
-
-                // Add temperature sensors
-                JsonObject tempsResponse = response.createNestedObject("temperatures");
-                int numTempSensors = _transverter->get_num_temp_sensors();
-                TemperatureReading temps[numTempSensors];
-                _transverter->read_temperatures(temps);
-                for(int i = 0; i < numTempSensors; i++){
-                    tempsResponse[temps[i].name] = temps[i].temperature;
-                }
-
-                // Add state
-                switch (_state){
-                    case RX: response["state"] = "rx"; break;
-                    case TX: response["state"] = "tx"; break;
-                    case IDLE: response["state"] = "idle"; break;
-                    case WARMUP: response["state"] = "warmup"; break;
-                    default: _panicker->panic("Transverter in an unknown state");
-                };
-
-                // Add RF power readings
-                // @TODO
-                response.createNestedObject("rfPowerReadings");
-
-                // Add DC power readings
-                // @TODO
-                response.createNestedObject("dcPowerReadings");
-
-                // Add MAC address of SDR controller
-                response["controller"] = _controllerMac;
-
+                send_status_info();
                 break;
             }
 
@@ -140,33 +91,103 @@ void TransverterController::process_command(String x){
                 break;
             }
         }
-        delay(50);
-        RS485_SERIAL.print('\0');  // Master address
-        RS485_SERIAL.print(x[0]);  // Response must have same command type as request
-        serializeJson(response, RS485_SERIAL); 
-        RS485_SERIAL.print('\n');
-        #ifdef DEBUG
-            DEBUG_SERIAL.print("Response: ");
-            serializeJsonPretty(response, DEBUG_SERIAL);
-            DEBUG_SERIAL.println("");
-        #endif
-        RS485_SERIAL.flush();
-        digitalWrite(LED_ERROR, LOW);
     }
+}
+
+void TransverterController::rs485_tx(char commandChar, DynamicJsonDocument response){
+    digitalWrite(LED_ERROR, HIGH);
+    delay(50);
+    RS485_SERIAL.print('\0');  // Master address
+    RS485_SERIAL.print(commandChar);  // Response must have same command type as request
+    serializeJson(response, RS485_SERIAL); 
+    RS485_SERIAL.print('\n');
+    #ifdef DEBUG
+        DEBUG_SERIAL.print("Response: ");
+        serializeJsonPretty(response, DEBUG_SERIAL);
+        DEBUG_SERIAL.println("");
+    #endif
+    RS485_SERIAL.flush();
+    digitalWrite(LED_ERROR, LOW);
+}
+
+void TransverterController::send_discovery_info(){
+    DynamicJsonDocument response(1024);
+    response["type"] = "transverter";
+    response["name"] = NAME;
+    response["loFreq"] = int(LO_FREQ);
+    response["loAdd"] = RF_EQUALS_IF_PLUS_LO;
+    response["minFreq"] = int(MIN_FREQ);
+    response["maxFreq"] = int(MAX_FREQ);
+    response["minPower"] = int(MIN_TX_POWER);
+    response["maxPower"] = int(MAX_TX_POWER);
+    response["supportsRx"] = SUPPORTS_RX;
+    response["supportsTx"] = SUPPORTS_TX;
+    rs485_tx('D', response);
+}
+
+void TransverterController::send_status_info(){
+    DynamicJsonDocument response(1024);
+    // Add warnings
+    // @TODO
+    response.createNestedObject("warnings");
+
+    // Add errors
+    // @TODO
+    response.createNestedObject("errors");
+
+    // Add temperature sensors
+    JsonObject tempsResponse = response.createNestedObject("temperatures");
+    int numTempSensors = _transverter->get_num_temp_sensors();
+    TemperatureReading temps[numTempSensors];
+    _transverter->read_temperatures(temps);
+    for(int i = 0; i < numTempSensors; i++){
+        tempsResponse[temps[i].name] = temps[i].temperature;
+    }
+
+    // Add state
+    switch (_state){
+        case RX: response["state"] = "rx"; break;
+        case TX: response["state"] = "tx"; break;
+        case IDLE: response["state"] = "idle"; break;
+        case WARMUP: response["state"] = "warmup"; break;
+        default: _panicker->panic("Transverter in an unknown state");
+    };
+
+    // Add RF power readings
+    // @TODO
+    response.createNestedObject("rfPowerReadings");
+
+    // Add DC power readings
+    // @TODO
+    response.createNestedObject("dcPowerReadings");
+
+    // Add MAC address of SDR controller
+    response["controller"] = _controller;
+
+    rs485_tx('S', response);
 }
 
 void TransverterController::set_state(TransverterState state){
     _state = state;
 }
 
-void TransverterController::set_controller(String controllerMac){
-    _controllerMac = controllerMac;
+void TransverterController::set_controller(String controller){
+    _controller = controller;
 }
 
 void TransverterController::run(){
-    
+    int startTime = millis();
+    TransverterState state = WARMUP;
+
     while(1){
         process_command(_rs485Handler->rx_messages());
+        if(millis() - startTime > 1000){
+            startTime = millis();
+            state = (TransverterState)((state + 1) & 0x03);
+            set_state(state);
+            digitalWrite(LED_RX, !digitalRead(LED_RX));
+        }
+
     }
 }
     

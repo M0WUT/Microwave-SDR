@@ -8,7 +8,8 @@ from mqttHandler import MqttHandler
 from vfo import Vfo
 from config_developer import \
     TAB_HOME, TAB_INFO, TAB_NETWORK, TAB_SETTINGS, TAB_WARNINGS
-from config_user import MQTT_ADDRESS, MQTT_PORT
+from config_user import MQTT_ADDRESS, MQTT_PORT, STATUS_UPDATE_PERIOD
+import time
 
 from warningHandler import WarningHandler
 from networkHandler import NetworkHandler
@@ -115,7 +116,7 @@ if __name__ == "__main__":
 
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
-        level=logging.INFO,
+        level=logging.DEBUG,
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     logging.info("Application started")

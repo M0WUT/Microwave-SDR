@@ -57,6 +57,11 @@ class NetworkHandler:
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.request_status)
+        # Start requesting regular status updates in 10s
+        # (to allow everything else to boot)
+        QTimer.singleShot(3000, self.start_timed_status_requests)
+
+    def start_timed_status_requests(self):
         self.timer.start(1000 * STATUS_UPDATE_PERIOD)
 
     def tab_enabled(self):
@@ -72,8 +77,6 @@ class NetworkHandler:
         self.button_requestDiscovery.setText("Re-run\nDiscovery")
         self.button_requestDiscovery.setEnabled(True)
         self.button_requestDiscovery.clicked.connect(self.request_discovery)
-
-        self.request_status()
 
     def request_status(self):
         """

@@ -1,6 +1,6 @@
 from warningHandler import WarningHandler
 from PySide2.QtWidgets import \
-    QHBoxLayout, QTabWidget, QWidget, QGridLayout, QLabel
+    QHBoxLayout, QTabWidget, QWidget, QGridLayout, QLabel, QVBoxLayout
 from usefulFunctions import get_mac
 import logging
 from PySide2.QtGui import QIcon
@@ -42,9 +42,10 @@ class NetworkDevice():
             self._tabWidget.addTab(self._tab, f"{self.name}\n{self.ipAddr}")
         self._horizontalLayout = QHBoxLayout(self._tab)
         self._grid = QGridLayout()
-        self._iconGrid = QGridLayout()
+        self._iconLayout = QVBoxLayout()
         self._horizontalLayout.addLayout(self._grid)
-        self._horizontalLayout.addLayout(self._iconGrid)
+        self._horizontalLayout.addLayout(self._iconLayout)
+        self._horizontalLayout.setStretchFactor(self._iconLayout, 1)
 
         self._ipLabel = self.add_value_row("IP Address:", self.ipAddr)
 
@@ -64,9 +65,6 @@ class NetworkDevice():
         )
 
         self._grid.setRowStretch(self._grid.rowCount(), 1)
-        self._iconGrid.setColumnStretch(self._iconGrid.columnCount(), 1)
-        self._iconGrid.setRowStretch(self._iconGrid.rowCount(), 1)
-
         self._tab.setLayout(self._horizontalLayout)
 
     def add_value_row(self, labelString, initialValue):

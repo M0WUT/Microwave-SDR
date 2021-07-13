@@ -22,6 +22,7 @@
 /* ETH PHY */
 &gem0 {
     phy-handle = <&phy0>;
+    /*phy-mode = "sgmii";*/
     mdio {
         #address-cells = <1>;
         #size-cells = <0>;
