@@ -1,12 +1,12 @@
 from NetworkDevices.networkDevice import NetworkDevice
 from warningHandler import WarningHandler
-from PySide2.QtWidgets import QHBoxLayout, QTabWidget, QLabel
-from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QHBoxLayout, QPushButton, QSizePolicy, QTabWidget, QLabel, QWidget
+from PySide2.QtCore import QObject, Qt
 import logging
 import re
 
 
-class Card():
+class Card(QWidget):
     """Base class for anything installed in an SDR Rack"""
     def __init__(
         self, address: int, type: str, name: str
@@ -20,7 +20,7 @@ class Card():
         self.rfPowerReadings = {}
         self.dcPowerReadings = {}
         self.temperatures = {}
-        self.label = None
+        self.button = None
 
     def __eq__(self, other):
         return (
@@ -28,6 +28,13 @@ class Card():
             (self.address == other.address) and
             (self.name) == other.name
         )
+
+    def set_button(self, button: QPushButton):
+        self.button = button
+        button.clicked.connect(lambda: self.show_info())
+
+    def show_info(self):
+        logging.critical("Hello from card in address {}!".format(self.address))  # @DEBUG
 
 
 class SDR(NetworkDevice):
@@ -79,32 +86,42 @@ class SDR(NetworkDevice):
                 self.name,
                 chr(i + 65)
             )
-            labelWidget = QLabel(labelString)
+            labelWidget = QPushButton(labelString)
 
             labelWidget.setStyleSheet(
                 "font: Waree; font-size: 48px; font-weight: bold;"
-                "border: 2px solid white"
+                "border: 2px solid white; text-align: left"
             )
-
+            labelWidget.setSizePolicy(
+                QSizePolicy.Expanding, QSizePolicy.Expanding
+            )
             self._iconLayout.addWidget(labelWidget)
 
         for i in range(1, self.numSlots + 1):
             try:
-                self.cards[i].label = QLabel("{}: {} - {}".format(
-                        i, self.cards[i].type.upper(),
-                        self.cards[i].name
+                self.cards[i].set_button(
+                    QPushButton(
+                        "{}: {} - {}".format(
+                            i, self.cards[i].type.upper(),
+                            self.cards[i].name
+                        )
                     )
                 )
-                labelWidget = self.cards[i].label
+                labelWidget = self.cards[i].button
+                labelWidget.setSizePolicy(
+                    QSizePolicy.Expanding, QSizePolicy.Expanding
+                )
 
             except KeyError:
-                labelWidget = QLabel("{}: {}".format(i, "No Card"))
-                labelWidget.setStyleSheet("color: #505050;")
+                continue
+                # labelWidget = QLabel("{}: {}".format(i, "No Card"))
+                # labelWidget.setStyleSheet("color: #505050;")
 
             # Add generic font stuff
             labelWidget.setStyleSheet(
                 labelWidget.styleSheet() +
                 "font: Waree; font-size: 48px; font-weight: bold;"
+                "text-align: left;"
             )
 
             # Add border
@@ -219,12 +236,12 @@ class SDR(NetworkDevice):
             else:
                 raise NotImplementedError
 
-            oldStyleSheet = x.label.styleSheet()
+            oldStyleSheet = x.button.styleSheet()
             if "background" in oldStyleSheet:
                 newStyleSheet = re.sub(
                     "background: .*;",
                     "background: {};".format(colour),
-                    x.label.styleSheet()
+                    x.button.styleSheet()
                 )
                 newStyleSheet = re.sub(
                     "color: .*;",
@@ -238,7 +255,7 @@ class SDR(NetworkDevice):
             if x.errors or x.warnings:
                 newStyleSheet += "color: black;"
 
-            x.label.setStyleSheet(newStyleSheet)
+            x.button.setStyleSheet(newStyleSheet)
 
     def update_status_info(self, jsonDict: dict) -> None:
         """
