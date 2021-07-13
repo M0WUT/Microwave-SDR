@@ -1,12 +1,13 @@
 from NetworkDevices.networkDevice import NetworkDevice
 from warningHandler import WarningHandler
-from PySide2.QtWidgets import QHBoxLayout, QPushButton, QSizePolicy, QTabWidget, QLabel, QWidget
-from PySide2.QtCore import QObject, Qt
+from PySide2.QtWidgets import QHBoxLayout, QPushButton, QSizePolicy, \
+    QTabWidget, QLabel
+from PySide2.QtCore import Qt
 import logging
 import re
 
 
-class Card(QWidget):
+class Card():
     """Base class for anything installed in an SDR Rack"""
     def __init__(
         self, address: int, type: str, name: str
