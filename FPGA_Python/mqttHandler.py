@@ -34,7 +34,9 @@ class MqttHandler():
             self.client.loop_start()
         except socket.timeout:
             self.warnings.add_error(
-                "MQTT", "Broker not found at at {}:{}".format(
+                NAME,
+                "MQTT",
+                "Broker not found at at {}:{}".format(
                     self.ipAddr,
                     self.ipPort
                 ),

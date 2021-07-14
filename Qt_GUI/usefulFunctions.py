@@ -1,6 +1,7 @@
 import logging
 import socket
 from uuid import getnode
+from dataclasses import dataclass
 
 
 def readable_freq(freq):
@@ -50,3 +51,22 @@ class NamedValue():
     def __init__(self, name: str, value: float):
         self.name = name
         self.value = float(value)
+
+
+@dataclass
+class LabelColour():
+    description: str
+    textColour: str = None
+    backgroundColour: str = None
+
+
+STYLE_ERROR = LabelColour(description='Error', textColour='black', backgroundColour='red')
+STYLE_WARNING = LabelColour(description='Warning', textColour='black', backgroundColour='yellow')
+STYLE_WARMUP = LabelColour(description='Warmup', backgroundColour='blue')
+STYLE_IDLE = LabelColour(description='Idle', backgroundColour='transparent')
+STYLE_RX = LabelColour(description='RX', backgroundColour='green')
+STYLE_TX = LabelColour(description='TX', backgroundColour='red')
+STYLE_SHUTDOWN = LabelColour(description='Shutdown', backgroundColour='#505050', textColour='red')
+
+
+SDR_STYLES = [STYLE_ERROR, STYLE_WARNING, STYLE_WARMUP, STYLE_IDLE, STYLE_RX, STYLE_TX, STYLE_SHUTDOWN]

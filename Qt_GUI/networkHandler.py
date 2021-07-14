@@ -7,12 +7,15 @@ import json
 from datetime import datetime, timezone
 import logging
 from config_developer import MQTT_API_VERSION
-from config_user import NAME, STATUS_UPDATE_PERIOD
+from config_user import NAME, STATUS_UPDATE_PERIOD, NTP_SERVER
 from typing import List
 from mqttHandler import MqttHandler
 from warningHandler import WarningHandler
 from NetworkDevices.controller import Controller
 from NetworkDevices.sdr import SDR
+import ntplib
+import socket
+from time import sleep
 
 
 class NetworkHandler:
@@ -32,6 +35,19 @@ class NetworkHandler:
         self.button_requestDiscovery = self.buttons[1]
 
         self.devices = []
+
+        synced = False
+        client = ntplib.NTPClient()
+        while not synced:
+            try:
+                response = client.request(NTP_SERVER)
+                synced = (response.offset < 1)
+            except (ntplib.NTPException, socket.gaierror):
+                logging.info("NTP Sync failed. Retrying...")
+            sleep(1)
+
+        logging.info("NTP sync successful")
+
         self.startTime = datetime.now(timezone.utc)
         self.mqtt.register_callback(
             "/discovery/request",

@@ -3963,6 +3963,7 @@ CONFIG_statusregs=y
 # CONFIG_gpio-demo is not set
 # CONFIG_m0wut-sdr-python is not set
 # CONFIG_myapp-init is not set
+CONFIG_ntp=y
 # CONFIG_peekpoke is not set
 # CONFIG_skeleton is not set
 # CONFIG_status is not set

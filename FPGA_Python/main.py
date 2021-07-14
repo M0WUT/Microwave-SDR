@@ -1,7 +1,8 @@
 from config_developer import LED_STATUS, SLOTS_EEPROM_ADDRESS, \
     STATUS_REGISTERS_FILE, PIN_WP, SLOTS_I2C_FILE, TRANSVERTER_RS485_UART, \
     MQTT_API_VERSION
-from config_user import MQTT_SERVER_IP_ADDRESS, MQTT_SERVER_PORT, NAME
+from config_user import MQTT_SERVER_IP_ADDRESS, MQTT_SERVER_PORT, \
+    NAME, NTP_SERVER
 from gpio import GPIO
 import logging
 from mqttHandler import MqttHandler
@@ -15,6 +16,8 @@ from slotsEeprom import slotsEeprom
 from datetime import datetime, timezone
 from usefulFunctions import get_ip, get_mac, get_link_speed
 import json
+import ntplib
+import socket
 
 logging.basicConfig(
     format='%(asctime)s %(levelname)-8s %(message)s',
@@ -26,11 +29,18 @@ logging.basicConfig(
 class Main:
     def __init__(self):
 
-        logging.info("Application started. Waiting for network connection...")
-        while not get_ip():
-            time.sleep(2)
+        logging.info("Application started. Waiting for NTP sync...")
+        synced = False
+        client = ntplib.NTPClient()
+        while not synced:
+            try:
+                response = client.request(NTP_SERVER)
+                synced = (response.offset < 1)
+            except (ntplib.NTPException, socket.gaierror):
+                logging.info("NTP Sync failed. Retrying...")
+            time.sleep(1)
         logging.info(
-            "IP Address: {}. Starting main application".format(get_ip())
+            "NTP sync successful. IP Address: {}. Starting main application".format(get_ip())
         )
         self.startTime = datetime.now(timezone.utc)
         LED_STATUS.write(GPIO.HIGH)

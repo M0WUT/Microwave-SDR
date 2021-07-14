@@ -1,3 +1,4 @@
 MQTT_SERVER_IP_ADDRESS = "192.168.0.26"
 MQTT_SERVER_PORT = 1883
 NAME = "SDR 1"
+NTP_SERVER = "europe.pool.ntp.org"

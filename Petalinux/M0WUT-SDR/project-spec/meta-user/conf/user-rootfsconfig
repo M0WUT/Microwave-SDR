@@ -19,3 +19,4 @@ CONFIG_m0wut-sdr
 CONFIG_myapp-init
 CONFIG_m0wut-sdr-autorun
 CONFIG_m0wut-sdr-python
+CONFIG_ntp

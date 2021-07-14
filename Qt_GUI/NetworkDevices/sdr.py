@@ -5,6 +5,8 @@ from PySide2.QtWidgets import QHBoxLayout, QPushButton, QSizePolicy, \
 from PySide2.QtCore import Qt
 import logging
 import re
+from usefulFunctions import STYLE_ERROR, STYLE_IDLE, STYLE_RX, STYLE_SHUTDOWN, STYLE_TX, \
+    STYLE_WARMUP, STYLE_WARNING, SDR_STYLES
 
 
 class Card():
@@ -136,26 +138,20 @@ class SDR(NetworkDevice):
         # Add legend
         self._legendLayout = QHBoxLayout()
         self._iconLayout.addLayout(self._legendLayout)
-        legend = {
-            'Error': 'red',
-            'Warning': 'yellow',
-            'Warmup': 'blue',
-            'Idle': 'transparent',
-            'RX': 'green',
-            'TX': 'red'
-        }
 
-        for state, colour in legend.items():
-            label = QLabel(state)
-            label.setStyleSheet(
-                "font: Waree; font-size: 36px; font-weight: bold;"
+        for style in SDR_STYLES:
+            label = QLabel(style.description)
+            styleString = (
+                "font: Waree; font-size: 32px; font-weight: bold;"
                 "border: 2px solid white;"
-                "background: {};".format(colour)
             )
-            if state in ["Error", "Warning"]:
-                label.setStyleSheet(
-                    label.styleSheet() + "color: black;"
-                )
+            if style.backgroundColour:
+                styleString += f"background: {style.backgroundColour};"
+
+            if style.textColour:
+                styleString += f"color: {style.textColour};"
+
+            label.setStyleSheet(styleString)
             label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
             self._legendLayout.addWidget(label)
 
@@ -223,38 +219,38 @@ class SDR(NetworkDevice):
 
         for _, x in self.cards.items():
             if x.errors:
-                colour = "red"
+                style = STYLE_ERROR
             elif x.warnings:
-                colour = "yellow"
+                style = STYLE_WARNING
             elif x.state == "warmup":
-                colour = "blue"
+                style = STYLE_WARMUP
             elif x.state == "rx":
-                colour = "green"
+                style = STYLE_RX
             elif x.state == "tx":
-                colour = "red"
+                style = STYLE_TX
             elif x.state is None or x.state == "idle":
-                colour = "transparent"
+                style = STYLE_IDLE
+            elif x.state == 'shutdown':
+                style = STYLE_SHUTDOWN
             else:
                 raise NotImplementedError
 
-            oldStyleSheet = x.button.styleSheet()
-            if "background" in oldStyleSheet:
-                newStyleSheet = re.sub(
-                    "background: .*;",
-                    "background: {};".format(colour),
-                    x.button.styleSheet()
-                )
-                newStyleSheet = re.sub(
-                    "color: .*;",
-                    "",
-                    newStyleSheet
-                )
-            else:
-                newStyleSheet = oldStyleSheet + \
-                    "background: {};".format(colour)
+            newStyleSheet = re.sub(
+                "background: .*;",
+                "",
+                x.button.styleSheet()
+            )
+            newStyleSheet = re.sub(
+                "color: .*;",
+                "",
+                newStyleSheet
+            )
 
-            if x.errors or x.warnings:
-                newStyleSheet += "color: black;"
+            if style.backgroundColour:
+                newStyleSheet += f"background: {style.backgroundColour};"
+
+            if style.textColour:
+                newStyleSheet += f"color: {style.textColour};"
 
             x.button.setStyleSheet(newStyleSheet)
 
