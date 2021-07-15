@@ -123,9 +123,6 @@ if __name__ == "__main__":
 
     # Generic setup stuff
     app = QApplication([])
-    widget = main()
-    widget.showFullScreen()
-
     # Load Dark mode because it's 2021
     styleStream = QFile(
         os.path.join(
@@ -133,7 +130,9 @@ if __name__ == "__main__":
         )
     )
     styleStream.open(QIODevice.ReadOnly)
-    widget.setStyleSheet(QTextStream(styleStream).readAll())
+    app.setStyleSheet(QTextStream(styleStream).readAll())
+    widget = main()
+    widget.showFullScreen()
 
     # Run application
     sys.exit(app.exec_())
