@@ -2,37 +2,41 @@ import logging
 from statusHandler import StatusRegs
 from usefulFunctions import readable_freq, get_mac
 import json
+from typing import List
 
 
-class Vfo():
+class Channel():
     LSB = 0
     USB = 1
     CW = 2
-    Tone = 3
-    ADC_CLK = 80e6
+    TONE = 3
 
     def __init__(
         self, name, mqtt, statusregs, warnings, mode="LSB",
-        freq=28000000, rx=True, tx=False
+        freq=28000000, adcClk=80e6, supportsRx=True, supportsTx=False,
+        supportsDuplex=False
     ):
         self.name = name
         self.mqtt = mqtt
         self.statusregs = statusregs
         self.warnings = warnings
+        self.cardAddress = None
         self.supportedModes = {
-            "LSB": 0,
-            "USB": 1,
-            "CW": 3,
-            "Tone": 2
+            "LSB": self.LSB,
+            "USB": self.USB,
+            "CW": self.CW,
+            "Tone": self.TONE
         }
         self.offset = 0
+        self.adcClk = adcClk
         self.setFreq(freq, update=False)
         self.setMode(mode)
-        self.enableRx(rx)
-        self.enableTx(tx)
+        self.supportsRx = supportsRx
+        self.supportsTx = supportsTx
+        self.supportsDuplex = supportsDuplex
 
         self.mqtt.register_callback(
-            "/{}/vfo{}/set".format(get_mac(), self.name),
+            "/{}/channel{}/set".format(get_mac(), self.name),
             self.handle_command
         )
 
@@ -55,7 +59,7 @@ class Vfo():
         self.setFreq(self.freq)  # Need to update freq as offset can change
         self.publish_info()
         logging.debug(
-            "VFO {} set to {}".format(
+            "Channel {} set to {}".format(
                 self.name, mode
             )
         )
@@ -68,18 +72,18 @@ class Vfo():
         self.statusregs.write(
             StatusRegs.DISPMODE, 3 if self.freq >= 10e9 else 2
         )
-        x = round((freq - self.offset) * 2 ** 32 / Vfo.ADC_CLK)
+        x = round((freq - self.offset) * 2 ** 32 / self.adcClk)
         self.statusregs.write(StatusRegs.FFTACC, x)
         if update:
             self.publish_info()
         logging.debug(
-            "VFO {} set to {}".format(
+            "Channel {} set to {}".format(
                 self.name, readable_freq(self.freq)
             )
         )
 
     def set_offset(self, offset):
-        x = round(abs(offset) * 2 ** 32 / Vfo.ADC_CLK)
+        x = round(abs(offset) * 2 ** 32 / self.adcClk)
         self.statusregs.write(StatusRegs.PHACC1, x)
         self.offset = offset
 
@@ -95,12 +99,6 @@ class Vfo():
         except KeyError:
             pass
 
-    def enableRx(self, rx):
-        pass  # @TODO
-
-    def enableTx(self, tx):
-        pass  # @TODO
-
     def publish_info(self):
         x = {
             "freq": self.freq,
@@ -108,9 +106,37 @@ class Vfo():
         }
 
         self.mqtt.publish(
-            "/{}/vfo{}".format(
+            "/{}/channel{}".format(
                 get_mac(),
                 self.name
             ),
             json.dumps(x)
         )
+
+    def get_discovery_json(self):
+        return({
+            "name": self.name,
+            "supportsRx": self.supportsRx,
+            "supportsTx": self.supportsTx,
+            "supportsDuplex": self.supportsDuplex
+        })
+
+    def get_status_json(self):
+        return({
+            "name": self.name,
+            "errors": [],  # @TODO
+            "warnings": [],
+            "cardAddress": self.cardAddress,
+            "state": "idle"  # @TODO
+        })
+
+
+class ChannelHandler:
+    def __init__(self, channels: List[Channel]):
+        self.channels = channels
+
+    def get_discovery_info(self) -> str:
+        return [x.get_discovery_json() for x in self.channels]
+
+    def get_status_info(self) -> str:
+        return [x.get_status_json() for x in self.channels]

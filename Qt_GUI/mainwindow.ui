@@ -53,7 +53,7 @@
           <string notr="true"/>
          </property>
          <property name="currentIndex">
-          <number>2</number>
+          <number>0</number>
          </property>
          <property name="iconSize">
           <size>
@@ -113,7 +113,7 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QLabel" name="button_A_freq">
+                <widget class="QPushButton" name="button_A_freq">
                  <property name="font">
                   <font>
                    <family>Waree</family>
@@ -123,13 +123,12 @@
                   </font>
                  </property>
                  <property name="styleSheet">
-                  <string notr="true">text-align: center;
-background-color: transparent;
+                  <string notr="true">background-color: transparent;
 border: 1px solid transparent;
-</string>
+text-align: right;</string>
                  </property>
                  <property name="text">
-                  <string>Waiting for SDR</string>
+                  <string>PushButton</string>
                  </property>
                 </widget>
                </item>
@@ -1291,7 +1290,7 @@ color: #F0F0F0;</string>
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_7">
+                <widget class="QPushButton" name="button_qt">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -1305,7 +1304,7 @@ color: #F0F0F0;</string>
                   </size>
                  </property>
                  <property name="text">
-                  <string>PushButton</string>
+                  <string>About Qt</string>
                  </property>
                 </widget>
                </item>

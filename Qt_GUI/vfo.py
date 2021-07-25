@@ -3,9 +3,19 @@ from usefulFunctions import readable_freq
 from math import log10
 import json
 import modeSelector
+import freqWindow
 from PySide2.QtWidgets import QWidget
-from PySide2.QtCore import QFile, QIODevice, QTextStream, Qt
-import os
+from PySide2.QtCore import Qt
+
+
+def freq_format(x: int) -> str:
+    freqString = str(x)
+    newFreqString = ""
+    while freqString:
+        newFreqString = "." + freqString[-3:] + newFreqString
+        freqString = freqString[:-3]
+
+    return newFreqString[1:]  # Remove final decimal point at start
 
 
 class Vfo(object):
@@ -33,27 +43,74 @@ class Vfo(object):
 
         # Popup for mode selection
         self.modeWindow = QWidget()
-        self._ui = modeSelector.Ui_main()
-        self._ui.setupUi(self.modeWindow)
-        # Load Dark mode because it's 2021
-        styleStream = QFile(
-            os.path.join(
-                os.path.dirname(__file__), 'resources/qdarkstyle/style.qss'
-            )
-        )
-        styleStream.open(QIODevice.ReadOnly)
-        self.modeWindow.setStyleSheet(QTextStream(styleStream).readAll())
-        self.modeWindow.setWindowFlags(Qt.FramelessWindowHint)
+        ui = modeSelector.Ui_main()
+        ui.setupUi(self.modeWindow)
+        ui.button_cw.clicked.connect(lambda: self.publish_mode("CW"))
+        ui.button_usb.clicked.connect(lambda: self.publish_mode("USB"))
+        ui.button_lsb.clicked.connect(lambda: self.publish_mode("LSB"))
+        ui.button_tone.clicked.connect(lambda: self.publish_mode("Tone"))
+        self.modeWindow.setWindowFlags(Qt.FramelessWindowHint | Qt.Popup)
 
-        self.modeButton.clicked.connect(lambda: self.modeWindow.show())
-        self._ui.button_cw.clicked.connect(lambda: self.publish_mode("CW"))
-        self._ui.button_usb.clicked.connect(lambda: self.publish_mode("USB"))
-        self._ui.button_lsb.clicked.connect(lambda: self.publish_mode("LSB"))
-        self._ui.button_tone.clicked.connect(lambda: self.publish_mode("Tone"))
+        # Popup for frequency entry
+        self.freqWindow = QWidget()
+        ui = freqWindow.Ui_main()
+        ui.setupUi(self.freqWindow)
+        ui.button_0.clicked.connect(lambda: self.handle_keypress(0))
+        ui.button_1.clicked.connect(lambda: self.handle_keypress(1))
+        ui.button_2.clicked.connect(lambda: self.handle_keypress(2))
+        ui.button_3.clicked.connect(lambda: self.handle_keypress(3))
+        ui.button_4.clicked.connect(lambda: self.handle_keypress(4))
+        ui.button_5.clicked.connect(lambda: self.handle_keypress(5))
+        ui.button_6.clicked.connect(lambda: self.handle_keypress(6))
+        ui.button_7.clicked.connect(lambda: self.handle_keypress(7))
+        ui.button_8.clicked.connect(lambda: self.handle_keypress(8))
+        ui.button_9.clicked.connect(lambda: self.handle_keypress(9))
+        ui.button_G.clicked.connect(lambda: self.handle_keypress("G"))
+        ui.button_M.clicked.connect(lambda: self.handle_keypress("M"))
+        ui.button_k.clicked.connect(lambda: self.handle_keypress("k"))
+        ui.button_x.clicked.connect(lambda: self.handle_keypress("x"))
+        ui.button_dp.clicked.connect(lambda: self.handle_keypress("."))
+
+        self.enteredFreqLabel = ui.label_enteredFreq
+        self.freqWindow.setWindowFlags(Qt.FramelessWindowHint | Qt.Popup)
+
+        self.modeButton.clicked.connect(self.modeWindow.show)
+        self.freqButton.clicked.connect(self.open_freq_window)
 
         self.freq = None
+        self.enteredFreqString = ""
         self.publishedFreq = None
         self.mode = None
+        self.channel = None
+
+        self.freqButton.setText("Click to select freq")
+
+    def handle_keypress(self, key):
+        constants = {
+            "G": 1e9,
+            "M": 1e6,
+            "k": 1e3,
+            "x": 1
+        }
+        if key in ["G", "M", "k", "x"]:
+            freq = float(self.enteredFreq) * constants[key]
+            # @TODO find suitable channel
+            self.set_freq(freq)
+            self.freqWindow.hide()
+        else:
+            self.enteredFreq += str(key)
+            self.enteredFreqLabel.setText(self.enteredFreq)
+
+    def open_freq_window(self):
+        self.enteredFreq = ""
+        self.enteredFreqLabel.setText(self.enteredFreq)
+        self.freqWindow.show()
+
+    def set_freq(self, freq):
+        self.publish_freq(freq)
+        logging.info(
+            f"VFO {self.name} set to {readable_freq(freq)}"
+        )
 
     def publish_freq(self, freq):
         x = {
@@ -75,6 +132,7 @@ class Vfo(object):
             "/00:0A:35:00:1E:53/vfoA/set",
             json.dumps(x)
         )
+        self.modeWindow.hide()
 
     def increment(self):
         self.publish_freq(self.publishedFreq + self._stepSize)
@@ -115,3 +173,7 @@ class Vfo(object):
                 self.modeWindow.hide()
 
             logging.debug(f"VFO {self.name} set to {self.mode}")
+
+
+if __name__ == '__main__':
+    print(freq_format(123456))

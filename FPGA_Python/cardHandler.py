@@ -269,14 +269,8 @@ class CardHandler:
 
     def get_discovery_info(self):
         self.run_discovery_requests()
-        jsonBlob = []
-        for x in self.cards:
-            jsonBlob.append(x.get_discovery_json())
-        return jsonBlob
+        return [x.get_discovery_json() for x in self.cards]
 
     def get_status_info(self):
         self.run_status_requests()
-        jsonBlob = []
-        for x in self.cards:
-            jsonBlob.append(x.get_status_json())
-        return jsonBlob
+        return [x.get_status_json() for x in self.cards]

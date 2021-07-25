@@ -73,7 +73,7 @@ class Ui_main(object):
 
         self.horizontalLayout_8.addItem(self.horizontalSpacer_5)
 
-        self.button_A_freq = QLabel(self.tab_home)
+        self.button_A_freq = QPushButton(self.tab_home)
         self.button_A_freq.setObjectName(u"button_A_freq")
         font1 = QFont()
         font1.setFamily(u"Waree")
@@ -81,10 +81,9 @@ class Ui_main(object):
         font1.setBold(True)
         font1.setWeight(75)
         self.button_A_freq.setFont(font1)
-        self.button_A_freq.setStyleSheet(u"text-align: center;\n"
-"background-color: transparent;\n"
+        self.button_A_freq.setStyleSheet(u"background-color: transparent;\n"
 "border: 1px solid transparent;\n"
-"")
+"text-align: right;")
 
         self.horizontalLayout_8.addWidget(self.button_A_freq)
 
@@ -690,16 +689,16 @@ class Ui_main(object):
 
         self.verticalLayout_6.addItem(self.verticalSpacer_2)
 
-        self.pushButton_7 = QPushButton(self.tab_info)
-        self.pushButton_7.setObjectName(u"pushButton_7")
+        self.button_qt = QPushButton(self.tab_info)
+        self.button_qt.setObjectName(u"button_qt")
         sizePolicy10 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Fixed)
         sizePolicy10.setHorizontalStretch(0)
         sizePolicy10.setVerticalStretch(0)
-        sizePolicy10.setHeightForWidth(self.pushButton_7.sizePolicy().hasHeightForWidth())
-        self.pushButton_7.setSizePolicy(sizePolicy10)
-        self.pushButton_7.setMinimumSize(QSize(0, 100))
+        sizePolicy10.setHeightForWidth(self.button_qt.sizePolicy().hasHeightForWidth())
+        self.button_qt.setSizePolicy(sizePolicy10)
+        self.button_qt.setMinimumSize(QSize(0, 100))
 
-        self.verticalLayout_6.addWidget(self.pushButton_7)
+        self.verticalLayout_6.addWidget(self.button_qt)
 
 
         self.verticalLayout_5.addLayout(self.verticalLayout_6)
@@ -795,7 +794,7 @@ class Ui_main(object):
 
         self.retranslateUi(main)
 
-        self.tab_widget.setCurrentIndex(2)
+        self.tab_widget.setCurrentIndex(0)
         self.tabWidget_network.setCurrentIndex(0)
 
 
@@ -804,7 +803,7 @@ class Ui_main(object):
 
     def retranslateUi(self, main):
         main.setWindowTitle(QCoreApplication.translate("main", u"main", None))
-        self.button_A_freq.setText(QCoreApplication.translate("main", u"Waiting for SDR", None))
+        self.button_A_freq.setText(QCoreApplication.translate("main", u"PushButton", None))
         self.button_B_freq.setText(QCoreApplication.translate("main", u"PushButton", None))
         self.button_A_mode.setText(QCoreApplication.translate("main", u"PushButton", None))
         self.label_12.setText(QCoreApplication.translate("main", u"Fc:", None))
@@ -860,7 +859,7 @@ class Ui_main(object):
         self.label_8.setText("")
         self.label_7.setText(QCoreApplication.translate("main", u"Rob M0VFC", None))
         self.label_9.setText(QCoreApplication.translate("main", u"George M1GEO", None))
-        self.pushButton_7.setText(QCoreApplication.translate("main", u"PushButton", None))
+        self.button_qt.setText(QCoreApplication.translate("main", u"About Qt", None))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_info), QCoreApplication.translate("main", u"Info", None))
         self.button_rhs_0.setText(QCoreApplication.translate("main", u"Discovery", None))
         self.button_rhs_1.setText(QCoreApplication.translate("main", u"PushButton", None))

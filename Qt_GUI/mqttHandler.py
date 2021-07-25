@@ -105,7 +105,10 @@ class MqttHandler(QObject):
             f"Subscribed to MQTT topic: {topic}"
         )
 
-    def __del__(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
         self.client.loop_stop()
         self.client.disconnect()
         logging.info(

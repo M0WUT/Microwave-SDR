@@ -6,7 +6,7 @@ from config_user import MQTT_SERVER_IP_ADDRESS, MQTT_SERVER_PORT, \
 from gpio import GPIO
 import logging
 from mqttHandler import MqttHandler
-from vfo import Vfo
+from channel import Channel, ChannelHandler
 from statusHandler import StatusRegs
 from warningHandler import WarningHandler
 import time
@@ -58,7 +58,13 @@ class Main:
             TRANSVERTER_RS485_UART, self.warnings,
             numSlots=self.slots.num_slots()
         )
-        self.vfoA = Vfo('A', self.mqtt, self.status, self.warnings)
+        self.channels = ChannelHandler(
+            [
+                Channel(
+                    '0', self.mqtt, self.status, self.warnings
+                )
+            ]
+        )
 
         self.mqtt.register_callback(
             "/discovery/request",
@@ -98,6 +104,7 @@ class Main:
             "name": NAME,
             "api": MQTT_API_VERSION,
             "link": get_link_speed(),
+            "channels": self.channels.get_discovery_info(),
             "numSlots": self.cards.numSlots,
             "cards": self.cards.get_discovery_info(),
         }
@@ -111,6 +118,7 @@ class Main:
             "warnings": self.warnings.get_warnings(),
             "errors": self.warnings.get_errors(),
             "uptime": self.get_uptime(),
+            "channels": self.channels.get_status_info(),
             "cards": self.cards.get_status_info()
         }
 

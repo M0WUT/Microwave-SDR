@@ -1,3 +1,3 @@
 {
-    "files": ["info-handler.py","config.py","wutimages.py","infohandler.py","mqttHandler.py","networkHandler.py","warningHandler.py","main.py","mainwindow.ui","usefulFunctions.py","resources.qrc","modeSelector.ui"]
+    "files": ["info-handler.py","networkHandler.py","resources.qrc","usefulFunctions.py","warningHandler.py","mqttHandler.py","mainwindow.ui","modeSelector.ui","infohandler.py","main.py","wutimages.py","config.py","freqWindow.ui"]
 }

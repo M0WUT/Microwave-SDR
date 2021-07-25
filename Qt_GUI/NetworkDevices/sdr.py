@@ -40,6 +40,28 @@ class Card():
         logging.critical("Hello from card in address {}!".format(self.address))  # @DEBUG
 
 
+class Channel:
+    def __init__(self, name, supportsRx, supportsTx, supportsDuplex):
+        self.name = name
+        self.supportsRx = supportsRx
+        self.supportsTx = supportsTx
+        self.supportsDuplex = supportsDuplex
+        self.state = None
+        self.errors = []
+        self.warnings = []
+        self.cardAddress = None
+
+    def __eq__(self, other):
+        return (self.name == other.name)
+
+    def set_button(self, button: QPushButton):
+        self.button = button
+        button.clicked.connect(lambda: self.show_info())
+
+    def show_info(self):
+        logging.critical("Hello from channel {}!".format(self.name))  # @DEBUG
+
+
 class SDR(NetworkDevice):
     def __init__(
         self, jsonDict: dict, warningHandler: WarningHandler,
@@ -52,11 +74,20 @@ class SDR(NetworkDevice):
             tabWidget=tabWidget
         )
 
-        self.numVfos = 2  # @DEBUG
-
         self.cards = {}
+        self.channels = {}
         self._legendLayout = None
 
+        # Load all channels from JSON message
+        for x in jsonDict['channels']:
+            self.channels[x['name']] = Channel(
+                name=x['name'],
+                supportsRx=x['supportsRx'],
+                supportsTx=x['supportsRx'],
+                supportsDuplex=x['supportsDuplex']
+            )
+
+        # Load all cards from JSON message
         for x in jsonDict['cards']:
             self.cards[x['address']] = Card(
                 type=x['type'],
@@ -74,7 +105,6 @@ class SDR(NetworkDevice):
         self._update_labels()
 
     def _update_labels(self):
-
         # Delete all the old labels - setting parent to None
         # seems to be the nicest to to delete a widget
         if self._legendLayout:
@@ -84,16 +114,16 @@ class SDR(NetworkDevice):
         while self._iconLayout.itemAt(0):
             self._iconLayout.itemAt(0).widget().setParent(None)
 
-        for i in range(self.numVfos):
-            labelString = "{} - VFO {}".format(
-                self.name,
-                chr(i + 65)
+        for _, x in self.channels.items():
+            labelString = "Channel {}".format(
+                x.name
             )
             labelWidget = QPushButton(labelString)
+            x.set_button(labelWidget)
 
             labelWidget.setStyleSheet(
                 "font: Waree; font-size: 48px; font-weight: bold;"
-                "border: 2px solid white; text-align: left"
+                "border: 2px solid white; text-align: left;"
             )
             labelWidget.setSizePolicy(
                 QSizePolicy.Expanding, QSizePolicy.Expanding
@@ -215,9 +245,10 @@ class SDR(NetworkDevice):
         super().update_discovery_info(jsonDict)
 
     def _update_label_colours(self):
-        # TODO: Add VFO status colouring
-
-        for _, x in self.cards.items():
+        channelList = [x for _, x in self.channels.items()]
+        cardList = [x for _, x in self.cards.items()]
+        devices = channelList + cardList
+        for x in devices:
             if x.errors:
                 style = STYLE_ERROR
             elif x.warnings:
@@ -266,3 +297,9 @@ class SDR(NetworkDevice):
             card.state = x['state']
         self._update_label_colours()
         super().update_status_info(jsonDict)
+
+        for x in jsonDict['channels']:
+            channel = self.channels[x['name']]
+            channel.state = x['state']
+            channel.warnings = x['warnings']
+            channel.errors = x['errors']

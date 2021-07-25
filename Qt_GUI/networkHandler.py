@@ -18,7 +18,7 @@ import socket
 from time import sleep
 
 
-class NetworkHandler:
+class NetworkHandler():
     """
     Handler for incoming messsages on the MQTT network
     """
@@ -77,7 +77,18 @@ class NetworkHandler:
         # (to allow everything else to boot)
         QTimer.singleShot(3000, self.start_timed_status_requests)
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        logging.critical("Stopping status request timer")
+        self.timer.stop()
+
     def start_timed_status_requests(self):
+        logging.info(
+            f"Starting to request status information "
+            f"every {STATUS_UPDATE_PERIOD}s"
+        )
         self.timer.start(1000 * STATUS_UPDATE_PERIOD)
 
     def tab_enabled(self):
@@ -98,6 +109,7 @@ class NetworkHandler:
         """
         Requests status information from all devices
         """
+        logging.debug("Requesting status information")
         self.mqtt.publish("/status/request", "Oh hai")
 
     def clear_online_status_and_refresh(self):
