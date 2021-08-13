@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QTableWidgetItem, QAbstractItemView, QHeaderView
-from PySide2.QtCore import Qt
+from PySide2.QtCore import QObject, Qt, Signal
 from datetime import datetime, timezone
 import logging
 from config_developer import TAB_WARNINGS, TAB_HOME
@@ -75,7 +75,7 @@ class Error(Sadness):
         super().__init__(source, category, message, date, time)
 
 
-class WarningHandler:
+class WarningHandler(QObject):
     """
     Handler for all errors / warnings reported by any device
     on MQTT network
@@ -115,7 +115,6 @@ class WarningHandler:
         self.warnings = []
         self.errors = []
         self.mqtt = None
-
         self._update_icon()
 
         # Name buttons to allow for easier re-arrangment
@@ -148,6 +147,13 @@ class WarningHandler:
         # Initially show both errors and warnings
         self.show_errors()
         self.show_warnings()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        ConfigDeveloper.WARNING_SIGNAL.disconnect()
+        ConfigDeveloper.ERROR_SIGNAL.disconnect()
 
     def register_mqtt(self, x):
         self.mqtt = x

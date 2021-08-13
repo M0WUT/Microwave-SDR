@@ -3,7 +3,8 @@ import logging
 from uuid import getnode
 
 
-def readable_freq(freq):
+def readable_freq(freq: int) -> int:
+    """ Converts frequency in Hz to human readable form """
     if(freq >= 1e9):
         return str(freq / 1e9) + "GHz"
     elif (freq >= 1e6):
@@ -14,16 +15,13 @@ def readable_freq(freq):
         return str(freq) + "Hz"
 
 
-def get_link_speed():
+def get_link_speed() -> int:
+    """ Returns network connection rated speed in Mbps"""
     with open("/sys/class/net/eth0/speed") as file:
-        speed = file.readline().strip()
-        if(speed == '1000'):
-            return '1 Gbps'
-        else:
-            return str(speed) + " Mbps"
+        return file.readline().strip()
 
 
-def get_ip():
+def get_ip() -> str:
     """ Returns IP Address as string"""
     # Credit to Stack Overflow user2561747
     # https://stackoverflow.com/questions/166506/finding-local-ip-addresses-using-pythons-stdlib
@@ -40,6 +38,7 @@ def get_ip():
         return IP
 
 
-def get_mac():
+def get_mac() -> str:
+    """ Returns MAC address of this device"""
     mac = getnode()
     return ':'.join(("%012X" % mac)[i:i+2] for i in range(0, 12, 2))

@@ -29,18 +29,13 @@ class Channel():
         }
         self.offset = 0
         self.adcClk = adcClk
-        self.setFreq(freq, update=False)
-        self.setMode(mode)
+        self.set_freq(freq, update=False)
+        self.set_mode(mode)
         self.supportsRx = supportsRx
         self.supportsTx = supportsTx
         self.supportsDuplex = supportsDuplex
 
-        self.mqtt.register_callback(
-            "/{}/channel{}/set".format(get_mac(), self.name),
-            self.handle_command
-        )
-
-    def setMode(self, mode):
+    def set_mode(self, mode):
         if mode == "USB":
             self.set_offset(-1500)
         elif mode == "LSB":
@@ -56,7 +51,7 @@ class Channel():
             StatusRegs.RXMODE, self.supportedModes[mode] << 8
         )
         self.mode = mode
-        self.setFreq(self.freq)  # Need to update freq as offset can change
+        self.set_freq(self.freq)  # Need to update freq as offset can change
         self.publish_info()
         logging.debug(
             "Channel {} set to {}".format(
@@ -64,7 +59,7 @@ class Channel():
             )
         )
 
-    def setFreq(self, freq, update=True):
+    def set_freq(self, freq, update=True):
         # @TODO Validate frequency
         self.freq = int(freq)
         freqString = str(freq / 10 if freq >= 10e9 else freq)
@@ -130,10 +125,20 @@ class Channel():
             "state": "idle"  # @TODO
         })
 
+    def shutdown(self):
+        pass  # @TODO
+
 
 class ChannelHandler:
     def __init__(self, channels: List[Channel]):
         self.channels = channels
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        for x in self.channels:
+            x.shutdown()
 
     def get_discovery_info(self) -> str:
         return [x.get_discovery_json() for x in self.channels]

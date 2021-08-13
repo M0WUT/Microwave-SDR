@@ -28,7 +28,6 @@ logging.basicConfig(
 
 class Main:
     def __init__(self):
-
         logging.info("Application started. Waiting for NTP sync...")
         synced = False
         client = ntplib.NTPClient()
@@ -40,44 +39,54 @@ class Main:
                 logging.info("NTP Sync failed. Retrying...")
             time.sleep(1)
         logging.info(
-            "NTP sync successful. IP Address: {}. Starting main application".format(get_ip())
+            "NTP sync successful. IP Address: {}. "
+            "Starting main application".format(get_ip())
         )
         self.startTime = datetime.now(timezone.utc)
         LED_STATUS.write(GPIO.HIGH)
-        self.warnings = WarningHandler()
-        self.mqtt = MqttHandler(
-            MQTT_SERVER_IP_ADDRESS, MQTT_SERVER_PORT, self.warnings
-        )
-        self.warnings.register_mqtt(self.mqtt)
-        self.status = StatusRegs(STATUS_REGISTERS_FILE, self.warnings)
-        self.slots = slotsEeprom(
-            SLOTS_I2C_FILE, "Baseboard Config", SLOTS_EEPROM_ADDRESS,
-            PIN_WP, self.warnings
-        )
-        self.cards = CardHandler(
-            TRANSVERTER_RS485_UART, self.warnings,
-            numSlots=self.slots.num_slots()
-        )
-        self.channels = ChannelHandler(
-            [
-                Channel(
-                    '0', self.mqtt, self.status, self.warnings
+        with WarningHandler() as self.warnings, \
+                MqttHandler(
+                    MQTT_SERVER_IP_ADDRESS,
+                    MQTT_SERVER_PORT,
+                    self.warnings
+                ) as self.mqtt:
+
+            self.warnings.register_mqtt(self.mqtt)
+
+            self.status = StatusRegs(
+                STATUS_REGISTERS_FILE, self.warnings
+            )
+            self.slots = slotsEeprom(
+                SLOTS_I2C_FILE, "Baseboard Config",
+                SLOTS_EEPROM_ADDRESS, PIN_WP, self.warnings
+            )
+
+            with \
+                    CardHandler(
+                        TRANSVERTER_RS485_UART, self.warnings,
+                        numSlots=self.slots.num_slots()
+                    ) as self.cards, \
+                    \
+                    ChannelHandler([
+                        Channel(
+                            'A', self.mqtt, self.status, self.warnings
+                        )
+                    ]) as self.channels:
+
+                self.mqtt.register_callback(
+                    "/discovery/request",
+                    self.send_discovery_info
                 )
-            ]
-        )
 
-        self.mqtt.register_callback(
-            "/discovery/request",
-            self.send_discovery_info
-        )
+                self.mqtt.register_callback(
+                    "/status/request",
+                    self.send_status_info
+                )
 
-        self.mqtt.register_callback(
-            "/status/request",
-            self.send_status_info
-        )
+                self.send_discovery_info()
+                self.send_status_info()
 
-        self.send_discovery_info()
-        self.send_status_info()
+                self.run()
 
     def send_discovery_info(self, msg=None):
         """
@@ -99,13 +108,13 @@ class Main:
         """
         x = {
             "type": "sdr",
-            "mac": get_mac(),
             "ip": get_ip(),
+            "mac": get_mac(),
             "name": NAME,
             "api": MQTT_API_VERSION,
             "link": get_link_speed(),
-            "channels": self.channels.get_discovery_info(),
             "numSlots": self.cards.numSlots,
+            "channels": self.channels.get_discovery_info(),
             "cards": self.cards.get_discovery_info(),
         }
 
@@ -164,4 +173,3 @@ class Main:
 
 if __name__ == '__main__':
     x = Main()
-    x.run()

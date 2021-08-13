@@ -61,7 +61,7 @@ class NetworkDevice():
         self._onlineLabel = self.add_value_row("Online:", "")
         self._update_online_state(True)
         self._linkSpeedLabel = self.add_value_row(
-            "Link Speed:", self.linkSpeed
+            "Link Speed:", str(self.linkSpeed) + "Mbps"
         )
 
         self._grid.setRowStretch(self._grid.rowCount(), 1)
@@ -142,14 +142,14 @@ class NetworkDevice():
                 self.name,
                 "Network",
                 f"Device {self.name} ({self.mac}) changed speed"
-                f"from {self.linkSpeed} to {jsonDict['link']}"
+                f"from {self.linkSpeed}Mbps to {jsonDict['link']}Mbps"
             )
             self.name = jsonDict['name']
             self.updated = True
 
         self._ipLabel.setText(self.ipAddr)
         self._apiLabel.setText(self.apiVersion)
-        self._linkSpeedLabel.setText(self.linkSpeed)
+        self._linkSpeedLabel.setText(str(self.linkSpeed) + "Mbps")
 
         # Online is a bit special as we want a tick box
         self._update_online_state(True)

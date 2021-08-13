@@ -2,6 +2,8 @@ import logging
 import socket
 from uuid import getnode
 from dataclasses import dataclass
+import json
+from json.decoder import JSONDecodeError
 
 
 def readable_freq(freq):
@@ -38,13 +40,9 @@ def get_mac():
     return ':'.join(("%012X" % mac)[i:i+2] for i in range(0, 12, 2))
 
 
-def get_link_speed():
+def get_link_speed() -> int:
     with open("/sys/class/net/eth0/speed") as file:
-        speed = file.readline().strip()
-        if(speed == '1000'):
-            return '1 Gbps'
-        else:
-            return str(speed) + " Mbps"
+        return int(file.readline().strip())
 
 
 class NamedValue():

@@ -5,13 +5,8 @@ import socket
 from PySide2.QtCore import Signal, QObject
 from config_user import NAME
 import json
+from json.decoder import JSONDecodeError
 from usefulFunctions import get_mac
-
-
-class RegisteredHandler(object):
-    def __init__(self, topic, callbackFunction):
-        self.topic = topic
-        self.callbackFunction = callbackFunction
 
 
 class MqttHandler(QObject):
@@ -27,7 +22,7 @@ class MqttHandler(QObject):
         self.warnings = warnings
         self.ipAddr = ipAddr
         self.ipPort = ipPort
-        self.callbacks = []
+        self.callbacks = {}
 
         try:
             x = {
@@ -68,14 +63,39 @@ class MqttHandler(QObject):
         self.messageReceived.emit(msg)
 
     def message_handler(self, msg):
+        message = msg.payload.decode('utf-8')
         logging.debug(
-            f"Received MQTT: [{msg.topic}] {msg.payload.decode('utf-8')}"
+            f"Received MQTT: [{msg.topic}] {message}"
         )
-        for x in self.callbacks:
-            if msg.topic == x.topic:
-                x.callbackFunction(msg)
-                return
-        self.warnings.add_warning(
+        if msg.topic in self.callbacks.keys():
+            try:
+                id = "Unknown device"
+                res = json.loads(message)
+                if "name" in res.keys():
+                    id = res["name"]
+                self.callbacks[msg.topic](res)
+
+            except UnicodeDecodeError:
+                self.warnings.add_warning(
+                    id,
+                    "MQTT",
+                    "Malformed message received"
+                )
+            except JSONDecodeError:
+                self.warnings.add_warning(
+                    id,
+                    "MQTT",
+                    "Received message contains invalid JSON"
+                )
+            except KeyError as e:
+                self.warnings.add_warning(
+                    id,
+                    "MQTT",
+                    "Response from device "
+                    "was not complete. Expected key: {}".format(e)
+                )
+        else:
+            self.warnings.add_warning(
                 NAME, "MQTT",
                 f"No handler registered for subscribed topic: {msg.topic}",
                 broadcast=False
@@ -86,13 +106,10 @@ class MqttHandler(QObject):
         self.client.publish(topic, payload, *args, **kwargs)
 
     def register_callback(self, topic, func):
-        assert topic not in [x.topic for x in self.callbacks], \
+        assert topic not in self.callbacks.keys(), \
             f"Topic: {topic} already has a callback function registered"
-        self.callbacks.append(
-            RegisteredHandler(
-                topic=topic, callbackFunction=func
-            )
-        )
+        self.callbacks[topic] = func
+
         error, _ = self.client.subscribe(topic)
         if (error != mqtt.MQTT_ERR_SUCCESS):
             self.warnings.add_error(
@@ -114,14 +131,3 @@ class MqttHandler(QObject):
         logging.info(
             f"Disconnected from MQTT Server {self.ipAddr}:{self.ipPort}"
         )
-
-
-if __name__ == '__main__':
-    logging.basicConfig(
-        format='%(asctime)s %(levelname)-8s %(message)s',
-        level=logging.DEBUG,
-        datefmt='%Y-%m-%d %H:%M:%S'
-    )
-    x = mqttHandler("127.0.0.1", ipPort=1883, warnings=None)
-    while(1):
-        pass

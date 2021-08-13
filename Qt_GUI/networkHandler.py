@@ -110,7 +110,7 @@ class NetworkHandler():
         Requests status information from all devices
         """
         logging.debug("Requesting status information")
-        self.mqtt.publish("/status/request", "Oh hai")
+        self.mqtt.publish("/status/request", "{}")
 
     def clear_online_status_and_refresh(self):
         for x in self.devices:
@@ -122,7 +122,7 @@ class NetworkHandler():
         Clears all knowledge of devices and then requests info
         """
         logging.info("Starting network discovery")
-        self.mqtt.publish("/discovery/request", "Oh hai")
+        self.mqtt.publish("/discovery/request", "{}")
 
     def send_discovery_info(self, msg):
         """
@@ -166,8 +166,7 @@ class NetworkHandler():
         Raises:
             None
         """
-        x = json.loads(msg.payload.decode('utf-8'))
-
+        x = msg
         if(x['api'] != MQTT_API_VERSION):
             self.warningHandler.add_warning(
                 NAME, "MQTT",
@@ -234,19 +233,17 @@ class NetworkHandler():
         self.mqtt.publish("/status/info", json.dumps(x))
 
     def receive_status_info(self, msg: str) -> None:
-        x = json.loads(msg.payload.decode('utf-8'))
-
         for dev in self.devices:
-            if(x['mac'] == dev.mac):
+            if(msg['mac'] == dev.mac):
                 # Device is already known to us, update info
-                dev.update_status_info(x)
+                dev.update_status_info(msg)
                 return
 
         else:
             self.warningHandler.add_warning(
                 NAME,
                 "MQTT",
-                f"Undiscovered device ({x['mac']}) replying on network"
+                f"Undiscovered device ({msg['mac']}) replying on network"
             )
 
     def receive_lwt(self, msg: str) -> None:

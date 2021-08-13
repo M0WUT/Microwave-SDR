@@ -18,7 +18,7 @@ from warningHandler import WarningHandler
 from networkHandler import NetworkHandler
 
 from PySide2.QtWidgets import QApplication, QWidget
-from PySide2.QtCore import QFile, QIODevice, QTextStream
+from PySide2.QtCore import QFile, QIODevice, QTextStream, Signal
 
 
 class main(QWidget):

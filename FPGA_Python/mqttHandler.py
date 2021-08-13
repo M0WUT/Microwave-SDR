@@ -107,7 +107,10 @@ class MqttHandler():
             "Subscribed to MQTT topic: {}".format(topic)
         )
 
-    def __del__(self):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
         self.client.loop_stop()
         self.client.disconnect()
         logging.info(
@@ -118,12 +121,16 @@ class MqttHandler():
         )
 
 
-if __name__ == '__main__':
+def main():
     logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
         level=logging.DEBUG,
         datefmt='%Y-%m-%d %H:%M:%S'
     )
-    x = MqttHandler("127.0.0.1", ipPort=1883, warnings=None)
+    _ = MqttHandler("127.0.0.1", ipPort=1883, warnings=None)
     while(1):
         pass
+
+
+if __name__ == '__main__':
+    main()

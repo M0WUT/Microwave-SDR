@@ -85,11 +85,16 @@ class WarningHandler:
     """
 
     def __init__(self):
-
         # Initialisation
         self.warnings = []
         self.errors = []
         self.mqtt = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        pass
 
     def register_mqtt(self, x):
         assert isinstance(x, MqttHandler)
@@ -125,7 +130,7 @@ class WarningHandler:
         )
         self.warnings.append(x)
 
-        if(broadcast):
+        if(broadcast and self.mqtt):
             self.mqtt.publish(
                 '/discovery/warnings',
                 json.dumps(x.json())
@@ -162,7 +167,7 @@ class WarningHandler:
 
         self.errors.append(x)
 
-        if(broadcast):
+        if(broadcast and self.mqtt):
             self.mqtt.publish(
                 '/discovery/errors',
                 json.dumps(x.json())
@@ -200,8 +205,3 @@ class WarningHandler:
         for x in myWarningList:
             jsonBlob.append(x.json())
         return jsonBlob
-
-
-if __name__ == '__main__':
-    x = WarningHandler()
-    x.add_warning(NAME, "test", "Hello World", broadcast=False)
