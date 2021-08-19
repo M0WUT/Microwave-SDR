@@ -12,7 +12,7 @@ from typing import List
 from mqttHandler import MqttHandler
 from warningHandler import WarningHandler
 from NetworkDevices.controller import Controller
-from NetworkDevices.sdr import SDR
+from NetworkDevices.sdr import SDR, CardReference
 import ntplib
 import socket
 from time import sleep
@@ -36,6 +36,7 @@ class NetworkHandler():
 
         self.devices = []
 
+        # Wait for NTP sync before starting
         synced = False
         client = ntplib.NTPClient()
         while not synced:
@@ -45,7 +46,6 @@ class NetworkHandler():
             except (ntplib.NTPException, socket.gaierror):
                 logging.info("NTP Sync failed. Retrying...")
             sleep(1)
-
         logging.info("NTP sync successful")
 
         self.startTime = datetime.now(timezone.utc)
@@ -90,6 +90,27 @@ class NetworkHandler():
             f"every {STATUS_UPDATE_PERIOD}s"
         )
         self.timer.start(1000 * STATUS_UPDATE_PERIOD)
+
+    def get_all_transverters(self) -> List[CardReference]:
+        """ Returns a list of all known transverters"""
+        transverters = []
+        for x in self.devices:
+            if isinstance(x, SDR):
+                transverters.extend(x.get_transverters())
+        return transverters
+
+    def get_supported_transverters(self, freq: int) -> List[CardReference]:
+        """
+        Returns a list of transvertres that support operation at a
+        certain frequency
+
+        Args:
+            freq: frequency in Hz
+        """
+        return[x for x in self.get_all_transverters() if (
+            (x.minFreq <= freq) and
+            (x.maxFreq >= freq)
+        )]
 
     def tab_enabled(self):
         """
@@ -216,12 +237,6 @@ class NetworkHandler():
         Args:
             msg (str): payload of status message. Does nothing with this
                 but all MQTT callbacks take this argument
-
-        Returns:
-            None
-
-        Raises:
-            None
         """
         x = {
             "type": "controller",
@@ -252,12 +267,6 @@ class NetworkHandler():
 
         Args:
             msg (str): payload of infomation message.
-
-        Returns:
-            None
-
-        Raises:
-            None
         """
         x = json.loads(msg.payload.decode('utf-8'))
         name = x['name']
@@ -277,15 +286,6 @@ class NetworkHandler():
         """
         Returns time since this object was initialised, which is hopefully
         the uptime of this software, in human readable form.
-
-        Args:
-            None
-
-        Returns:
-            str: Uptime in human readable form
-
-        Raises:
-            None
         """
         uptime = datetime.now(timezone.utc) - self.startTime
         hours = int(uptime.seconds / 3600)

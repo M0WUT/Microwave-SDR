@@ -9,14 +9,13 @@ from PySide2.QtCore import QSize
 
 class NetworkDevice():
     def __init__(
-        self, type: str, jsonDict, warningHandler: WarningHandler,
+        self, jsonDict, warningHandler: WarningHandler,
         tabWidget: QTabWidget
     ):
         """
         Base class for any object on the MQTT network
         """
 
-        self.type = type
         self.ipAddr = jsonDict['ip']
         self.mac = jsonDict['mac']
         self.name = jsonDict['name']
@@ -50,7 +49,7 @@ class NetworkDevice():
         self._ipLabel = self.add_value_row("IP Address:", self.ipAddr)
 
         # These are the definition of a unique device so never need updating
-        self.add_value_row("Type:", self.type.upper())
+        self.add_value_row("Type:", self.get_type())
         self.add_value_row("MAC Address:", self.mac)
 
         self._apiLabel = self.add_value_row(
@@ -171,8 +170,6 @@ class NetworkDevice():
         Updates the discovery information for an already existing
         entry in self._tab.
         """
-
-        self._update_online_state(True)
 
         # Online is a bit special as we want a tick box
         self._update_online_state(True)

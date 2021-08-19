@@ -86,6 +86,7 @@ class main(QWidget):
             self.vfoA = Vfo(
                 "A",
                 self.mqtt,
+                self.network,
                 self.ui.button_A_rx,
                 self.ui.button_A_tx,
                 self.ui.label_A_fc,

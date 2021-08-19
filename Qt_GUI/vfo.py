@@ -18,11 +18,12 @@ def freq_format(x: int) -> str:
     return newFreqString[1:]  # Remove final decimal point at start
 
 
-class Vfo(object):
+class Vfo():
     def __init__(
         self,
         name,
         mqtt,
+        networkHandler,
         rxButton,
         txButton,
         fcLabel,
@@ -32,6 +33,7 @@ class Vfo(object):
     ):
         self.name = name
         self.mqtt = mqtt
+        self.networkHandler = networkHandler
         self.rxButton = rxButton
         self.txButton = txButton
         self.fcLabel = fcLabel,
@@ -94,7 +96,6 @@ class Vfo(object):
         }
         if key in ["G", "M", "k", "x"]:
             freq = float(self.enteredFreq) * constants[key]
-            # @TODO find suitable channel
             self.set_freq(freq)
             self.freqWindow.hide()
         else:
@@ -107,7 +108,10 @@ class Vfo(object):
         self.freqWindow.show()
 
     def set_freq(self, freq):
-        self.publish_freq(freq)
+        logging.critical(
+            self.networkHandler.get_supported_transverters(freq)
+        )  # @DEBUG
+        # self.publish_freq(freq)
         logging.info(
             f"VFO {self.name} set to {readable_freq(freq)}"
         )

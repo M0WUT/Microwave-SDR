@@ -9,5 +9,8 @@ class Controller(NetworkDevice):
         tabWidget: QTabWidget
     ):
         super().__init__(
-            "controller", jsonDict, warningHandler, tabWidget
+            jsonDict, warningHandler, tabWidget
         )
+
+    def get_type(self) -> str:
+        return "Controller"

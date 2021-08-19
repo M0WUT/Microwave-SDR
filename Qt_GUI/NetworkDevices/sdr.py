@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from NetworkDevices.networkDevice import NetworkDevice
 from warningHandler import WarningHandler
 from PySide2.QtWidgets import QHBoxLayout, QPushButton, QSizePolicy, \
@@ -5,17 +6,25 @@ from PySide2.QtWidgets import QHBoxLayout, QPushButton, QSizePolicy, \
 from PySide2.QtCore import Qt
 import logging
 import re
+from typing import List
 from mqttHandler import MqttHandler
 from usefulFunctions import STYLE_ERROR, STYLE_IDLE, STYLE_RX, \
     STYLE_SHUTDOWN, STYLE_TX, STYLE_WARMUP, STYLE_WARNING, SDR_STYLES
 
 
-class Card():
+@dataclass
+class CardReference:
+    sdrIP: str
+    minFreq: int
+    maxFreq: int
+    controller: str = None
+
+
+class Card:
     """Base class for anything installed in an SDR Rack"""
     def __init__(
-        self, address: int, type: str, name: str
+        self, address: int, name: str
     ):
-        self.type = type
         self.address = address
         self.name = name
         self.warnings = []
@@ -28,7 +37,7 @@ class Card():
 
     def __eq__(self, other):
         return (
-            (self.type == other.type) and
+            (type(self) == type(other)) and
             (self.address == other.address) and
             (self.name) == other.name
         )
@@ -39,6 +48,15 @@ class Card():
 
     def show_info(self):
         logging.critical("Hello from card in address {}!".format(self.address))  # @DEBUG
+
+    def get_type(self) -> str:
+        """ Returns string name of this card type """
+        raise NotImplementedError
+
+
+class Transverter(Card):
+    def get_type(self):
+        return "Transverter"
 
 
 class Channel:
@@ -69,7 +87,6 @@ class SDR(NetworkDevice):
         tabWidget: QTabWidget
     ):
         super().__init__(
-            type="sdr",
             jsonDict=jsonDict,
             warningHandler=warningHandler,
             tabWidget=tabWidget
@@ -84,17 +101,19 @@ class SDR(NetworkDevice):
             self.channels[x['name']] = Channel(
                 name=x['name'],
                 supportsRx=x['supportsRx'],
-                supportsTx=x['supportsRx'],
+                supportsTx=x['supportsTx'],
                 supportsDuplex=x['supportsDuplex']
             )
 
         # Load all cards from JSON message
         for x in jsonDict['cards']:
-            self.cards[x['address']] = Card(
-                type=x['type'],
-                name=x['name'],
-                address=x['address']
-            )
+            if x['type'] == "transverter":
+                self.cards[x['address']] = Transverter(
+                    name=x['name'],
+                    address=x['address']
+                )
+            else:
+                raise NotImplementedError
 
         self.numSlots = jsonDict['numSlots']
         self._slotLabel = self.add_value_row(
@@ -104,6 +123,9 @@ class SDR(NetworkDevice):
             "Number of cards:", len(self.cards)
         )
         self._update_labels()
+
+    def get_type(self) -> str:
+        return "SDR"
 
     def _update_labels(self):
         # Delete all the old labels - setting parent to None
@@ -116,9 +138,7 @@ class SDR(NetworkDevice):
             self._iconLayout.itemAt(0).widget().setParent(None)
 
         for _, x in self.channels.items():
-            labelString = "Channel {}".format(
-                x.name
-            )
+            labelString = "Channel {}".format(x.name)
             labelWidget = QPushButton(labelString)
             x.set_button(labelWidget)
 
@@ -131,25 +151,24 @@ class SDR(NetworkDevice):
             )
             self._iconLayout.addWidget(labelWidget)
 
-        for i in range(1, self.numSlots + 1):
+        for address in range(1, self.numSlots + 1):
             try:
-                self.cards[i].set_button(
+                self.cards[address].set_button(
                     QPushButton(
                         "{}: {} - {}".format(
-                            i, self.cards[i].type.upper(),
-                            self.cards[i].name
+                            address, self.cards[address].get_type(),
+                            self.cards[address].name
                         )
                     )
                 )
-                labelWidget = self.cards[i].button
+                labelWidget = self.cards[address].button
                 labelWidget.setSizePolicy(
                     QSizePolicy.Expanding, QSizePolicy.Expanding
                 )
 
             except KeyError:
-                continue
-                # labelWidget = QLabel("{}: {}".format(i, "No Card"))
-                # labelWidget.setStyleSheet("color: #505050;")
+                labelWidget = QLabel("{}: {}".format(address, "No Card"))
+                labelWidget.setStyleSheet("color: #505050;")
 
             # Add generic font stuff
             labelWidget.setStyleSheet(
@@ -304,3 +323,11 @@ class SDR(NetworkDevice):
             channel.state = x['state']
             channel.warnings = x['warnings']
             channel.errors = x['errors']
+
+    def get_transverters(self) -> List[CardReference]:
+        return [CardReference(
+            sdrIP=self.ipAddr,
+            minFreq=x.minFreq,
+            maxFreq=x.maxFreq,
+            controller=None
+        ) for _, x in self.cards.items() if isinstance(x, Transverter)]
