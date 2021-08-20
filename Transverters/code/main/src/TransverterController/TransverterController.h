@@ -33,6 +33,7 @@ class TransverterController
         Rs485Handler *_rs485Handler;     
         TransverterState _state;
         String _controller;
+        int _rs485Address;
         void rs485_tx(char commandChar, DynamicJsonDocument response);
         void send_discovery_info();
         void send_status_info();

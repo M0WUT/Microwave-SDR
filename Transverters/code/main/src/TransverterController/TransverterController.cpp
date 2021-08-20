@@ -41,7 +41,8 @@ void TransverterController::setup(){
     _addressEeprom = new AddressEeprom(ADDRESS_EEPROM_I2C_ADDRESS, _panicker);
 
     // Setup Handler for RS485 messages
-    _rs485Handler = new Rs485Handler(_addressEeprom->get_address());
+    _rs485Address = _addressEeprom->get_address();
+    _rs485Handler = new Rs485Handler(_rs485Address);
 
     // Assume we're warming up and no SDR is controlling this transverter
     set_state(WARMUP);
@@ -112,6 +113,7 @@ void TransverterController::rs485_tx(char commandChar, DynamicJsonDocument respo
 
 void TransverterController::send_discovery_info(){
     DynamicJsonDocument response(1024);
+    response["address"] = _rs485Address;
     response["type"] = "transverter";
     response["name"] = NAME;
     response["loFreq"] = int(LO_FREQ);
@@ -127,6 +129,8 @@ void TransverterController::send_discovery_info(){
 
 void TransverterController::send_status_info(){
     DynamicJsonDocument response(1024);
+    response["address"] = _rs485Address;
+    response["name"] = NAME;
     // Add warnings
     // @TODO
     response.createNestedObject("warnings");
@@ -187,7 +191,5 @@ void TransverterController::run(){
             set_state(state);
             digitalWrite(LED_RX, !digitalRead(LED_RX));
         }
-
     }
 }
-    

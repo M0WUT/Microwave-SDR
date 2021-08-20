@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 from NetworkDevices.networkDevice import NetworkDevice
+from NetworkDevices.card import CardReference
+from NetworkDevices.transverter import Transverter
 from warningHandler import WarningHandler
 from PySide2.QtWidgets import QHBoxLayout, QPushButton, QSizePolicy, \
     QTabWidget, QLabel
@@ -10,53 +12,6 @@ from typing import List
 from mqttHandler import MqttHandler
 from usefulFunctions import STYLE_ERROR, STYLE_IDLE, STYLE_RX, \
     STYLE_SHUTDOWN, STYLE_TX, STYLE_WARMUP, STYLE_WARNING, SDR_STYLES
-
-
-@dataclass
-class CardReference:
-    sdrIP: str
-    minFreq: int
-    maxFreq: int
-    controller: str = None
-
-
-class Card:
-    """Base class for anything installed in an SDR Rack"""
-    def __init__(
-        self, address: int, name: str
-    ):
-        self.address = address
-        self.name = name
-        self.warnings = []
-        self.errors = []
-        self.state = None
-        self.rfPowerReadings = {}
-        self.dcPowerReadings = {}
-        self.temperatures = {}
-        self.button = None
-
-    def __eq__(self, other):
-        return (
-            (type(self) == type(other)) and
-            (self.address == other.address) and
-            (self.name) == other.name
-        )
-
-    def set_button(self, button: QPushButton):
-        self.button = button
-        button.clicked.connect(lambda: self.show_info())
-
-    def show_info(self):
-        logging.critical("Hello from card in address {}!".format(self.address))  # @DEBUG
-
-    def get_type(self) -> str:
-        """ Returns string name of this card type """
-        raise NotImplementedError
-
-
-class Transverter(Card):
-    def get_type(self):
-        return "Transverter"
 
 
 class Channel:
@@ -279,10 +234,10 @@ class SDR(NetworkDevice):
                 style = STYLE_RX
             elif x.state == "tx":
                 style = STYLE_TX
-            elif x.state is None or x.state == "idle":
-                style = STYLE_IDLE
             elif x.state == 'shutdown':
                 style = STYLE_SHUTDOWN
+            elif x.state is None or x.state == "idle":
+                style = STYLE_IDLE
             else:
                 raise NotImplementedError
 

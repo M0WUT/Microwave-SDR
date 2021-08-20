@@ -63,7 +63,7 @@ class Main:
 
             with \
                     CardHandler(
-                        TRANSVERTER_RS485_UART, self.warnings,
+                        TRANSVERTER_RS485_UART,
                         numSlots=self.slots.num_slots()
                     ) as self.cards, \
                     \
@@ -115,7 +115,7 @@ class Main:
             "link": get_link_speed(),
             "numSlots": self.cards.numSlots,
             "channels": self.channels.get_discovery_info(),
-            "cards": self.cards.get_discovery_info(),
+            "cards": self.cards.get_all_discovery_info(),
         }
 
         self.mqtt.publish("/discovery/info", json.dumps(x))
@@ -128,7 +128,7 @@ class Main:
             "errors": self.warnings.get_errors(),
             "uptime": self.get_uptime(),
             "channels": self.channels.get_status_info(),
-            "cards": self.cards.get_status_info()
+            "cards": self.cards.get_all_status_info()
         }
 
         self.mqtt.publish("/status/info", json.dumps(x))
