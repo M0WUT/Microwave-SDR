@@ -5,12 +5,7 @@ import socket
 from usefulFunctions import get_mac
 from config_user import NAME
 import json
-
-
-class RegisteredHandler(object):
-    def __init__(self, topic, callbackFunction):
-        self.topic = topic
-        self.callbackFunction = callbackFunction
+from json.decoder import JSONDecodeError
 
 
 class MqttHandler():
@@ -22,7 +17,7 @@ class MqttHandler():
         self.client.on_message = self.on_message
         self.ipAddr = ipAddr
         self.ipPort = ipPort
-        self.callbacks = []
+        self.callbacks = {}
 
         try:
             x = {
@@ -61,17 +56,39 @@ class MqttHandler():
             )
 
     def on_message(self, client, userdata, msg):
+        message = msg.payload.decode('utf-8')
         logging.debug(
-            "Received MQTT: [{}] {}".format(
-                msg.topic,
-                msg.payload.decode('utf-8')
-            )
+            "Received MQTT: [{}] {}".format(msg.topic, message)
         )
-        for x in self.callbacks:
-            if msg.topic == x.topic:
-                x.callbackFunction(msg)
-                return
-        self.warnings.add_warning(
+        if msg.topic in self.callbacks.keys():
+            try:
+                id = "Unknown device"
+                res = json.loads(message)
+                if "name" in res.keys():
+                    id = res["name"]
+                self.callbacks[msg.topic](res)
+
+            except UnicodeDecodeError:
+                self.warnings.add_warning(
+                    id,
+                    "MQTT",
+                    "Malformed message received"
+                )
+            except JSONDecodeError:
+                self.warnings.add_warning(
+                    id,
+                    "MQTT",
+                    "Received message contains invalid JSON"
+                )
+            except KeyError as e:
+                self.warnings.add_warning(
+                    id,
+                    "MQTT",
+                    "Response from device "
+                    "was not complete. Expected key: {}".format(e)
+                )
+        else:
+            self.warnings.add_warning(
                 "MQTT",
                 "No handler registered for subscribed topic: {}".format(
                     msg.topic
@@ -87,15 +104,12 @@ class MqttHandler():
         self.client.publish(topic, payload, *args, **kwargs)
 
     def register_callback(self, topic, func):
-        assert topic not in [x.topic for x in self.callbacks], \
+        assert topic not in self.callbacks.keys(), \
             "Topic: {} already has a callback function registered".format(
                 topic
             )
-        self.callbacks.append(
-            RegisteredHandler(
-                topic=topic, callbackFunction=func
-            )
-        )
+        self.callbacks[topic] = func
+
         error, _ = self.client.subscribe(topic)
         if (error != mqtt.MQTT_ERR_SUCCESS):
             self.warnings.add_error(
@@ -106,6 +120,24 @@ class MqttHandler():
         logging.info(
             "Subscribed to MQTT topic: {}".format(topic)
         )
+
+    def remove_callback(self, topic) -> None:
+        assert topic in self.callbacks.keys(), \
+            "Attempted to remove topic ({}) that's not "\
+            "currently subscribed to".format(topic)
+
+        error, _ = self.client.unsubscribe(topic)
+        if (error != mqtt.MQTT_ERR_SUCCESS):
+            self.warnings.add_error(
+                NAME, "MQTT",
+                "Failed to unsubscribe from topic {}".format(topic),
+                broadcast=False
+            )
+        else:
+            self.callbacks.pop(topic)
+            logging.info(
+                "Unsubscribed from MQTT topic: {}".format(topic)
+            )
 
     def __enter__(self):
         return self

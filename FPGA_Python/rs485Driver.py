@@ -8,7 +8,7 @@ from threading import Lock
 
 
 class RS485Packet():
-    def __init__(self, address: int, command: int, payload: List[bytes] = []):
+    def __init__(self, address: int, command: int, payload: str = ""):
         self.address = address
         self.command = command
         self.payload = payload
@@ -48,7 +48,7 @@ class RS485Driver():
             address = x.address.to_bytes(1, 'big')
             command = x.command.encode("utf-8")
             self.set_direction(self.TX)
-            payload = bytes(x.payload)
+            payload = x.payload.encode("utf-8")
             logging.debug(
                 "RS485 TX to address {}, command {}, payload {}".format(
                     x.address, x.command, x.payload

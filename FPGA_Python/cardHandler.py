@@ -1,4 +1,5 @@
 # Standard imports
+from channel import Channel
 import logging
 import json
 
@@ -68,7 +69,7 @@ class CardHandler:
         assert address in self.respondingAddresses
         packet = RS485Packet(
                 address=address,
-                command="S",
+                command="S"
             )
         response = self.driver.query(packet)
         if response:
@@ -87,3 +88,29 @@ class CardHandler:
             if response:
                 statusInfo.append(response)
         return statusInfo
+
+    def assign_card_to_channel(self, channel: Channel, address: int) -> bool:
+        """
+        Assigns a card to a channel and updates the channel info.
+        Returns True if succeeds
+        """
+        controller = self.get_status_info(address)["controller"]
+        if controller:
+            return False
+        else:
+            assert address <= self.numSlots
+            packet = RS485Packet(
+                address=address,
+                command="C",
+                payload=json.dumps({
+                    "channel": channel.name
+                })
+            )
+            response = self.driver.query(packet)
+            if response:
+                # For this to be valid, first character must be a "C"
+                if response[0] != ord("C"):
+                    return False
+
+            response = json.loads(response[1:].decode('utf-8'))
+            return (response["status"] == "success")

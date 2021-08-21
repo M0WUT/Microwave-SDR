@@ -104,7 +104,6 @@ class NetworkDevice():
         entry in self._tab. None of this should be changing -
         discovery information is intended to be static
         """
-        assert jsonDict['type'] == self.type
         self._update_online_state(True)
         if self.ipAddr != jsonDict['ip']:
             self.warningHandler.add_warning(

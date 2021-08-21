@@ -34,6 +34,10 @@ class Channel():
         self.supportsRx = supportsRx
         self.supportsTx = supportsTx
         self.supportsDuplex = supportsDuplex
+        if supportsDuplex:
+            assert supportsRx and supportsTx
+        self.controller = None
+        self.transverter = None
 
     def set_mode(self, mode):
         if mode == "USB":
@@ -145,3 +149,7 @@ class ChannelHandler:
 
     def get_status_info(self) -> str:
         return [x.get_status_json() for x in self.channels]
+
+    def get_free_channels(self) -> List[Channel]:
+        """ Returns a list of available channels """
+        return [x for x in self.channels if x.controller is None]

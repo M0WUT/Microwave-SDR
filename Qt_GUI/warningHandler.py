@@ -305,26 +305,24 @@ class WarningHandler(QObject):
         self._update_icon()
 
     def rx_warnings(self, msg):
-        x = json.loads(msg.payload.decode('utf-8'))
-        if(x['source'] != NAME):
+        if(msg['source'] != NAME):
             self.add_warning(
-                date=x['date'],
-                time=x['time'],
-                source=x['source'],
-                category=x['category'],
-                message=x['message'],
+                date=msg['date'],
+                time=msg['time'],
+                source=msg['source'],
+                category=msg['category'],
+                message=msg['message'],
                 broadcast=False
             )
 
     def rx_errors(self, msg):
-        x = json.loads(msg.payload.decode('utf-8'))
-        if(x['source'] != NAME):
+        if(msg['source'] != NAME):
             self.add_error(
-                date=x['date'],
-                time=x['time'],
-                source=x['source'],
-                category=x['category'],
-                message=x['message'],
+                date=msg['date'],
+                time=msg['time'],
+                source=msg['source'],
+                category=msg['category'],
+                message=msg['message'],
                 broadcast=False
             )
 

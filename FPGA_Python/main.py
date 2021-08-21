@@ -6,6 +6,7 @@ from config_user import MQTT_SERVER_IP_ADDRESS, MQTT_SERVER_PORT, \
 from gpio import GPIO
 import logging
 from mqttHandler import MqttHandler
+from paho.mqtt.client import MQTTMessage
 from channel import Channel, ChannelHandler
 from statusHandler import StatusRegs
 from warningHandler import WarningHandler
@@ -86,12 +87,54 @@ class Main:
                     self.send_status_info
                 )
 
+                self.mqtt.register_callback(
+                    "/{}/requests".format(get_mac()),
+                    self.handle_control_request
+                )
+
                 self.send_discovery_info()
                 self.send_status_info()
 
                 self.run()
 
-    def send_discovery_info(self, _: str = None) -> None:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        for x in self.channels:
+            self.cards.assign_card_to_channel("")
+
+    def handle_control_request(self, msg: dict) -> None:
+        """ Processes incoming request for control of a channel """
+        # Get the first available channel
+        response = {
+            "address": msg["address"],
+            "name": msg["name"],
+            "controller": msg["controller"],
+            "vfo": msg["vfo"]
+        }
+
+        channel = self.channels.get_free_channels()[0]
+        if channel is None or \
+                self.cards.assign_card_to_channel(
+                    channel,
+                    int(msg["address"])
+                ) is False:
+            # No free channels
+            response.update({
+                "status": "failed",
+            })
+        else:
+            response.update({
+                "status": "success"
+            })
+
+        self.mqtt.publish(
+            "/{}/requestResponse".format(get_mac()),
+            json.dumps(response)
+        )
+
+    def send_discovery_info(self, _: dict = None) -> None:
         """
         Publishes all the discovery info to the "discovery/info" topic
         Takes message argument as all callback functions must take a message
@@ -99,7 +142,7 @@ class Main:
         information being sent.
 
         Args:
-            _ (str): All MQTT callbacks get passed the message. The contents is
+            _ (dict): All MQTT callbacks get passed the message. The contents is
                 irrelevant here
         """
         x = {
@@ -116,7 +159,7 @@ class Main:
 
         self.mqtt.publish("/discovery/info", json.dumps(x))
 
-    def send_status_info(self, _: str = None) -> None:
+    def send_status_info(self, _: dict = None) -> None:
         """
         Publishes all the discovery info to the "discovery/info" topic
         Takes message argument as all callback functions must take a message
@@ -170,4 +213,5 @@ class Main:
 
 
 if __name__ == '__main__':
-    x = Main()
+    with Main() as x:
+        pass

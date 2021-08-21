@@ -10,9 +10,9 @@ void Panicker::panic(String errorMessage){
     digitalWrite(onLed, LOW);
     while(1){
         digitalWrite(messageLed, HIGH);
-        serial->println(errorMessage);
         delay(250);
         digitalWrite(messageLed, LOW);
         delay(250);
+        serial->println(errorMessage);
     }
 }

@@ -46,7 +46,7 @@ void TransverterController::setup(){
 
     // Assume we're warming up and no SDR is controlling this transverter
     set_state(WARMUP);
-    set_controller("");
+    set_controller("", "");
 
     _transverter = new TRANSVERTER_CLASS(_panicker);
 
@@ -62,7 +62,10 @@ void TransverterController::process_command(String x){
         return;
     }
     else {
-        switch(x[0]){
+        char commandChar = x[0];
+        DynamicJsonDocument msg(1024);
+        deserializeJson(msg, x.substring(1));
+        switch(commandChar){
             case 'D': {
                 #ifdef DEBUG
                     DEBUG_SERIAL.println("Received discovery request");
@@ -72,14 +75,24 @@ void TransverterController::process_command(String x){
             }
             case 'S': {
                 #ifdef DEBUG
-                  DEBUG_SERIAL.println("Received status request");
+                    DEBUG_SERIAL.println("Received status request");
                 #endif 
                 send_status_info();
                 break;
             }
 
-            default: {
+            case 'C': {
                 #ifdef DEBUG
+                    DEBUG_SERIAL.println("Received controller update");
+                #endif 
+                String controllerMac = msg["controller"];
+                String vfo = msg["vfo"];
+                set_controller(controllerMac, vfo);
+                break;
+            }
+
+
+            default: {
                 String result = "";
                     for(int i = 0; x[i] != '\0'; i++){
                         result += "\\0x";
@@ -88,7 +101,6 @@ void TransverterController::process_command(String x){
                     }
                     result[result.length() - 1] = '\0';
                 _panicker->panic("Received unknown command: " + x + "(" + result + ")");
-                #endif
                 break;
             }
         }
@@ -168,6 +180,7 @@ void TransverterController::send_status_info(){
 
     // Add MAC address of SDR controller
     response["controller"] = _controller;
+    response["vfo"] = _vfo;
 
     rs485_tx('S', response);
 }
@@ -176,12 +189,22 @@ void TransverterController::set_state(TransverterState state){
     _state = state;
 }
 
-void TransverterController::set_controller(String controller){
-    _controller = controller;
+void TransverterController::set_controller(String controllerMac, String vfo){
+    DynamicJsonDocument response(64);
+    if((controllerMac != "") && (_state != IDLE)){
+        // Attempting to take control and something's already in control
+        response["status"] = "failed";
+    } else {
+        _controller = controllerMac;
+        digitalWrite(LED_RX, (_controller != ""));
+        _vfo = vfo;
+        response["status"] = "success";
+    }
+    rs485_tx('C', response);
 }
 
 void TransverterController::run(){
-
+    set_state(IDLE);
     while(1){
         process_command(_rs485Handler->rx_messages());
     }

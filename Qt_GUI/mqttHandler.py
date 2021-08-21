@@ -1,5 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import logging
+from dataclasses import dataclass
 import paho.mqtt.client as mqtt
 import socket
 from PySide2.QtCore import Signal, QObject
@@ -7,6 +8,13 @@ from config_user import NAME
 import json
 from json.decoder import JSONDecodeError
 from usefulFunctions import get_mac
+
+
+class Callback:
+    """ Contains details of a callback function"""
+    def __init__(self, func, requiresMainThread: bool = True):
+        self.func = func
+        self.requiresMainThread = requiresMainThread
 
 
 class MqttHandler(QObject):
@@ -56,44 +64,14 @@ class MqttHandler(QObject):
             )
 
     def on_message(self, client, userdata, msg):
-        # This is called in a thread that isn't the main one to prevent MQTT
-        # RX from blocking. To not upset the GUI, emit a signal and then
-        # self.message_handler will actually deal with the message in
-        # the main thread
-        self.messageReceived.emit(msg)
-
-    def message_handler(self, msg):
-        message = msg.payload.decode('utf-8')
-        logging.debug(
-            f"Received MQTT: [{msg.topic}] {message}"
-        )
         if msg.topic in self.callbacks.keys():
-            try:
-                id = "Unknown device"
-                res = json.loads(message)
-                if "name" in res.keys():
-                    id = res["name"]
-                self.callbacks[msg.topic](res)
-
-            except UnicodeDecodeError:
-                self.warnings.add_warning(
-                    id,
-                    "MQTT",
-                    "Malformed message received"
-                )
-            except JSONDecodeError:
-                self.warnings.add_warning(
-                    id,
-                    "MQTT",
-                    "Received message contains invalid JSON"
-                )
-            except KeyError as e:
-                self.warnings.add_warning(
-                    id,
-                    "MQTT",
-                    "Response from device "
-                    "was not complete. Expected key: {}".format(e)
-                )
+            if self.callbacks[msg.topic].requiresMainThread:
+                # If this callback must be done in main thread,
+                # emit signal that will run self.message_handler(msg)
+                # in main thread, otherwise, run in this thread
+                self.messageReceived.emit(msg)
+            else:
+                self.message_handler(msg)
         else:
             self.warnings.add_warning(
                 NAME, "MQTT",
@@ -101,15 +79,45 @@ class MqttHandler(QObject):
                 broadcast=False
             )
 
+    def message_handler(self, msg):
+        message = msg.payload.decode('utf-8')
+        logging.debug(
+            f"Received MQTT: [{msg.topic}] {message}"
+        )
+        try:
+            id = "Unknown device"
+            res = json.loads(message)
+            if "name" in res.keys():
+                id = res["name"]
+            self.callbacks[msg.topic].func(res)
+
+        except UnicodeDecodeError:
+            self.warnings.add_warning(
+                id,
+                "MQTT",
+                "Malformed message received"
+            )
+        except JSONDecodeError:
+            self.warnings.add_warning(
+                id,
+                "MQTT",
+                "Received message contains invalid JSON"
+            )
+        except KeyError as e:
+            self.warnings.add_warning(
+                id,
+                "MQTT",
+                "Response from device "
+                "was not complete. Expected key: {}".format(e)
+            )
+
     def publish(self, topic, payload, *args, **kwargs):
         logging.debug(f"Publishing MQTT: [{topic}] {payload}")
         self.client.publish(topic, payload, *args, **kwargs)
 
-    def register_callback(self, topic, func):
+    def register_callback(self, topic, func, requiresMainThread: bool = True):
         assert topic not in self.callbacks.keys(), \
             f"Topic: {topic} already has a callback function registered"
-        self.callbacks[topic] = func
-
         error, _ = self.client.subscribe(topic)
         if (error != mqtt.MQTT_ERR_SUCCESS):
             self.warnings.add_error(
@@ -117,10 +125,33 @@ class MqttHandler(QObject):
                 f"Failed to subscribe to topic {topic}",
                 broadcast=False
             )
+        else:
+            self.callbacks[topic] = Callback(
+                func,
+                requiresMainThread
+            )
 
-        logging.info(
-            f"Subscribed to MQTT topic: {topic}"
-        )
+            logging.info(
+                f"Subscribed to MQTT topic: {topic}"
+            )
+
+    def remove_callback(self, topic) -> None:
+        assert topic in self.callbacks.keys(), \
+            f"Attempted to remove topic ({topic}) that's not " \
+            "currently subscribed to"
+
+        error, _ = self.client.unsubscribe(topic)
+        if (error != mqtt.MQTT_ERR_SUCCESS):
+            self.warnings.add_error(
+                NAME, "MQTT",
+                f"Failed to unsubscribe from topic {topic}",
+                broadcast=False
+            )
+        else:
+            self.callbacks.pop(topic)
+            logging.info(
+                f"Unsubscribed from MQTT topic: {topic}"
+            )
 
     def __enter__(self):
         return self

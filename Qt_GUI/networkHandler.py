@@ -41,6 +41,7 @@ class NetworkHandler():
         # Wait for NTP sync before starting
         synced = False
         client = ntplib.NTPClient()
+        logging.info("Starting NTP Sync...")
         while not synced:
             try:
                 response = client.request(NTP_SERVER)
@@ -287,9 +288,8 @@ class NetworkHandler():
         Args:
             msg (str): payload of infomation message.
         """
-        x = json.loads(msg.payload.decode('utf-8'))
-        name = x['name']
-        mac = x['mac']
+        name = msg['name']
+        mac = msg['mac']
         self.warningHandler.add_warning(
             source=name,
             category="MQTT",

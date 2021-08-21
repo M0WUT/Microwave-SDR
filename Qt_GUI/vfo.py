@@ -1,3 +1,4 @@
+import threading
 from NetworkDevices.transverter import Transverter
 import logging
 from warningHandler import WarningHandler
@@ -11,6 +12,10 @@ import freqWindow
 from PySide2.QtWidgets import QLabel, QPushButton, QWidget
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
+from threading import Lock, Event
+from config_user import NAME
+from time import sleep
+from usefulFunctions import get_mac
 
 
 def freq_format(x: int) -> str:
@@ -24,6 +29,8 @@ def freq_format(x: int) -> str:
 
 
 class Vfo():
+    mqtt: MqttHandler
+
     def __init__(
         self,
         name: str,
@@ -48,6 +55,10 @@ class Vfo():
         self.modeButton = modeButton
         self.freqButton = freqButton
         self.transverter = None
+        self.transverterMutex = Lock()
+        self.transverterResponded = Event()
+        self.transverterResponse = None
+        self.transverterMutex.acquire()
 
         self._stepSize = 10000
 
@@ -128,6 +139,15 @@ class Vfo():
         """ Toggles whether TX is enabled """
         self.enableTx(not self.txEnabled)
 
+    def setTransverter(self, transverter: Transverter) -> None:
+        self.transverterMutex.acquire()
+        self.transverter = transverter
+        logging.info(
+            f"VFO {self.name} now controlling transverter"
+            " \"{transverter.name}\""
+        )
+        self.transverterMutex.release()
+
     def handle_keypress(self, key):
         constants = {
             "G": 1e9,
@@ -198,16 +218,54 @@ class Vfo():
         if self.transverter:
             self.surrender_transverter_control()
 
+        assert self.transverter is None
+
         logging.info('Attempting to take control of transverter "{}"'.format(
             transverter.name
         ))
-        """
-        self.mqtt.register_callback(
-            "{}/status".format(transverter.sdrMac),
+        self.receivedTransverterResponse = False
+        self.transverterMutex.release()
 
+        self.mqtt.register_callback(
+            "/{}/requestResponse".format(transverter.sdrMac),
+            self.process_transverter_control_request_response,
+            requiresMainThread=False
         )
-        """  # @ TODO
-        return True
+
+        self.transverterResponded.clear()
+        self.transverterResponse = ""
+        try:
+            self.mqtt.publish(
+                "/{}/requests".format(transverter.sdrMac),
+                json.dumps({
+                    "address": transverter.address,
+                    "name": transverter.name,
+                    "controller": get_mac(),
+                    "vfo": self.name
+                })
+            )
+            if not self.transverterResponded.wait(timeout=5):
+                # Requested timed out
+                self.warnings.add_warning(
+                    NAME,
+                    "MQTT",
+                    f"Timed out waiting for response from {transverter.sdrMac}"
+                )
+            else:
+                logging.critical(self.transverterResponse)
+        finally:
+            self.mqtt.remove_callback(
+                "/{}/requestResponse".format(transverter.sdrMac)
+            )
+            self.transverterMutex.acquire()
+
+        return bool(self.transverter)
+
+    def process_transverter_control_request_response(self, msg):
+        self.transverterMutex.acquire()
+        self.transverterResponse = msg
+        self.transverterMutex.release()
+        self.transverterResponded.set()
 
     def surrender_transverter_control(self):
         """ Stops this VFO being the controller of a transverter """
@@ -215,7 +273,6 @@ class Vfo():
             self.transverter.name
         ))
         raise NotImplementedError  # @TODO
-
 
     def publish_freq(self, freq):
         x = {

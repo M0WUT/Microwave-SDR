@@ -18,7 +18,6 @@ class GPIO():
             # Only export GPIO if it doesn't already exist
             with open("/sys/class/gpio/export", 'w') as file:
                 file.write(str(self.gpio))
-        atexit.register(self.cleanup)
 
         self.gpioFile = "/sys/class/gpio/gpio{}/value".format(self.gpio)
         self.set_direction(direction)

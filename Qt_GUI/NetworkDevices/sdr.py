@@ -18,6 +18,8 @@ class Channel:
         self.supportsRx = supportsRx
         self.supportsTx = supportsTx
         self.supportsDuplex = supportsDuplex
+        if supportsDuplex:
+            assert supportsRx and supportsTx
         self.state = None
         self.errors = []
         self.warnings = []
@@ -218,8 +220,6 @@ class SDR(NetworkDevice):
                 del self.cards[cardToBeDeleted.address]
                 self._update_labels()
         self._update_labels()
-        self._cardsLabel.setText(str(len(self.cards)))
-
         super().update_discovery_info(jsonDict)
 
     def _update_label_colours(self):

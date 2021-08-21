@@ -793,7 +793,7 @@ class Ui_main(object):
 
         self.retranslateUi(main)
 
-        self.tab_widget.setCurrentIndex(1)
+        self.tab_widget.setCurrentIndex(0)
         self.tabWidget_network.setCurrentIndex(0)
 
 

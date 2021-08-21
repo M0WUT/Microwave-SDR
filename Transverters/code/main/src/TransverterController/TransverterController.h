@@ -24,7 +24,7 @@ class TransverterController
         void run();
         void process_command(String x);
         void set_state(TransverterState state);
-        void set_controller(String controller);
+        void set_controller(String controllerMac, String vfo);
     private:
         void setup();
         BaseTransverterConfig *_transverter;
@@ -33,6 +33,7 @@ class TransverterController
         Rs485Handler *_rs485Handler;     
         TransverterState _state;
         String _controller;
+        String _vfo;
         int _rs485Address;
         void rs485_tx(char commandChar, DynamicJsonDocument response);
         void send_discovery_info();
