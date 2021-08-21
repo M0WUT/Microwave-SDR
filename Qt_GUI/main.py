@@ -11,14 +11,13 @@ from vfo import Vfo
 from config_developer import \
     TAB_HOME, TAB_INFO, TAB_NETWORK, TAB_SETTINGS, TAB_WARNINGS
 from config_user import MQTT_ADDRESS, MQTT_PORT
-from time import sleep
 
 
 from warningHandler import WarningHandler
 from networkHandler import NetworkHandler
 
-from PySide2.QtWidgets import QApplication, QWidget
-from PySide2.QtCore import QFile, QIODevice, QTextStream, Signal
+from PySide2.QtWidgets import QApplication, QStatusBar, QWidget
+from PySide2.QtCore import QFile, QIODevice, QTextStream
 
 
 class main(QWidget):
@@ -46,6 +45,15 @@ class main(QWidget):
         self.ui = mainwindow.Ui_main()
         self.ui.setupUi(self)
 
+        # Add status bar manually because Qt Creator doesn't seem to support it
+        self.statusBar = QStatusBar(self)
+        styleString = (
+                "font: Waree; font-size: 32px;"
+            )
+        self.statusBar.setStyleSheet(styleString)
+        self.ui.verticalLayout_2.addWidget(self.statusBar)
+        self.statusBar.showMessage("Hello World!", 2000)
+
         # Static signal connections
         self.ui.button_qt.clicked.connect(self.app.aboutQt)
 
@@ -63,7 +71,8 @@ class main(QWidget):
         self.warnings = WarningHandler(
             self.ui.tab_widget,
             self.ui.table_warnings,
-            self.buttons
+            self.buttons,
+            self.statusBar
         )
 
         # MQTT Stuff
@@ -87,6 +96,7 @@ class main(QWidget):
                 "A",
                 self.mqtt,
                 self.network,
+                self.warnings,
                 self.ui.button_A_rx,
                 self.ui.button_A_tx,
                 self.ui.label_A_fc,

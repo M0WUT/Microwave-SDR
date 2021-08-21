@@ -1,6 +1,5 @@
-from dataclasses import dataclass
 from NetworkDevices.networkDevice import NetworkDevice
-from NetworkDevices.card import CardReference
+from NetworkDevices.card import Card
 from NetworkDevices.transverter import Transverter
 from warningHandler import WarningHandler
 from PySide2.QtWidgets import QHBoxLayout, QPushButton, QSizePolicy, \
@@ -9,7 +8,6 @@ from PySide2.QtCore import Qt
 import logging
 import re
 from typing import List
-from mqttHandler import MqttHandler
 from usefulFunctions import STYLE_ERROR, STYLE_IDLE, STYLE_RX, \
     STYLE_SHUTDOWN, STYLE_TX, STYLE_WARMUP, STYLE_WARNING, SDR_STYLES
 
@@ -65,18 +63,23 @@ class SDR(NetworkDevice):
             if x['type'] == "transverter":
                 self.cards[x['address']] = Transverter(
                     name=x['name'],
-                    address=x['address']
+                    address=x['address'],
+                    sdrMac=self.mac,
+                    loFreq=x["loFreq"],
+                    loAdd=x["loAdd"],
+                    minFreq=x["minFreq"],
+                    maxFreq=x["maxFreq"],
+                    minPower=x["minPower"],
+                    maxPower=x["maxPower"],
+                    supportsRx=x["supportsRx"],
+                    supportsTx=x["supportsTx"],
+                    supportsDuplex=x["supportsDuplex"]
                 )
             else:
                 raise NotImplementedError
 
         self.numSlots = jsonDict['numSlots']
-        self._slotLabel = self.add_value_row(
-            "Number of slots:", self.numSlots
-        )
-        self._cardsLabel = self.add_value_row(
-            "Number of cards:", len(self.cards)
-        )
+
         self._update_labels()
 
     def get_type(self) -> str:
@@ -279,10 +282,5 @@ class SDR(NetworkDevice):
             channel.warnings = x['warnings']
             channel.errors = x['errors']
 
-    def get_transverters(self) -> List[CardReference]:
-        return [CardReference(
-            sdrIP=self.ipAddr,
-            minFreq=x.minFreq,
-            maxFreq=x.maxFreq,
-            controller=None
-        ) for _, x in self.cards.items() if isinstance(x, Transverter)]
+    def get_transverters(self) -> List[Transverter]:
+        return [x for _, x in self.cards.items() if isinstance(x, Transverter)]

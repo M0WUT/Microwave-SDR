@@ -10,6 +10,7 @@ class GPIO():
     LOW = 0
 
     def __init__(self, gpio: int, direction: bool, initialValue: bool = LOW):
+        """ Base class for all GPIO pins """
         self.gpioFile = None
         self.gpio = gpio
 
@@ -25,18 +26,24 @@ class GPIO():
         if(self.direction == GPIO.OUTPUT):
             self.write(initialValue)
 
-    def set_direction(self, direction: bool):
+    def set_direction(self, direction: bool) -> None:
+        """ Sets direction of GPIO pin"""
         with open(
             "/sys/class/gpio/gpio{}/direction".format(self.gpio), 'w'
         ) as file:
             file.write("out" if direction == GPIO.OUTPUT else "in")
             self.direction = direction
 
-    def write(self, value: bool):
+    def write(self, value: bool) -> None:
+        """
+        Sets the state of an output GPIO. Does nothing if GPIO is
+        configured as an input
+        """
         assert value in [GPIO.HIGH, GPIO.LOW]
         if self.direction == GPIO.INPUT:
             logging.warning(
-                "Attemped to set value of input GPIO"
+                "Attemped to set value of input GPIO. "
+                "Instruction ignored."
             )
         with open(self.gpioFile, 'w') as file:
             file.write(str(value))
@@ -60,11 +67,11 @@ class AxiGpio(GPIO):
     AXI_GPIO_BASE_ADDRESS = 1018
 
     def __init__(
-        self, AxiGpio: int, direction: bool = GPIO.INPUT,
+        self, axiGpio: int, direction: bool = GPIO.INPUT,
         initialValue: bool = GPIO.LOW
     ):
         super().__init__(
-            AxiGpio + self.AXI_GPIO_BASE_ADDRESS, direction, initialValue
+            axiGpio + self.AXI_GPIO_BASE_ADDRESS, direction, initialValue
         )
 
 
@@ -79,12 +86,3 @@ class MIO(GPIO):
         super().__init__(
             mio + self.AXI_GPIO_BASE_ADDRESS, direction, initialValue
         )
-
-
-if __name__ == '__main__':
-    from time import sleep
-
-    x = AxiGpio(2, GPIO.INPUT)
-    while(1):
-        print(x.read())
-        sleep(0.5)

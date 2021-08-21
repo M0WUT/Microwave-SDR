@@ -123,13 +123,13 @@ class Ui_main(object):
 
         self.gridLayout.addWidget(self.button_dp, 4, 1, 1, 1)
 
-        self.button_minus = QPushButton(main)
-        self.button_minus.setObjectName(u"button_minus")
-        sizePolicy1.setHeightForWidth(self.button_minus.sizePolicy().hasHeightForWidth())
-        self.button_minus.setSizePolicy(sizePolicy1)
-        self.button_minus.setFont(font1)
+        self.button_backspace = QPushButton(main)
+        self.button_backspace.setObjectName(u"button_backspace")
+        sizePolicy1.setHeightForWidth(self.button_backspace.sizePolicy().hasHeightForWidth())
+        self.button_backspace.setSizePolicy(sizePolicy1)
+        self.button_backspace.setFont(font1)
 
-        self.gridLayout.addWidget(self.button_minus, 4, 2, 1, 1)
+        self.gridLayout.addWidget(self.button_backspace, 4, 2, 1, 1)
 
         self.button_6 = QPushButton(main)
         self.button_6.setObjectName(u"button_6")
@@ -200,7 +200,7 @@ class Ui_main(object):
         self.button_3.setText(QCoreApplication.translate("main", u"3", None))
         self.button_G.setText(QCoreApplication.translate("main", u"G", None))
         self.button_dp.setText(QCoreApplication.translate("main", u".", None))
-        self.button_minus.setText(QCoreApplication.translate("main", u"-", None))
+        self.button_backspace.setText(QCoreApplication.translate("main", u"\u232b", None))
         self.button_6.setText(QCoreApplication.translate("main", u"6", None))
         self.button_M.setText(QCoreApplication.translate("main", u"M", None))
         self.button_9.setText(QCoreApplication.translate("main", u"9", None))

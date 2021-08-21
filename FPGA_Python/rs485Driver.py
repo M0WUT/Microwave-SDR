@@ -98,3 +98,4 @@ class RS485Driver():
     def cleanup(self) -> None:
         if self.serial:
             self.serial.close()
+        self.gpio.cleanup()

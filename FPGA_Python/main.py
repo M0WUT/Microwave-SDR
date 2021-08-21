@@ -28,16 +28,19 @@ logging.basicConfig(
 
 class Main:
     def __init__(self):
+
         logging.info("Application started. Waiting for NTP sync...")
-        synced = False
         client = ntplib.NTPClient()
-        while not synced:
+        while True:
             try:
                 response = client.request(NTP_SERVER)
-                synced = (response.offset < 1)
+                if (response.offset < 1):
+                    # We have a valid NTP time and are within 1s of it
+                    break
             except (ntplib.NTPException, socket.gaierror):
                 logging.info("NTP Sync failed. Retrying...")
             time.sleep(1)
+
         logging.info(
             "NTP sync successful. IP Address: {}. "
             "Starting main application".format(get_ip())
@@ -88,7 +91,7 @@ class Main:
 
                 self.run()
 
-    def send_discovery_info(self, msg=None):
+    def send_discovery_info(self, _: str = None) -> None:
         """
         Publishes all the discovery info to the "discovery/info" topic
         Takes message argument as all callback functions must take a message
@@ -96,15 +99,8 @@ class Main:
         information being sent.
 
         Args:
-            msg (str): payload of discovery message. Does nothing with this
-                but all MQTT callbacks take this argument
-
-        Returns:
-            None
-
-        Raises:
-            None
-
+            _ (str): All MQTT callbacks get passed the message. The contents is
+                irrelevant here
         """
         x = {
             "type": "sdr",
@@ -120,7 +116,17 @@ class Main:
 
         self.mqtt.publish("/discovery/info", json.dumps(x))
 
-    def send_status_info(self, msg=None):
+    def send_status_info(self, _: str = None) -> None:
+        """
+        Publishes all the discovery info to the "discovery/info" topic
+        Takes message argument as all callback functions must take a message
+        but is useless - anything sent to this topic will result in discovery
+        information being sent.
+
+        Args:
+            _ (str): All MQTT callbacks get passed the message. The contents is
+                irrelevant here
+        """
         x = {
             "type": "sdr",
             "mac": get_mac(),
@@ -133,19 +139,10 @@ class Main:
 
         self.mqtt.publish("/status/info", json.dumps(x))
 
-    def get_uptime(self):
+    def get_uptime(self) -> str:
         """
         Returns time since this object was initialised, which is hopefully
         the uptime of this software, in human readable form.
-
-        Args:
-            None
-
-        Returns:
-            str: Uptime in human readable form
-
-        Raises:
-            None
         """
         uptime = datetime.now(timezone.utc) - self.startTime
         hours = int(uptime.seconds / 3600)
@@ -163,7 +160,8 @@ class Main:
         else:
             return "{}s".format(seconds)
 
-    def run(self):
+    def run(self) -> None:
+        """ Infinite sleep as everything is done using callbacks """
         while(True):
             try:
                 time.sleep(10)

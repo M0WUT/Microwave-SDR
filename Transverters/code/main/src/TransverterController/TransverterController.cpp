@@ -124,6 +124,7 @@ void TransverterController::send_discovery_info(){
     response["maxPower"] = int(MAX_TX_POWER);
     response["supportsRx"] = SUPPORTS_RX;
     response["supportsTx"] = SUPPORTS_TX;
+    response["supportsDuplex"] = SUPPORTS_DUPLEX;
     rs485_tx('D', response);
 }
 
@@ -180,16 +181,8 @@ void TransverterController::set_controller(String controller){
 }
 
 void TransverterController::run(){
-    int startTime = millis();
-    TransverterState state = WARMUP;
 
     while(1){
         process_command(_rs485Handler->rx_messages());
-        if(millis() - startTime > 1000){
-            startTime = millis();
-            state = (TransverterState)((state + 1) & 0x03);
-            set_state(state);
-            digitalWrite(LED_RX, !digitalRead(LED_RX));
-        }
     }
 }

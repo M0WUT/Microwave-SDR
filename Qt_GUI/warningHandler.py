@@ -106,12 +106,13 @@ class WarningHandler(QObject):
         None
     """
 
-    def __init__(self, tabWidget, warningTable, buttons):
+    def __init__(self, tabWidget, warningTable, buttons, statusBar):
 
         # Initialisation
         self.tabWidget = tabWidget
         self.warningTable = warningTable
         self.buttons = buttons
+        self.statusBar = statusBar
         self.warnings = []
         self.errors = []
         self.mqtt = None
@@ -152,8 +153,7 @@ class WarningHandler(QObject):
         return self
 
     def __exit__(self, *args, **kwargs):
-        ConfigDeveloper.WARNING_SIGNAL.disconnect()
-        ConfigDeveloper.ERROR_SIGNAL.disconnect()
+        pass
 
     def register_mqtt(self, x):
         self.mqtt = x
@@ -180,6 +180,9 @@ class WarningHandler(QObject):
             self.tabWidget.setTabEnabled(TAB_WARNINGS, True)
         else:
             self.tabWidget.setTabEnabled(TAB_WARNINGS, False)
+
+    def add_status(self, message: str) -> None:
+        self.statusBar.showMessage(message, timeout=2000)
 
     def add_warning(
         self, source, category, message, broadcast=False, date=None, time=None

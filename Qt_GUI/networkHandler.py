@@ -1,4 +1,5 @@
 # This Python file uses the following encoding: utf-8
+from NetworkDevices.transverter import Transverter
 from PySide2.QtWidgets import QTabWidget, QPushButton
 from PySide2.QtCore import QTimer
 from usefulFunctions import get_ip, get_link_speed, get_mac
@@ -12,7 +13,8 @@ from typing import List
 from mqttHandler import MqttHandler
 from warningHandler import WarningHandler
 from NetworkDevices.controller import Controller
-from NetworkDevices.sdr import SDR, CardReference
+from NetworkDevices.sdr import SDR
+from NetworkDevices.transverter import Transverter
 import ntplib
 import socket
 from time import sleep
@@ -91,7 +93,7 @@ class NetworkHandler():
         )
         self.timer.start(1000 * STATUS_UPDATE_PERIOD)
 
-    def get_all_transverters(self) -> List[CardReference]:
+    def get_all_transverters(self) -> List[Transverter]:
         """ Returns a list of all known transverters"""
         transverters = []
         for x in self.devices:
@@ -99,18 +101,35 @@ class NetworkHandler():
                 transverters.extend(x.get_transverters())
         return transverters
 
-    def get_supported_transverters(self, freq: int) -> List[CardReference]:
+    def get_supported_transverters(
+                self, freq: int, requiresRxSupport: bool = False,
+                requiresTxSupport: bool = False
+            ) -> List[Transverter]:
         """
-        Returns a list of transvertres that support operation at a
+        Returns a list of transverters that support operation at a
         certain frequency
 
         Args:
             freq: frequency in Hz
+            requiresRxSupport: If True, will only return
+                transverters that can support RX
+            requiresTxSupport: If True, will only return
+                transverters that can support TX
         """
-        return[x for x in self.get_all_transverters() if (
+        possibleTransverters = [x for x in self.get_all_transverters() if (
             (x.minFreq <= freq) and
             (x.maxFreq >= freq)
         )]
+
+        if requiresRxSupport:
+            possibleTransverters = \
+                [x for x in possibleTransverters if x.supportsRx]
+
+        if requiresTxSupport:
+            possibleTransverters = \
+                [x for x in possibleTransverters if x.supportsTx]
+
+        return possibleTransverters
 
     def tab_enabled(self):
         """
