@@ -1,8 +1,24 @@
 import logging
+from mqttHandler import MqttHandler
+from warningHandler import WarningHandler
 from statusHandler import StatusRegs
 from usefulFunctions import readable_freq, get_mac
 import json
 from typing import List
+from cardHandler import CardHandler, RS485Packet
+from config_user import NAME
+
+
+class ChannelPrototype:
+    def __init__(
+        self, name: str, adcClk: int = 80e6, supportsRx: bool = True,
+        supportsTx: bool = False, supportsDuplex: bool = False
+    ):
+        self.name = name
+        self.adcClk = adcClk
+        self.supportsRx = supportsRx
+        self.supportsTx = supportsTx
+        self.supportsDuplex = supportsDuplex
 
 
 class Channel():
@@ -12,15 +28,15 @@ class Channel():
     TONE = 3
 
     def __init__(
-        self, name, mqtt, statusregs, warnings, mode="LSB",
-        freq=28000000, adcClk=80e6, supportsRx=True, supportsTx=False,
-        supportsDuplex=False
+        self, name, mqtt, statusregs, warnings: WarningHandler,
+        cards: CardHandler, mode="LSB", freq=28000000, adcClk=80e6,
+        supportsRx=True, supportsTx=False, supportsDuplex=False
     ):
         self.name = name
         self.mqtt = mqtt
         self.statusregs = statusregs
         self.warnings = warnings
-        self.cardAddress = None
+        self.cards = cards
         self.supportedModes = {
             "LSB": self.LSB,
             "USB": self.USB,
@@ -36,8 +52,10 @@ class Channel():
         self.supportsDuplex = supportsDuplex
         if supportsDuplex:
             assert supportsRx and supportsTx
-        self.controller = None
-        self.transverter = None
+        self.controllerMac = None
+        self.controllerName = None
+        self.vfo = None
+        self.cardAddress = None
 
     def set_mode(self, mode):
         if mode == "USB":
@@ -126,16 +144,114 @@ class Channel():
             "errors": [],  # @TODO
             "warnings": [],
             "cardAddress": self.cardAddress,
-            "state": "idle"  # @TODO
+            "state": "idle",  # @TODO
+            "controllerMac": self.controllerMac,
+            "vfo": self.vfo
         })
 
     def shutdown(self):
         pass  # @TODO
 
+    def request_card_control(self, cardAddress: int) -> bool:
+        """ Attempts to take control of a card"""
+        if cardAddress > self.cards.numSlots:
+            self.warnings.add_warning(
+                NAME, "MQTT",
+                "Attempted to control card in non existent slot: {}".format(
+                    cardAddress
+                )
+            )
+            return False
+
+        # Check card isn't already in use
+        currentChannel = self.cards.get_status_info(cardAddress)["channel"]
+        if currentChannel:
+            self.warnings.add_warning(
+                NAME, "RS485",
+                "Attempted to control card that's already in use: {}".format(
+                    cardAddress
+                )
+            )
+            return False
+        else:
+            packet = RS485Packet(
+                address=cardAddress,
+                command="C",
+                payload=json.dumps({
+                    "channel": self.name
+                })
+            )
+            response = self.cards.driver.query(packet)
+            if response:
+                # For this to be valid, first character must be a "C"
+                if response[0] != ord("C"):
+                    self.warnings.add_warning(
+                        NAME + " - Card " + str(cardAddress), "RS485",
+                        "Response to control request was not a control message"
+                    )
+                    return False
+
+            response = json.loads(response[1:].decode('utf-8'))
+
+            result = response["status"] == "success"
+            if result:
+                self.cardAddress = cardAddress
+            else:
+                self.warnings.add_warning(
+                    NAME + " - Card " + str(cardAddress), "RS485",
+                    "Card refused to change connection"
+                )
+
+            return result
+
+    def close_card_control(self) -> bool:
+        packet = RS485Packet(
+            address=self.cardAddress,
+            command="C",
+            payload=json.dumps({
+                "channel": ""
+            })
+        )
+        response = self.cards.driver.query(packet)
+        if response:
+            # For this to be valid, first character must be a "C"
+            if response[0] != ord("C"):
+                self.warnings.add_warning(
+                    NAME + " - Card " + str(self.cardAddress), "MQTT",
+                    "Response to control request was not a control message"
+                )
+                return False
+
+        response = json.loads(response[1:].decode('utf-8'))
+        result = response["status"] == "success"
+        if result:
+            self.cardAddress = None
+        else:
+            self.warnings.add_warning(
+                NAME + " - Card " + str(self.cardAddress), "RS485",
+                "Card refused to change connection"
+            )
+        return result
+
+    def set_controller(self, controllerMac: str, vfo: str):
+        self.controllerMac = controllerMac
+        self.vfo = vfo
+
 
 class ChannelHandler:
-    def __init__(self, channels: List[Channel]):
-        self.channels = channels
+    def __init__(
+            self, channels: List[ChannelPrototype], cards: CardHandler,
+            mqtt: MqttHandler, warnings: WarningHandler, status: StatusRegs
+            ):
+        self.cards = cards
+        self.mqtt = mqtt
+        self.warnings = warnings
+        self.status = status
+        self.channels = [Channel(
+            name=x.name, mqtt=mqtt, statusregs=status, warnings=warnings,
+            cards=cards, adcClk=x.adcClk, supportsRx=x.supportsRx,
+            supportsTx=x.supportsTx, supportsDuplex=x.supportsDuplex
+        ) for x in channels]
 
     def __enter__(self):
         return self
@@ -152,4 +268,24 @@ class ChannelHandler:
 
     def get_free_channels(self) -> List[Channel]:
         """ Returns a list of available channels """
-        return [x for x in self.channels if x.controller is None]
+        return [x for x in self.channels if x.controllerMac is None]
+
+    def find_channel_for_controller(self, controllerMac, vfo, cardAddress):
+
+        response = {
+            "address": cardAddress,
+            "controller": controllerMac,
+            "vfo": vfo,
+            "status": "failed"
+        }
+
+        channel = self.get_free_channels()[0]
+
+        if channel and channel.request_card_control(cardAddress):
+            channel.set_controller(controllerMac, vfo)
+            response["status"] = "success"
+
+        self.mqtt.publish(
+            "/{}/requestResponse".format(get_mac()),
+            json.dumps(response)
+        )

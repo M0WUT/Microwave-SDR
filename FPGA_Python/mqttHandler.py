@@ -144,13 +144,9 @@ class MqttHandler():
 
     def __exit__(self, *args, **kwargs):
         self.client.loop_stop()
-        self.client.disconnect()
-        logging.info(
-            "Disconnected from MQTT Server {}:{}".format(
-                self.ipAddr,
-                self.ipPort
-            )
-        )
+        # SDRs disconnecting is an issue so don't clean disconnect
+        # so LWT gets broadcast
+        #self.client.disconnect()
 
 
 def main():

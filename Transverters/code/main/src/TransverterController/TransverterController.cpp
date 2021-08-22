@@ -46,7 +46,7 @@ void TransverterController::setup(){
 
     // Assume we're warming up and no SDR is controlling this transverter
     set_state(WARMUP);
-    set_controller("", "");
+    set_channel('\0');
 
     _transverter = new TRANSVERTER_CLASS(_panicker);
 
@@ -82,12 +82,19 @@ void TransverterController::process_command(String x){
             }
 
             case 'C': {
+                const char *channel = msg["channel"];
                 #ifdef DEBUG
-                    DEBUG_SERIAL.println("Received controller update");
+                    DEBUG_SERIAL.print("Received controller update to channel ");
+                    DEBUG_SERIAL.println(channel);
                 #endif 
-                String controllerMac = msg["controller"];
-                String vfo = msg["vfo"];
-                set_controller(controllerMac, vfo);
+                
+                set_channel(channel);
+                break;
+            }
+
+            case 'R': {
+                // Software reset, taken from https://forum.pjrc.com/threads/29171-Looking-for-code-to-do-a-software-restart-with-the-Teensy-LC
+                SCB_AIRCR = 0x05FA0004;
                 break;
             }
 
@@ -179,8 +186,7 @@ void TransverterController::send_status_info(){
     response.createNestedObject("dcPowerReadings");
 
     // Add MAC address of SDR controller
-    response["controller"] = _controller;
-    response["vfo"] = _vfo;
+    response["channel"] = (_channel != '\0') ? String(_channel) : "";
 
     rs485_tx('S', response);
 }
@@ -189,15 +195,14 @@ void TransverterController::set_state(TransverterState state){
     _state = state;
 }
 
-void TransverterController::set_controller(String controllerMac, String vfo){
+void TransverterController::set_channel(const char *channel){
     DynamicJsonDocument response(64);
-    if((controllerMac != "") && (_state != IDLE)){
+    if((channel[0] != '\0') && (_state != IDLE)){
         // Attempting to take control and something's already in control
         response["status"] = "failed";
     } else {
-        _controller = controllerMac;
-        digitalWrite(LED_RX, (_controller != ""));
-        _vfo = vfo;
+        _channel = channel[0];
+        digitalWrite(LED_RX, (_channel != '\0'));
         response["status"] = "success";
     }
     rs485_tx('C', response);

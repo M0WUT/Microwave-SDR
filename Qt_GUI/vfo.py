@@ -118,6 +118,11 @@ class Vfo():
         self.freqButton.setText("Click to select freq")
 
     def enableRx(self, enabled: bool) -> None:
+        if not self.transverter and enabled:
+            logging.warning(
+                f"Cannot enable RX on VFO {self.name}without transverter"
+            )
+            return
         self.rxEnabled = enabled
         if self.rxEnabled:
             self.rxButton.setIcon(QIcon('resources/img/icon_rx_enabled.png'))
@@ -126,9 +131,15 @@ class Vfo():
 
     def toggleRx(self):
         """ Toggles whether RX is enabled """
-        self.enableRx(not self.rxEnabled)
+        if self.transverter:
+            self.enableRx(not self.rxEnabled)
 
     def enableTx(self, enabled: bool) -> None:
+        if not self.transverter and enabled:
+            logging.warning(
+                f"Cannot enable TX on VFO {self.name}without transverter"
+            )
+            return
         self.txEnabled = enabled
         if self.txEnabled:
             self.txButton.setIcon(QIcon('resources/img/icon_tx_enabled.png'))
@@ -137,7 +148,8 @@ class Vfo():
 
     def toggleTx(self):
         """ Toggles whether TX is enabled """
-        self.enableTx(not self.txEnabled)
+        if self.transverter:
+            self.enableTx(not self.txEnabled)
 
     def setTransverter(self, transverter: Transverter) -> None:
         self.transverterMutex.acquire()
@@ -159,7 +171,7 @@ class Vfo():
             freq = float(self.enteredFreq) * constants[key]
             if self.set_freq(freq):
                 # Successfully set frequency
-                self.freqWindow.hide()
+                self.freqWindow.hide()                
         elif key == -1:
             self.enteredFreq = self.enteredFreq[:-1]
             self.enteredFreqLabel.setText(self.enteredFreq)
@@ -181,7 +193,6 @@ class Vfo():
             if not self.get_suitable_transverter(freq):
                 # Can't find a suitable one
                 return False
-
         # We now have a suitable transverter
         self.publish_freq(freq)
         logging.info(
@@ -189,7 +200,7 @@ class Vfo():
         )
         return True
 
-    def get_suitable_transverter(self, freq) -> None:
+    def get_suitable_transverter(self, freq) -> bool:
         """
         Attempts to find a transverter that can operate at a frequency and
         requests control of that transverter. Returns True if succeeds
@@ -197,10 +208,13 @@ class Vfo():
         # Have to find a suitable transverter
         candidates = self.networkHandler.get_supported_transverters(freq)
         if not candidates:
+            self.warnings.add_status(
+                "No transverter found for {}".format(readable_freq(freq))
+            )
             return False
         elif len(candidates) == 1:
             transverter = candidates[0]
-            if transverter.controller:
+            if transverter.channel:
                 # @TODO How to behave if transverter is already controlled
                 raise NotImplementedError
             else:
@@ -252,7 +266,7 @@ class Vfo():
                     f"Timed out waiting for response from {transverter.sdrMac}"
                 )
             else:
-                logging.critical(self.transverterResponse)
+                self.transverter = transverter
         finally:
             self.mqtt.remove_callback(
                 "/{}/requestResponse".format(transverter.sdrMac)

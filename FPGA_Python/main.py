@@ -7,7 +7,7 @@ from gpio import GPIO
 import logging
 from mqttHandler import MqttHandler
 from paho.mqtt.client import MQTTMessage
-from channel import Channel, ChannelHandler
+from channel import Channel, ChannelHandler, ChannelPrototype
 from statusHandler import StatusRegs
 from warningHandler import WarningHandler
 import time
@@ -71,11 +71,13 @@ class Main:
                         numSlots=self.slots.num_slots()
                     ) as self.cards, \
                     \
-                    ChannelHandler([
-                        Channel(
-                            'A', self.mqtt, self.status, self.warnings
+                    ChannelHandler(channels=[
+                        ChannelPrototype(
+                            name='A', supportsRx=True, supportsTx=True
                         )
-                    ]) as self.channels:
+                    ], cards=self.cards, mqtt=self.mqtt,
+                    warnings=self.warnings, status=self.status
+                        ) as self.channels:
 
                 self.mqtt.register_callback(
                     "/discovery/request",
@@ -85,6 +87,11 @@ class Main:
                 self.mqtt.register_callback(
                     "/status/request",
                     self.send_status_info
+                )
+
+                self.mqtt.register_callback(
+                    "/discovery/lwt",
+                    self.handle_lwt
                 )
 
                 self.mqtt.register_callback(
@@ -106,33 +113,14 @@ class Main:
 
     def handle_control_request(self, msg: dict) -> None:
         """ Processes incoming request for control of a channel """
-        # Get the first available channel
-        response = {
-            "address": msg["address"],
-            "name": msg["name"],
-            "controller": msg["controller"],
-            "vfo": msg["vfo"]
-        }
+        cardAddress = int(msg["address"])
+        controllerMac = msg["controller"]
+        vfo = msg["vfo"]
 
-        channel = self.channels.get_free_channels()[0]
-        if channel is None or \
-                self.cards.assign_card_to_channel(
-                    channel,
-                    int(msg["address"])
-                ) is False:
-            # No free channels
-            response.update({
-                "status": "failed",
-            })
-        else:
-            response.update({
-                "status": "success"
-            })
-
-        self.mqtt.publish(
-            "/{}/requestResponse".format(get_mac()),
-            json.dumps(response)
+        self.channels.find_channel_for_controller(
+            controllerMac, vfo, cardAddress
         )
+        self.send_status_info()
 
     def send_discovery_info(self, _: dict = None) -> None:
         """
@@ -202,6 +190,21 @@ class Main:
             return "{}m {}s".format(minutes, seconds)
         else:
             return "{}s".format(seconds)
+
+    def handle_lwt(self, json: dict) -> None:
+        """
+        Tidies up if being controlled by a device which
+        has disconnected
+        """
+        for x in self.channels.channels:
+            if x.controllerMac == json["mac"]:
+                logging.info(
+                    "Channel {} shut down due to controller disconnect".format(
+                        x.name
+                    )
+                )
+                x.close_card_control()
+                x.set_controller(None, None)
 
     def run(self) -> None:
         """ Infinite sleep as everything is done using callbacks """

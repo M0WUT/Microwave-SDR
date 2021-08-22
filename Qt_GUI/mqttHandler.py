@@ -158,7 +158,8 @@ class MqttHandler(QObject):
 
     def __exit__(self, *args, **kwargs):
         self.client.loop_stop()
-        self.client.disconnect()
+        # Don't clean disconnect so LWT gets broadcast
+        #self.client.disconnect()
         logging.info(
             f"Disconnected from MQTT Server {self.ipAddr}:{self.ipPort}"
         )

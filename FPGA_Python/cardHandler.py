@@ -1,7 +1,7 @@
 # Standard imports
-from channel import Channel
 import logging
 import json
+from time import sleep
 
 # Third party imports
 
@@ -21,12 +21,24 @@ class CardHandler:
             serialFile=filename,
             baud=115200
         )
+        self.reset_all_cards()
 
     def __enter__(self):
         return self
 
     def __exit__(self, *args, **kwargs):
+        self.reset_all_cards()
         self.driver.cleanup()
+
+    def reset_all_cards(self):
+        """ Sends soft reset command to all cards"""
+        for address in range(1, self.numSlots + 1):
+            packet = RS485Packet(
+                address=address,
+                command="R",
+            )
+            self.driver.write(packet)
+        sleep(2)
 
     def get_discovery_info(self, address: int) -> str:
         """ Gets discovery information from a single slot """
@@ -88,29 +100,3 @@ class CardHandler:
             if response:
                 statusInfo.append(response)
         return statusInfo
-
-    def assign_card_to_channel(self, channel: Channel, address: int) -> bool:
-        """
-        Assigns a card to a channel and updates the channel info.
-        Returns True if succeeds
-        """
-        controller = self.get_status_info(address)["controller"]
-        if controller:
-            return False
-        else:
-            assert address <= self.numSlots
-            packet = RS485Packet(
-                address=address,
-                command="C",
-                payload=json.dumps({
-                    "channel": channel.name
-                })
-            )
-            response = self.driver.query(packet)
-            if response:
-                # For this to be valid, first character must be a "C"
-                if response[0] != ord("C"):
-                    return False
-
-            response = json.loads(response[1:].decode('utf-8'))
-            return (response["status"] == "success")

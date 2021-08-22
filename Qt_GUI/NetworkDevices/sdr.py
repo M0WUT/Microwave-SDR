@@ -53,30 +53,13 @@ class SDR(NetworkDevice):
 
         # Load all channels from JSON message
         for x in jsonDict['channels']:
-            self.channels[x['name']] = Channel(
-                name=x['name'],
-                supportsRx=x['supportsRx'],
-                supportsTx=x['supportsTx'],
-                supportsDuplex=x['supportsDuplex']
-            )
+            self.channels[x['name']] = self.generate_channel_from_json(x)
 
         # Load all cards from JSON message
         for x in jsonDict['cards']:
             if x['type'] == "transverter":
-                self.cards[x['address']] = Transverter(
-                    name=x['name'],
-                    address=x['address'],
-                    sdrMac=self.mac,
-                    loFreq=x["loFreq"],
-                    loAdd=x["loAdd"],
-                    minFreq=x["minFreq"],
-                    maxFreq=x["maxFreq"],
-                    minPower=x["minPower"],
-                    maxPower=x["maxPower"],
-                    supportsRx=x["supportsRx"],
-                    supportsTx=x["supportsTx"],
-                    supportsDuplex=x["supportsDuplex"]
-                )
+                self.cards[x['address']] = \
+                    self.generate_transverter_from_json(x)
             else:
                 raise NotImplementedError
 
@@ -86,6 +69,38 @@ class SDR(NetworkDevice):
 
     def get_type(self) -> str:
         return "SDR"
+
+    def generate_channel_from_json(self, json: dict) -> Channel:
+        """
+        Takes a dictionary from a JSON message describing a channel
+        and converts to a channel object
+        """
+        return Channel(
+            name=json['name'],
+            supportsRx=json['supportsRx'],
+            supportsTx=json['supportsTx'],
+            supportsDuplex=json['supportsDuplex']
+        )
+
+    def generate_transverter_from_json(self, json: dict) -> Transverter:
+        """
+        Takes a dictionary from a JSON message describing a transverter
+        and converts to a transverter object
+        """
+        return Transverter(
+            name=json['name'],
+            address=json['address'],
+            sdrMac=self.mac,
+            loFreq=json["loFreq"],
+            loAdd=json["loAdd"],
+            minFreq=json["minFreq"],
+            maxFreq=json["maxFreq"],
+            minPower=json["minPower"],
+            maxPower=json["maxPower"],
+            supportsRx=json["supportsRx"],
+            supportsTx=json["supportsTx"],
+            supportsDuplex=json["supportsDuplex"]
+        )
 
     def _update_labels(self):
         # Delete all the old labels - setting parent to None
@@ -98,8 +113,7 @@ class SDR(NetworkDevice):
             self._iconLayout.itemAt(0).widget().setParent(None)
 
         for _, x in self.channels.items():
-            labelString = "Channel {}".format(x.name)
-            labelWidget = QPushButton(labelString)
+            labelWidget = QPushButton()
             x.set_button(labelWidget)
 
             labelWidget.setStyleSheet(
@@ -113,14 +127,7 @@ class SDR(NetworkDevice):
 
         for address in range(1, self.numSlots + 1):
             try:
-                self.cards[address].set_button(
-                    QPushButton(
-                        "{}: {} - {}".format(
-                            address, self.cards[address].get_type(),
-                            self.cards[address].name
-                        )
-                    )
-                )
+                self.cards[address].set_button(QPushButton())
                 labelWidget = self.cards[address].button
                 labelWidget.setSizePolicy(
                     QSizePolicy.Expanding, QSizePolicy.Expanding
@@ -144,6 +151,8 @@ class SDR(NetworkDevice):
             )
 
             self._iconLayout.addWidget(labelWidget)
+
+        self.update_label_titles()
 
         # Add legend
         self._legendLayout = QHBoxLayout()
@@ -189,11 +198,11 @@ class SDR(NetworkDevice):
 
         for x in jsonDict['cards']:
             if x['address'] not in savedAddresses:
-                self.cards[x['address']] = Card(
-                    type=x['type'],
-                    name=x['name'],
-                    address=x['address']
-                )
+                if x['type'] == "transverter":
+                    self.cards[x['address']] = \
+                        self.generate_transverter_from_json(x)
+                else:
+                    raise NotImplementedError
 
                 self.warningHandler.add_warning(
                     self.name + f" - {x['name']}",
@@ -263,6 +272,24 @@ class SDR(NetworkDevice):
 
             x.button.setStyleSheet(newStyleSheet)
 
+    def update_label_titles(self) -> None:
+        for address, card in self.cards.items():
+            card.button.setText(
+                "{}: {} - {}{}".format(
+                    address, card.get_type(),
+                    card.name,
+                    (" (" + card.channel + ")") if card.channel else ""
+                )
+            )
+
+        for _, channel in self.channels.items():
+            channel.button.setText(
+                "Channel {}{}".format(
+                    channel.name,
+                    " (" + str(channel.cardAddress) + ")" if channel.cardAddress else ""
+                )
+            )
+
     def update_status_info(self, jsonDict: dict) -> None:
         """
         Updates the SDR specific status information in the
@@ -273,7 +300,7 @@ class SDR(NetworkDevice):
         for x in jsonDict['cards']:
             card = self.cards[x['address']]
             card.state = x['state']
-        self._update_label_colours()
+            card.channel = x['channel']
         super().update_status_info(jsonDict)
 
         for x in jsonDict['channels']:
@@ -281,6 +308,10 @@ class SDR(NetworkDevice):
             channel.state = x['state']
             channel.warnings = x['warnings']
             channel.errors = x['errors']
+            channel.cardAddress = x['cardAddress']
+
+        self.update_label_titles()
+        self._update_label_colours()
 
     def get_transverters(self) -> List[Transverter]:
         return [x for _, x in self.cards.items() if isinstance(x, Transverter)]

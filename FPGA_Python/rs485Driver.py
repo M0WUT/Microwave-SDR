@@ -42,7 +42,7 @@ class RS485Driver():
 
     def write(self, x: RS485Packet, getLock: bool = True):
         if getLock:
-            self.mutex.acqure()
+            self.mutex.acquire()
         try:
             LED_ERROR.write(GPIO.HIGH)
             address = x.address.to_bytes(1, 'big')
