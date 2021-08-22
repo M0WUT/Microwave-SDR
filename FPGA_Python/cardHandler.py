@@ -33,12 +33,15 @@ class CardHandler:
     def reset_all_cards(self):
         """ Sends soft reset command to all cards"""
         for address in range(1, self.numSlots + 1):
-            packet = RS485Packet(
-                address=address,
-                command="R",
-            )
-            self.driver.write(packet)
+            self.reset_card(address)
         sleep(2)
+
+    def reset_card(self, address: int) -> None:
+        packet = RS485Packet(
+            address=address,
+            command="R",
+        )
+        self.driver.write(packet)
 
     def get_discovery_info(self, address: int) -> str:
         """ Gets discovery information from a single slot """
@@ -59,7 +62,7 @@ class CardHandler:
                 logging.info("Discovered new card in slot {}".format(address))
                 self.respondingAddresses.append(address)
 
-        if not response and address in self.respondingAddresses:
+        elif address in self.respondingAddresses:
             logging.warning("Card in slot {} not responding".format(address))
             self.respondingAddresses.remove(address)
 

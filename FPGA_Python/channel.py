@@ -22,6 +22,7 @@ class ChannelPrototype:
 
 
 class Channel():
+
     LSB = 0
     USB = 1
     CW = 2
@@ -45,6 +46,8 @@ class Channel():
         }
         self.offset = 0
         self.adcClk = adcClk
+        self.setTopic = "/{}/channel{}/set".format(get_mac(), self.name)
+        self.broadcastTopic = "/{}/channel{}".format(get_mac(), self.name)
         self.set_freq(freq, update=False)
         self.set_mode(mode)
         self.supportsRx = supportsRx
@@ -56,6 +59,11 @@ class Channel():
         self.controllerName = None
         self.vfo = None
         self.cardAddress = None
+
+        self.mqtt.register_callback(
+            self.setTopic,
+            self.handle_command
+        )
 
     def set_mode(self, mode):
         if mode == "USB":
@@ -84,7 +92,7 @@ class Channel():
     def set_freq(self, freq, update=True):
         # @TODO Validate frequency
         self.freq = int(freq)
-        freqString = str(freq / 10 if freq >= 10e9 else freq)
+        freqString = str(self.freq / 10 if self.freq >= 10e9 else self.freq)
         self.statusregs.write(StatusRegs.DISPFREQ, freqString)
         self.statusregs.write(
             StatusRegs.DISPMODE, 3 if self.freq >= 10e9 else 2
@@ -105,14 +113,13 @@ class Channel():
         self.offset = offset
 
     def handle_command(self, msg):
-        x = json.loads(msg.payload.decode('utf-8'))
         try:
-            self.setFreq(x['freq'])
+            self.set_freq(msg['freq'])
         except KeyError:
             pass
 
         try:
-            self.setMode(x['mode'])
+            self.set_mode(msg['mode'])
         except KeyError:
             pass
 
@@ -123,10 +130,7 @@ class Channel():
         }
 
         self.mqtt.publish(
-            "/{}/channel{}".format(
-                get_mac(),
-                self.name
-            ),
+            self.broadcastTopic,
             json.dumps(x)
         )
 
@@ -146,7 +150,8 @@ class Channel():
             "cardAddress": self.cardAddress,
             "state": "idle",  # @TODO
             "controllerMac": self.controllerMac,
-            "vfo": self.vfo
+            "vfo": self.vfo,
+            "controllerName": self.controllerName
         })
 
     def shutdown(self):
@@ -226,6 +231,7 @@ class Channel():
         result = response["status"] == "success"
         if result:
             self.cardAddress = None
+            self.set_controller(None, None, None)
         else:
             self.warnings.add_warning(
                 NAME + " - Card " + str(self.cardAddress), "RS485",
@@ -233,8 +239,11 @@ class Channel():
             )
         return result
 
-    def set_controller(self, controllerMac: str, vfo: str):
+    def set_controller(
+        self, controllerMac: str, controllerName: str, vfo: str
+    ):
         self.controllerMac = controllerMac
+        self.controllerName = controllerName
         self.vfo = vfo
 
 
@@ -270,20 +279,36 @@ class ChannelHandler:
         """ Returns a list of available channels """
         return [x for x in self.channels if x.controllerMac is None]
 
-    def find_channel_for_controller(self, controllerMac, vfo, cardAddress):
+    def find_channel_for_controller(
+        self, controllerMac: str, controllerName: str, vfo: str,
+        cardAddress: int
+    ) -> None:
 
         response = {
             "address": cardAddress,
-            "controller": controllerMac,
+            "controllerMac": controllerMac,
+            "controllerName": controllerName,
             "vfo": vfo,
             "status": "failed"
         }
 
-        channel = self.get_free_channels()[0]
+        if controllerMac:
+            # Attempting to take control of transverter
+            try:
+                channel = self.get_free_channels()[0]
+            except IndexError:
+                channel = None
 
-        if channel and channel.request_card_control(cardAddress):
-            channel.set_controller(controllerMac, vfo)
-            response["status"] = "success"
+            if channel and channel.request_card_control(cardAddress):
+                channel.set_controller(controllerMac, controllerName, vfo)
+                response["status"] = "success"
+                response["channel"] = channel.name
+        else:
+            # Attempting to release transverter
+            for x in self.channels:
+                if x.cardAddress == cardAddress:
+                    if x.close_card_control():
+                        response["status"] = "success"
 
         self.mqtt.publish(
             "/{}/requestResponse".format(get_mac()),

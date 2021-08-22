@@ -58,14 +58,15 @@ class Ui_main(object):
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.gridLayout_5 = QGridLayout()
         self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.line_5 = QFrame(self.tab_home)
-        self.line_5.setObjectName(u"line_5")
-        self.line_5.setStyleSheet(u"color: #FFFFFF;")
-        self.line_5.setFrameShadow(QFrame.Plain)
-        self.line_5.setLineWidth(10)
-        self.line_5.setFrameShape(QFrame.VLine)
+        self.widget_4 = QWidget(self.tab_home)
+        self.widget_4.setObjectName(u"widget_4")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.widget_4.sizePolicy().hasHeightForWidth())
+        self.widget_4.setSizePolicy(sizePolicy3)
 
-        self.gridLayout_5.addWidget(self.line_5, 3, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.widget_4, 4, 2, 1, 1)
 
         self.line_4 = QFrame(self.tab_home)
         self.line_4.setObjectName(u"line_4")
@@ -74,218 +75,7 @@ class Ui_main(object):
         self.line_4.setLineWidth(10)
         self.line_4.setFrameShape(QFrame.VLine)
 
-        self.gridLayout_5.addWidget(self.line_4, 2, 1, 1, 1)
-
-        self.widget = QWidget(self.tab_home)
-        self.widget.setObjectName(u"widget")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
-        self.widget.setSizePolicy(sizePolicy3)
-
-        self.gridLayout_5.addWidget(self.widget, 2, 0, 1, 1)
-
-        self.widget_3 = QWidget(self.tab_home)
-        self.widget_3.setObjectName(u"widget_3")
-        sizePolicy3.setHeightForWidth(self.widget_3.sizePolicy().hasHeightForWidth())
-        self.widget_3.setSizePolicy(sizePolicy3)
-
-        self.gridLayout_5.addWidget(self.widget_3, 2, 2, 1, 1)
-
-        self.line = QFrame(self.tab_home)
-        self.line.setObjectName(u"line")
-        self.line.setStyleSheet(u"color: #FFFFFF;")
-        self.line.setFrameShadow(QFrame.Plain)
-        self.line.setLineWidth(10)
-        self.line.setFrameShape(QFrame.VLine)
-
-        self.gridLayout_5.addWidget(self.line, 0, 1, 1, 1)
-
-        self.verticalLayout_8 = QVBoxLayout()
-        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.horizontalLayout_5 = QHBoxLayout()
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.button_B_mode = QPushButton(self.tab_home)
-        self.button_B_mode.setObjectName(u"button_B_mode")
-        self.button_B_mode.setEnabled(True)
-        sizePolicy4 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.button_B_mode.sizePolicy().hasHeightForWidth())
-        self.button_B_mode.setSizePolicy(sizePolicy4)
-        self.button_B_mode.setMinimumSize(QSize(251, 0))
-
-        self.horizontalLayout_5.addWidget(self.button_B_mode)
-
-        self.gridLayout_4 = QGridLayout()
-        self.gridLayout_4.setObjectName(u"gridLayout_4")
-        self.label_27 = QLabel(self.tab_home)
-        self.label_27.setObjectName(u"label_27")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.label_27.sizePolicy().hasHeightForWidth())
-        self.label_27.setSizePolicy(sizePolicy5)
-        font1 = QFont()
-        font1.setFamily(u"Waree")
-        font1.setPointSize(24)
-        font1.setBold(True)
-        font1.setWeight(75)
-        self.label_27.setFont(font1)
-
-        self.gridLayout_4.addWidget(self.label_27, 0, 0, 1, 1)
-
-        self.label_B_fc = QLabel(self.tab_home)
-        self.label_B_fc.setObjectName(u"label_B_fc")
-        sizePolicy6 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
-        sizePolicy6.setHorizontalStretch(0)
-        sizePolicy6.setVerticalStretch(0)
-        sizePolicy6.setHeightForWidth(self.label_B_fc.sizePolicy().hasHeightForWidth())
-        self.label_B_fc.setSizePolicy(sizePolicy6)
-        font2 = QFont()
-        font2.setFamily(u"Waree")
-        font2.setPointSize(24)
-        font2.setBold(False)
-        font2.setWeight(50)
-        self.label_B_fc.setFont(font2)
-
-        self.gridLayout_4.addWidget(self.label_B_fc, 0, 1, 1, 1)
-
-        self.label_29 = QLabel(self.tab_home)
-        self.label_29.setObjectName(u"label_29")
-        sizePolicy6.setHeightForWidth(self.label_29.sizePolicy().hasHeightForWidth())
-        self.label_29.setSizePolicy(sizePolicy6)
-        self.label_29.setFont(font1)
-
-        self.gridLayout_4.addWidget(self.label_29, 0, 2, 1, 1)
-
-        self.label_30 = QLabel(self.tab_home)
-        self.label_30.setObjectName(u"label_30")
-        sizePolicy6.setHeightForWidth(self.label_30.sizePolicy().hasHeightForWidth())
-        self.label_30.setSizePolicy(sizePolicy6)
-        self.label_30.setFont(font1)
-
-        self.gridLayout_4.addWidget(self.label_30, 1, 0, 1, 1)
-
-        self.label_B_bw = QLabel(self.tab_home)
-        self.label_B_bw.setObjectName(u"label_B_bw")
-        sizePolicy6.setHeightForWidth(self.label_B_bw.sizePolicy().hasHeightForWidth())
-        self.label_B_bw.setSizePolicy(sizePolicy6)
-        self.label_B_bw.setFont(font2)
-
-        self.gridLayout_4.addWidget(self.label_B_bw, 1, 1, 1, 1)
-
-        self.label_32 = QLabel(self.tab_home)
-        self.label_32.setObjectName(u"label_32")
-        sizePolicy6.setHeightForWidth(self.label_32.sizePolicy().hasHeightForWidth())
-        self.label_32.setSizePolicy(sizePolicy6)
-        self.label_32.setFont(font1)
-
-        self.gridLayout_4.addWidget(self.label_32, 1, 2, 1, 1)
-
-
-        self.horizontalLayout_5.addLayout(self.gridLayout_4)
-
-        self.button_B_rx = QPushButton(self.tab_home)
-        self.button_B_rx.setObjectName(u"button_B_rx")
-        self.button_B_rx.setStyleSheet(u"background-color: transparent;\n"
-"border: 1px solid transparent;")
-        icon = QIcon()
-        icon.addFile(u"resources/img/icon_rx_enabled.png", QSize(), QIcon.Normal, QIcon.On)
-        self.button_B_rx.setIcon(icon)
-        self.button_B_rx.setIconSize(QSize(100, 100))
-
-        self.horizontalLayout_5.addWidget(self.button_B_rx)
-
-        self.button_B_tx = QPushButton(self.tab_home)
-        self.button_B_tx.setObjectName(u"button_B_tx")
-        self.button_B_tx.setStyleSheet(u"background-color: transparent;\n"
-"border: 1px solid transparent;")
-        icon1 = QIcon()
-        icon1.addFile(u"resources/img/icon_tx_enabled.png", QSize(), QIcon.Normal, QIcon.On)
-        self.button_B_tx.setIcon(icon1)
-        self.button_B_tx.setIconSize(QSize(100, 100))
-
-        self.horizontalLayout_5.addWidget(self.button_B_tx)
-
-
-        self.verticalLayout_8.addLayout(self.horizontalLayout_5)
-
-
-        self.gridLayout_5.addLayout(self.verticalLayout_8, 0, 2, 1, 1)
-
-        self.widget_4 = QWidget(self.tab_home)
-        self.widget_4.setObjectName(u"widget_4")
-        sizePolicy3.setHeightForWidth(self.widget_4.sizePolicy().hasHeightForWidth())
-        self.widget_4.setSizePolicy(sizePolicy3)
-
-        self.gridLayout_5.addWidget(self.widget_4, 3, 2, 1, 1)
-
-        self.widget_2 = QWidget(self.tab_home)
-        self.widget_2.setObjectName(u"widget_2")
-        sizePolicy3.setHeightForWidth(self.widget_2.sizePolicy().hasHeightForWidth())
-        self.widget_2.setSizePolicy(sizePolicy3)
-
-        self.gridLayout_5.addWidget(self.widget_2, 3, 0, 1, 1)
-
-        self.horizontalLayout_8 = QHBoxLayout()
-        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.button_A_freq = QPushButton(self.tab_home)
-        self.button_A_freq.setObjectName(u"button_A_freq")
-        sizePolicy7 = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
-        sizePolicy7.setHorizontalStretch(0)
-        sizePolicy7.setVerticalStretch(0)
-        sizePolicy7.setHeightForWidth(self.button_A_freq.sizePolicy().hasHeightForWidth())
-        self.button_A_freq.setSizePolicy(sizePolicy7)
-        font3 = QFont()
-        font3.setFamily(u"Waree")
-        font3.setPointSize(64)
-        font3.setBold(True)
-        font3.setWeight(75)
-        self.button_A_freq.setFont(font3)
-        self.button_A_freq.setStyleSheet(u"background-color: transparent;\n"
-"border: 1px solid transparent;\n"
-"text-align: right;")
-
-        self.horizontalLayout_8.addWidget(self.button_A_freq)
-
-
-        self.gridLayout_5.addLayout(self.horizontalLayout_8, 1, 0, 1, 1)
-
-        self.horizontalLayout_9 = QHBoxLayout()
-        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.button_B_freq = QPushButton(self.tab_home)
-        self.button_B_freq.setObjectName(u"button_B_freq")
-        sizePolicy7.setHeightForWidth(self.button_B_freq.sizePolicy().hasHeightForWidth())
-        self.button_B_freq.setSizePolicy(sizePolicy7)
-        self.button_B_freq.setFont(font3)
-        self.button_B_freq.setStyleSheet(u"background-color: transparent;\n"
-"border: 1px solid transparent;\n"
-"text-align: right;")
-
-        self.horizontalLayout_9.addWidget(self.button_B_freq)
-
-
-        self.gridLayout_5.addLayout(self.horizontalLayout_9, 1, 2, 1, 1)
-
-        self.line_6 = QFrame(self.tab_home)
-        self.line_6.setObjectName(u"line_6")
-        self.line_6.setStyleSheet(u"color: #FFFFFF;")
-        self.line_6.setFrameShadow(QFrame.Plain)
-        self.line_6.setLineWidth(10)
-        self.line_6.setFrameShape(QFrame.VLine)
-
-        self.gridLayout_5.addWidget(self.line_6, 4, 1, 1, 1)
-
-        self.line_3 = QFrame(self.tab_home)
-        self.line_3.setObjectName(u"line_3")
-        self.line_3.setStyleSheet(u"color: #FFFFFF;")
-        self.line_3.setFrameShadow(QFrame.Plain)
-        self.line_3.setLineWidth(10)
-        self.line_3.setFrameShape(QFrame.VLine)
-
-        self.gridLayout_5.addWidget(self.line_3, 1, 1, 1, 1)
+        self.gridLayout_5.addWidget(self.line_4, 3, 1, 1, 1)
 
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
@@ -293,6 +83,9 @@ class Ui_main(object):
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.button_A_mode = QPushButton(self.tab_home)
         self.button_A_mode.setObjectName(u"button_A_mode")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
         sizePolicy4.setHeightForWidth(self.button_A_mode.sizePolicy().hasHeightForWidth())
         self.button_A_mode.setSizePolicy(sizePolicy4)
         self.button_A_mode.setMinimumSize(QSize(251, 0))
@@ -303,16 +96,32 @@ class Ui_main(object):
         self.gridLayout_2.setObjectName(u"gridLayout_2")
         self.label_12 = QLabel(self.tab_home)
         self.label_12.setObjectName(u"label_12")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
         sizePolicy5.setHeightForWidth(self.label_12.sizePolicy().hasHeightForWidth())
         self.label_12.setSizePolicy(sizePolicy5)
+        font1 = QFont()
+        font1.setFamily(u"Waree")
+        font1.setPointSize(24)
+        font1.setBold(True)
+        font1.setWeight(75)
         self.label_12.setFont(font1)
 
         self.gridLayout_2.addWidget(self.label_12, 0, 0, 1, 1)
 
         self.label_A_fc = QLabel(self.tab_home)
         self.label_A_fc.setObjectName(u"label_A_fc")
+        sizePolicy6 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
         sizePolicy6.setHeightForWidth(self.label_A_fc.sizePolicy().hasHeightForWidth())
         self.label_A_fc.setSizePolicy(sizePolicy6)
+        font2 = QFont()
+        font2.setFamily(u"Waree")
+        font2.setPointSize(24)
+        font2.setBold(False)
+        font2.setWeight(50)
         self.label_A_fc.setFont(font2)
 
         self.gridLayout_2.addWidget(self.label_A_fc, 0, 1, 1, 1)
@@ -356,6 +165,8 @@ class Ui_main(object):
         self.button_A_rx.setObjectName(u"button_A_rx")
         self.button_A_rx.setStyleSheet(u"background-color: transparent;\n"
 "border: 1px solid transparent;")
+        icon = QIcon()
+        icon.addFile(u"resources/img/icon_rx_enabled.png", QSize(), QIcon.Normal, QIcon.On)
         self.button_A_rx.setIcon(icon)
         self.button_A_rx.setIconSize(QSize(100, 100))
         self.button_A_rx.setAutoDefault(False)
@@ -366,6 +177,8 @@ class Ui_main(object):
         self.button_A_tx.setObjectName(u"button_A_tx")
         self.button_A_tx.setStyleSheet(u"background-color: transparent;\n"
 "border: 1px solid transparent;")
+        icon1 = QIcon()
+        icon1.addFile(u"resources/img/icon_tx_enabled.png", QSize(), QIcon.Normal, QIcon.On)
         self.button_A_tx.setIcon(icon1)
         self.button_A_tx.setIconSize(QSize(100, 100))
 
@@ -377,6 +190,194 @@ class Ui_main(object):
 
         self.gridLayout_5.addLayout(self.verticalLayout_7, 0, 0, 1, 1)
 
+        self.button_B_freq = QPushButton(self.tab_home)
+        self.button_B_freq.setObjectName(u"button_B_freq")
+        sizePolicy7 = QSizePolicy(QSizePolicy.Ignored, QSizePolicy.Fixed)
+        sizePolicy7.setHorizontalStretch(0)
+        sizePolicy7.setVerticalStretch(0)
+        sizePolicy7.setHeightForWidth(self.button_B_freq.sizePolicy().hasHeightForWidth())
+        self.button_B_freq.setSizePolicy(sizePolicy7)
+        font3 = QFont()
+        font3.setFamily(u"Waree")
+        font3.setPointSize(64)
+        font3.setBold(True)
+        font3.setWeight(75)
+        self.button_B_freq.setFont(font3)
+        self.button_B_freq.setStyleSheet(u"background-color: transparent;\n"
+"border: 1px solid transparent;\n"
+"text-align: right;")
+
+        self.gridLayout_5.addWidget(self.button_B_freq, 1, 2, 1, 1)
+
+        self.line_5 = QFrame(self.tab_home)
+        self.line_5.setObjectName(u"line_5")
+        self.line_5.setStyleSheet(u"color: #FFFFFF;")
+        self.line_5.setFrameShadow(QFrame.Plain)
+        self.line_5.setLineWidth(10)
+        self.line_5.setFrameShape(QFrame.VLine)
+
+        self.gridLayout_5.addWidget(self.line_5, 4, 1, 1, 1)
+
+        self.line_3 = QFrame(self.tab_home)
+        self.line_3.setObjectName(u"line_3")
+        self.line_3.setStyleSheet(u"color: #FFFFFF;")
+        self.line_3.setFrameShadow(QFrame.Plain)
+        self.line_3.setLineWidth(10)
+        self.line_3.setFrameShape(QFrame.VLine)
+
+        self.gridLayout_5.addWidget(self.line_3, 2, 1, 1, 1)
+
+        self.line_7 = QFrame(self.tab_home)
+        self.line_7.setObjectName(u"line_7")
+        self.line_7.setStyleSheet(u"color: #FFFFFF;")
+        self.line_7.setFrameShadow(QFrame.Plain)
+        self.line_7.setLineWidth(10)
+        self.line_7.setFrameShape(QFrame.VLine)
+
+        self.gridLayout_5.addWidget(self.line_7, 1, 1, 1, 1)
+
+        self.widget = QWidget(self.tab_home)
+        self.widget.setObjectName(u"widget")
+        sizePolicy3.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
+        self.widget.setSizePolicy(sizePolicy3)
+
+        self.gridLayout_5.addWidget(self.widget, 3, 0, 1, 1)
+
+        self.verticalLayout_8 = QVBoxLayout()
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.button_B_mode = QPushButton(self.tab_home)
+        self.button_B_mode.setObjectName(u"button_B_mode")
+        self.button_B_mode.setEnabled(True)
+        sizePolicy4.setHeightForWidth(self.button_B_mode.sizePolicy().hasHeightForWidth())
+        self.button_B_mode.setSizePolicy(sizePolicy4)
+        self.button_B_mode.setMinimumSize(QSize(251, 0))
+
+        self.horizontalLayout_5.addWidget(self.button_B_mode)
+
+        self.gridLayout_4 = QGridLayout()
+        self.gridLayout_4.setObjectName(u"gridLayout_4")
+        self.label_27 = QLabel(self.tab_home)
+        self.label_27.setObjectName(u"label_27")
+        sizePolicy5.setHeightForWidth(self.label_27.sizePolicy().hasHeightForWidth())
+        self.label_27.setSizePolicy(sizePolicy5)
+        self.label_27.setFont(font1)
+
+        self.gridLayout_4.addWidget(self.label_27, 0, 0, 1, 1)
+
+        self.label_B_fc = QLabel(self.tab_home)
+        self.label_B_fc.setObjectName(u"label_B_fc")
+        sizePolicy6.setHeightForWidth(self.label_B_fc.sizePolicy().hasHeightForWidth())
+        self.label_B_fc.setSizePolicy(sizePolicy6)
+        self.label_B_fc.setFont(font2)
+
+        self.gridLayout_4.addWidget(self.label_B_fc, 0, 1, 1, 1)
+
+        self.label_29 = QLabel(self.tab_home)
+        self.label_29.setObjectName(u"label_29")
+        sizePolicy6.setHeightForWidth(self.label_29.sizePolicy().hasHeightForWidth())
+        self.label_29.setSizePolicy(sizePolicy6)
+        self.label_29.setFont(font1)
+
+        self.gridLayout_4.addWidget(self.label_29, 0, 2, 1, 1)
+
+        self.label_30 = QLabel(self.tab_home)
+        self.label_30.setObjectName(u"label_30")
+        sizePolicy6.setHeightForWidth(self.label_30.sizePolicy().hasHeightForWidth())
+        self.label_30.setSizePolicy(sizePolicy6)
+        self.label_30.setFont(font1)
+
+        self.gridLayout_4.addWidget(self.label_30, 1, 0, 1, 1)
+
+        self.label_B_bw = QLabel(self.tab_home)
+        self.label_B_bw.setObjectName(u"label_B_bw")
+        sizePolicy6.setHeightForWidth(self.label_B_bw.sizePolicy().hasHeightForWidth())
+        self.label_B_bw.setSizePolicy(sizePolicy6)
+        self.label_B_bw.setFont(font2)
+
+        self.gridLayout_4.addWidget(self.label_B_bw, 1, 1, 1, 1)
+
+        self.label_32 = QLabel(self.tab_home)
+        self.label_32.setObjectName(u"label_32")
+        sizePolicy6.setHeightForWidth(self.label_32.sizePolicy().hasHeightForWidth())
+        self.label_32.setSizePolicy(sizePolicy6)
+        self.label_32.setFont(font1)
+
+        self.gridLayout_4.addWidget(self.label_32, 1, 2, 1, 1)
+
+
+        self.horizontalLayout_5.addLayout(self.gridLayout_4)
+
+        self.button_B_rx = QPushButton(self.tab_home)
+        self.button_B_rx.setObjectName(u"button_B_rx")
+        self.button_B_rx.setStyleSheet(u"background-color: transparent;\n"
+"border: 1px solid transparent;")
+        self.button_B_rx.setIcon(icon)
+        self.button_B_rx.setIconSize(QSize(100, 100))
+
+        self.horizontalLayout_5.addWidget(self.button_B_rx)
+
+        self.button_B_tx = QPushButton(self.tab_home)
+        self.button_B_tx.setObjectName(u"button_B_tx")
+        self.button_B_tx.setStyleSheet(u"background-color: transparent;\n"
+"border: 1px solid transparent;")
+        self.button_B_tx.setIcon(icon1)
+        self.button_B_tx.setIconSize(QSize(100, 100))
+
+        self.horizontalLayout_5.addWidget(self.button_B_tx)
+
+
+        self.verticalLayout_8.addLayout(self.horizontalLayout_5)
+
+
+        self.gridLayout_5.addLayout(self.verticalLayout_8, 0, 2, 1, 1)
+
+        self.widget_2 = QWidget(self.tab_home)
+        self.widget_2.setObjectName(u"widget_2")
+        sizePolicy3.setHeightForWidth(self.widget_2.sizePolicy().hasHeightForWidth())
+        self.widget_2.setSizePolicy(sizePolicy3)
+
+        self.gridLayout_5.addWidget(self.widget_2, 4, 0, 1, 1)
+
+        self.line = QFrame(self.tab_home)
+        self.line.setObjectName(u"line")
+        self.line.setStyleSheet(u"color: #FFFFFF;")
+        self.line.setFrameShadow(QFrame.Plain)
+        self.line.setLineWidth(10)
+        self.line.setFrameShape(QFrame.VLine)
+
+        self.gridLayout_5.addWidget(self.line, 0, 1, 1, 1)
+
+        self.widget_3 = QWidget(self.tab_home)
+        self.widget_3.setObjectName(u"widget_3")
+        sizePolicy3.setHeightForWidth(self.widget_3.sizePolicy().hasHeightForWidth())
+        self.widget_3.setSizePolicy(sizePolicy3)
+
+        self.gridLayout_5.addWidget(self.widget_3, 3, 2, 1, 1)
+
+        self.line_6 = QFrame(self.tab_home)
+        self.line_6.setObjectName(u"line_6")
+        self.line_6.setStyleSheet(u"color: #FFFFFF;")
+        self.line_6.setFrameShadow(QFrame.Plain)
+        self.line_6.setLineWidth(10)
+        self.line_6.setFrameShape(QFrame.VLine)
+
+        self.gridLayout_5.addWidget(self.line_6, 5, 1, 1, 1)
+
+        self.button_A_freq = QPushButton(self.tab_home)
+        self.button_A_freq.setObjectName(u"button_A_freq")
+        sizePolicy7.setHeightForWidth(self.button_A_freq.sizePolicy().hasHeightForWidth())
+        self.button_A_freq.setSizePolicy(sizePolicy7)
+        self.button_A_freq.setFont(font3)
+        self.button_A_freq.setStyleSheet(u"background-color: transparent;\n"
+"border: 1px solid transparent;\n"
+"text-align: right;")
+
+        self.gridLayout_5.addWidget(self.button_A_freq, 1, 0, 1, 1)
+
+        self.gridLayout_5.setColumnStretch(0, 1)
+        self.gridLayout_5.setColumnStretch(2, 1)
 
         self.verticalLayout_9.addLayout(self.gridLayout_5)
 
@@ -793,7 +794,7 @@ class Ui_main(object):
 
         self.retranslateUi(main)
 
-        self.tab_widget.setCurrentIndex(0)
+        self.tab_widget.setCurrentIndex(4)
         self.tabWidget_network.setCurrentIndex(0)
 
 
@@ -802,6 +803,16 @@ class Ui_main(object):
 
     def retranslateUi(self, main):
         main.setWindowTitle(QCoreApplication.translate("main", u"main", None))
+        self.button_A_mode.setText(QCoreApplication.translate("main", u"PushButton", None))
+        self.label_12.setText(QCoreApplication.translate("main", u"Fc:", None))
+        self.label_A_fc.setText(QCoreApplication.translate("main", u"1.6kHz", None))
+        self.label_23.setText(QCoreApplication.translate("main", u"RIT", None))
+        self.label_24.setText(QCoreApplication.translate("main", u"BW:", None))
+        self.label_A_bw.setText(QCoreApplication.translate("main", u"400Hz", None))
+        self.label_26.setText(QCoreApplication.translate("main", u"XIT", None))
+        self.button_A_rx.setText("")
+        self.button_A_tx.setText("")
+        self.button_B_freq.setText(QCoreApplication.translate("main", u"PushButton", None))
         self.button_B_mode.setText(QCoreApplication.translate("main", u"PushButton", None))
         self.label_27.setText(QCoreApplication.translate("main", u"Fc:", None))
         self.label_B_fc.setText(QCoreApplication.translate("main", u"1.6kHz", None))
@@ -812,16 +823,6 @@ class Ui_main(object):
         self.button_B_rx.setText("")
         self.button_B_tx.setText("")
         self.button_A_freq.setText(QCoreApplication.translate("main", u"PushButton", None))
-        self.button_B_freq.setText(QCoreApplication.translate("main", u"PushButton", None))
-        self.button_A_mode.setText(QCoreApplication.translate("main", u"PushButton", None))
-        self.label_12.setText(QCoreApplication.translate("main", u"Fc:", None))
-        self.label_A_fc.setText(QCoreApplication.translate("main", u"1.6kHz", None))
-        self.label_23.setText(QCoreApplication.translate("main", u"RIT", None))
-        self.label_24.setText(QCoreApplication.translate("main", u"BW:", None))
-        self.label_A_bw.setText(QCoreApplication.translate("main", u"400Hz", None))
-        self.label_26.setText(QCoreApplication.translate("main", u"XIT", None))
-        self.button_A_rx.setText("")
-        self.button_A_tx.setText("")
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_home), QCoreApplication.translate("main", u"Home", None))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.tab_settings), QCoreApplication.translate("main", u"Settings", None))
         self.tabWidget_network.setTabText(self.tabWidget_network.indexOf(self.tab), QCoreApplication.translate("main", u"192.168.0.26", None))

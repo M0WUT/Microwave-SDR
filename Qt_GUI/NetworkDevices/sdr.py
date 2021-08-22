@@ -24,6 +24,9 @@ class Channel:
         self.errors = []
         self.warnings = []
         self.cardAddress = None
+        self.controllerMac = None
+        self.controllerName = None
+        self.vfo = None
 
     def __eq__(self, other):
         return (self.name == other.name)
@@ -286,7 +289,10 @@ class SDR(NetworkDevice):
             channel.button.setText(
                 "Channel {}{}".format(
                     channel.name,
-                    " (" + str(channel.cardAddress) + ")" if channel.cardAddress else ""
+                    (
+                        " (" + str(channel.controllerName) +
+                        " - VFO " + str(channel.vfo) + ")"
+                    ) if channel.controllerName else ""
                 )
             )
 
@@ -309,6 +315,9 @@ class SDR(NetworkDevice):
             channel.warnings = x['warnings']
             channel.errors = x['errors']
             channel.cardAddress = x['cardAddress']
+            channel.controllerMac = x['controllerMac']
+            channel.controllerName = x['controllerName']
+            channel.vfo = x['vfo']
 
         self.update_label_titles()
         self._update_label_colours()

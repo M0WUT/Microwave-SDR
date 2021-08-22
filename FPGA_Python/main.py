@@ -114,11 +114,15 @@ class Main:
     def handle_control_request(self, msg: dict) -> None:
         """ Processes incoming request for control of a channel """
         cardAddress = int(msg["address"])
-        controllerMac = msg["controller"]
+        controllerMac = msg["controllerMac"]
+        controllerName = msg["controllerName"]
         vfo = msg["vfo"]
 
         self.channels.find_channel_for_controller(
-            controllerMac, vfo, cardAddress
+            controllerMac=controllerMac,
+            controllerName=controllerName,
+            vfo=vfo,
+            cardAddress=cardAddress
         )
         self.send_status_info()
 
@@ -203,8 +207,11 @@ class Main:
                         x.name
                     )
                 )
-                x.close_card_control()
-                x.set_controller(None, None)
+                if x.close_card_control():
+                    x.set_controller(None, None, None)
+                else:
+                    self.cards.reset_card(x.cardAddress)
+                    x.cardAddress = None
 
     def run(self) -> None:
         """ Infinite sleep as everything is done using callbacks """

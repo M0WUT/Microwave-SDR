@@ -29,7 +29,7 @@ class InfoHandler():
 
     def update_link_speed(self):
         self.ui.label_linkSpeed.setText(
-            get_link_speed()
+            str(get_link_speed()) + " Mbps"
         )
 
     def update_mac(self):

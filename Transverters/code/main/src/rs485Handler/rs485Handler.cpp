@@ -5,6 +5,7 @@ Rs485Handler::Rs485Handler(int busAddress){
     RS485_SERIAL.begin(115200, SERIAL_8N1);
     pinMode(RS485_TX_PIN, OUTPUT);
     RS485_SERIAL.transmitterEnable(RS485_TX_PIN);
+    while(RS485_SERIAL.available());
 }
 
 String Rs485Handler::rx_messages(){

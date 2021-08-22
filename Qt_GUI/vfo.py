@@ -1,4 +1,3 @@
-import threading
 from NetworkDevices.transverter import Transverter
 import logging
 from warningHandler import WarningHandler
@@ -9,23 +8,51 @@ from math import log10
 import json
 import modeSelector
 import freqWindow
-from PySide2.QtWidgets import QLabel, QPushButton, QWidget
+from PySide2.QtWidgets import QLabel, QPushButton, QSizePolicy, \
+    QWidget, QHBoxLayout
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QIcon
 from threading import Lock, Event
 from config_user import NAME
-from time import sleep
 from usefulFunctions import get_mac
 
 
-def freq_format(x: int) -> str:
-    freqString = str(x)
-    newFreqString = ""
-    while freqString:
-        newFreqString = "." + freqString[-3:] + newFreqString
-        freqString = freqString[:-3]
+# Credit to K.Muller from
+# https://stackoverflow.com/questions/2990060/qt-qpushbutton-text-formatting
+class RichTextPushButton(QPushButton):
+    def __init__(self, parent=None, text=None):
+        if parent is not None:
+            super().__init__(parent)
+        else:
+            super().__init__()
+        self.__lbl = QLabel(self)
+        if text is not None:
+            self.__lbl.setText(text)
+        self.__lyt = QHBoxLayout()
+        self.__lyt.setContentsMargins(0, 0, 0, 0)
+        self.__lyt.setSpacing(0)
+        self.setLayout(self.__lyt)
+        self.__lbl.setAttribute(Qt.WA_TranslucentBackground)
+        self.__lbl.setAttribute(Qt.WA_TransparentForMouseEvents)
+        self.__lbl.setSizePolicy(
+            QSizePolicy.Expanding,
+            QSizePolicy.Expanding,
+        )
+        self.__lbl.setTextFormat(Qt.RichText)
+        self.__lyt.addWidget(self.__lbl)
 
-    return newFreqString[1:]  # Remove final decimal point at start
+    def setText(self, text):
+        self.__lbl.setText(text)
+        self.updateGeometry()
+
+    def sizeHint(self):
+        self.__lbl.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.__lbl.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        s = QPushButton.sizeHint(self)
+        w = self.__lbl.sizeHint()
+        s.setWidth(720)
+        s.setHeight(w.height())
+        return s
 
 
 class Vfo():
@@ -50,14 +77,33 @@ class Vfo():
         self.warnings = warnings
         self.rxButton = rxButton
         self.txButton = txButton
-        self.fcLabel = fcLabel,
+
         self.bwLabel = bwLabel
         self.modeButton = modeButton
-        self.freqButton = freqButton
+        self.modeButton.setStyleSheet(
+            self.modeButton.styleSheet() +
+            "font: Waree; font-size: 64px; font-weight: bold;"
+        )
+        self.modeButton.setText("")
+
+        # Replace freq QPushButton with one that supports rich text
+        layout = freqButton.parent().layout()
+        self.freqButton = RichTextPushButton()
+
+        self.freqButton.setStyleSheet(
+            "background-color: transparent;\nborder: 1px solid transparent;"
+            "font: Waree; font-size: 80px; font-weight: bold;"
+        )
+
+        layout.replaceWidget(freqButton, self.freqButton)
+        freqButton.setParent(None)  # Delete old button
+        self.freqButton.setText("Click to select freq")
+
         self.transverter = None
         self.transverterMutex = Lock()
         self.transverterResponded = Event()
-        self.transverterResponse = None
+        self.sdrChannel = None
+        self.mqttTopic = None
         self.transverterMutex.acquire()
 
         self._stepSize = 10000
@@ -96,7 +142,6 @@ class Vfo():
         self.enteredFreqLabel = ui.label_enteredFreq
         self.freqWindow.setWindowFlags(Qt.FramelessWindowHint | Qt.Popup)
 
-        self.modeButton.clicked.connect(self.modeWindow.show)
         self.freqButton.clicked.connect(self.open_freq_window)
 
         self.freq = None
@@ -108,16 +153,14 @@ class Vfo():
         self.rxEnabled = False
         self.txEnabled = False
 
-        self.enableRx(False)
-        self.enableTx(False)
+        self.enable_rx(False)
+        self.enable_tx(False)
 
         # Can connect toggle RX to button
         # TX has to be handled at higher level as there must be <= 1 TX VFOs
-        self.rxButton.clicked.connect(self.toggleRx)
+        self.rxButton.clicked.connect(self.toggle_rx)
 
-        self.freqButton.setText("Click to select freq")
-
-    def enableRx(self, enabled: bool) -> None:
+    def enable_rx(self, enabled: bool) -> None:
         if not self.transverter and enabled:
             logging.warning(
                 f"Cannot enable RX on VFO {self.name}without transverter"
@@ -129,12 +172,12 @@ class Vfo():
         else:
             self.rxButton.setIcon(QIcon('resources/img/icon_rx_disabled.png'))
 
-    def toggleRx(self):
+    def toggle_rx(self):
         """ Toggles whether RX is enabled """
         if self.transverter:
-            self.enableRx(not self.rxEnabled)
+            self.enable_rx(not self.rxEnabled)
 
-    def enableTx(self, enabled: bool) -> None:
+    def enable_tx(self, enabled: bool) -> None:
         if not self.transverter and enabled:
             logging.warning(
                 f"Cannot enable TX on VFO {self.name}without transverter"
@@ -146,12 +189,12 @@ class Vfo():
         else:
             self.txButton.setIcon(QIcon('resources/img/icon_tx_disabled.png'))
 
-    def toggleTx(self):
+    def toggle_tx(self):
         """ Toggles whether TX is enabled """
         if self.transverter:
-            self.enableTx(not self.txEnabled)
+            self.enable_tx(not self.txEnabled)
 
-    def setTransverter(self, transverter: Transverter) -> None:
+    def set_transverter(self, transverter: Transverter) -> None:
         self.transverterMutex.acquire()
         self.transverter = transverter
         logging.info(
@@ -171,7 +214,7 @@ class Vfo():
             freq = float(self.enteredFreq) * constants[key]
             if self.set_freq(freq):
                 # Successfully set frequency
-                self.freqWindow.hide()                
+                self.freqWindow.hide()
         elif key == -1:
             self.enteredFreq = self.enteredFreq[:-1]
             self.enteredFreqLabel.setText(self.enteredFreq)
@@ -188,7 +231,7 @@ class Vfo():
         """ Attempts to set VFO to frequency. Returns True if it succeeds """
         if not self.transverter or \
                 freq < self.transverter.minFreq or \
-                self.transverter > self.transverter.maxFreq:
+                freq > self.transverter.maxFreq:
             # Current transverter is unsuitable or we don't have one
             if not self.get_suitable_transverter(freq):
                 # Can't find a suitable one
@@ -233,11 +276,12 @@ class Vfo():
             self.surrender_transverter_control()
 
         assert self.transverter is None
+        assert self.sdrChannel is None
 
         logging.info('Attempting to take control of transverter "{}"'.format(
             transverter.name
         ))
-        self.receivedTransverterResponse = False
+
         self.transverterMutex.release()
 
         self.mqtt.register_callback(
@@ -247,14 +291,14 @@ class Vfo():
         )
 
         self.transverterResponded.clear()
-        self.transverterResponse = ""
+
         try:
             self.mqtt.publish(
                 "/{}/requests".format(transverter.sdrMac),
                 json.dumps({
                     "address": transverter.address,
-                    "name": transverter.name,
-                    "controller": get_mac(),
+                    "controllerName": NAME,
+                    "controllerMac": get_mac(),
                     "vfo": self.name
                 })
             )
@@ -266,7 +310,26 @@ class Vfo():
                     f"Timed out waiting for response from {transverter.sdrMac}"
                 )
             else:
-                self.transverter = transverter
+                # Got here so SDR responded, self.sdrChannel now either
+                # contains the channel name if everything was successfuly
+                # or None if it failed
+                if self.sdrChannel:
+                    self.transverter = transverter
+                    self.mqttTopic = "/{}/channel{}".format(
+                        transverter.sdrMac, self.sdrChannel
+                    )
+                    self.mqtt.register_callback(
+                        self.mqttTopic,
+                        self.rx_status
+                    )
+                else:
+                    # SDR responded but refused connection
+                    self.warnings.add_warning(
+                        NAME,
+                        "MQTT",
+                        f"Refused transverter control by {transverter.sdrMac}"
+                    )
+
         finally:
             self.mqtt.remove_callback(
                 "/{}/requestResponse".format(transverter.sdrMac)
@@ -278,34 +341,101 @@ class Vfo():
     def process_transverter_control_request_response(self, msg):
         self.transverterMutex.acquire()
         self.transverterResponse = msg
+        if(
+            msg["status"] == "success" and
+            msg["controllerMac"] == get_mac() and
+            msg["vfo"] == self.name
+        ):
+            self.sdrChannel = msg["channel"]
+
         self.transverterMutex.release()
         self.transverterResponded.set()
 
-    def surrender_transverter_control(self):
+    def process_transverter_control_surrender_response(self, msg):
+        self.transverterMutex.acquire()
+        self.transverterResponse = msg
+        if(
+            msg["status"] == "success" and
+            msg["controllerMac"] is None and
+            msg["vfo"] is None
+        ):
+            self.sdrChannel = None
+
+        self.transverterMutex.release()
+        self.transverterResponded.set()
+
+    def surrender_transverter_control(self) -> None:
         """ Stops this VFO being the controller of a transverter """
         logging.info("Surrendering control of transverter {}".format(
             self.transverter.name
         ))
-        raise NotImplementedError  # @TODO
+
+        self.transverterMutex.release()
+
+        self.mqtt.register_callback(
+            "/{}/requestResponse".format(self.transverter.sdrMac),
+            self.process_transverter_control_surrender_response,
+            requiresMainThread=False
+        )
+
+        self.transverterResponded.clear()
+        sdrMac = self.transverter.sdrMac
+
+        try:
+            self.mqtt.publish(
+                "/{}/requests".format(sdrMac),
+                json.dumps({
+                    "address": self.transverter.address,
+                    "controllerName": None,
+                    "controllerMac": None,
+                    "vfo": None
+                })
+            )
+            if not self.transverterResponded.wait(timeout=5):
+                # Requested timed out
+                self.warnings.add_warning(
+                    NAME,
+                    "MQTT",
+                    f"Timed out waiting for response from {sdrMac}"
+                )
+            else:
+                # Got here so SDR responded, self.sdrChannel now either
+                # contains None if everything was successfuly
+                # or the old channel name if it failed
+                if self.sdrChannel is None:
+                    self.mqtt.remove_callback(self.mqttTopic)
+                    self.sdrChannel = None
+                    self.mqttTopic = None
+                    self.transverter = None
+                else:
+                    # SDR responded but refused connection
+                    self.warnings.add_warning(
+                        NAME,
+                        "MQTT",
+                        f"Refused release of transverter control by {sdrMac}"
+                    )
+
+        finally:
+            self.mqtt.remove_callback(
+                "/{}/requestResponse".format(sdrMac)
+            )
+            self.transverterMutex.acquire()
 
     def publish_freq(self, freq):
-        x = {
-            "freq": freq
-        }
+
+        x = {"freq": freq}
 
         self.mqtt.publish(
-            "/00:0A:35:00:1E:53/vfoA/set",
+            "{}/set".format(self.mqttTopic),
             json.dumps(x)
         )
         self.publishedFreq = int(freq)
 
     def publish_mode(self, mode):
-        x = {
-            "mode": mode
-        }
+        x = {"mode": mode}
 
         self.mqtt.publish(
-            "/00:0A:35:00:1E:53/vfoA/set",
+            "{}/set".format(self.mqttTopic),
             json.dumps(x)
         )
         self.modeWindow.hide()
@@ -319,11 +449,14 @@ class Vfo():
             self.publish_freq(self.publishedFreq - self._stepSize)
 
     def rx_status(self, msg):
-        x = json.loads(msg.payload.decode('utf-8'))
 
-        freq = str(x['freq'])
-        mode = x['mode']
+        freq = msg['freq']
+        mode = msg['mode']
         if(freq != self.freq):
+            self.freq = freq
+
+            # Easier to work with strings now
+            freq = str(freq)
 
             prettyFreq = ""
 
@@ -338,11 +471,13 @@ class Vfo():
                 if((i + 1) % 3 == 0):
                     prettyFreq = "." + prettyFreq
 
-            self.freqButton.setText(prettyFreq)
-            self.freq = int(freq)
+            self.freqButton.setText(prettyFreq.lstrip("."))
+
             logging.debug(f"VFO {self.name} set to {readable_freq(self.freq)}")
 
         if mode != self.mode:
+            if self.mode is None:
+                self.modeButton.clicked.connect(self.modeWindow.show)
 
             self.mode = mode
             self.modeButton.setText(mode)
@@ -351,7 +486,3 @@ class Vfo():
                 self.modeWindow.hide()
 
             logging.debug(f"VFO {self.name} set to {self.mode}")
-
-
-if __name__ == '__main__':
-    print(freq_format(123456))

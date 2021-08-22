@@ -104,6 +104,18 @@ class main(QWidget):
                 self.ui.button_A_mode,
                 self.ui.button_A_freq
             )
+            self.vfoB = Vfo(
+                "B",
+                self.mqtt,
+                self.network,
+                self.warnings,
+                self.ui.button_B_rx,
+                self.ui.button_B_tx,
+                self.ui.label_B_fc,
+                self.ui.label_B_bw,
+                self.ui.button_B_mode,
+                self.ui.button_B_freq
+            )
 
             # Doesn't count as change on startup so poke to ensure tab gets updated
             self.tabChangeDespatcher(self.ui.tab_widget.currentIndex())

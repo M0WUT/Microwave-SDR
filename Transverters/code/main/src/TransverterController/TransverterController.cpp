@@ -49,9 +49,6 @@ void TransverterController::setup(){
     set_channel('\0');
 
     _transverter = new TRANSVERTER_CLASS(_panicker);
-
-   send_discovery_info();
-
 }
 
 void TransverterController::process_command(String x){
@@ -63,7 +60,7 @@ void TransverterController::process_command(String x){
     }
     else {
         char commandChar = x[0];
-        DynamicJsonDocument msg(1024);
+        DynamicJsonDocument msg(512);
         deserializeJson(msg, x.substring(1));
         switch(commandChar){
             case 'D': {
@@ -82,12 +79,7 @@ void TransverterController::process_command(String x){
             }
 
             case 'C': {
-                const char *channel = msg["channel"];
-                #ifdef DEBUG
-                    DEBUG_SERIAL.print("Received controller update to channel ");
-                    DEBUG_SERIAL.println(channel);
-                #endif 
-                
+                const char *channel = msg["channel"];             
                 set_channel(channel);
                 break;
             }
@@ -131,7 +123,7 @@ void TransverterController::rs485_tx(char commandChar, DynamicJsonDocument respo
 }
 
 void TransverterController::send_discovery_info(){
-    DynamicJsonDocument response(1024);
+    DynamicJsonDocument response(512);
     response["address"] = _rs485Address;
     response["type"] = "transverter";
     response["name"] = NAME;
@@ -148,7 +140,7 @@ void TransverterController::send_discovery_info(){
 }
 
 void TransverterController::send_status_info(){
-    DynamicJsonDocument response(1024);
+    DynamicJsonDocument response(512);
     response["address"] = _rs485Address;
     response["name"] = NAME;
     // Add warnings
@@ -201,9 +193,19 @@ void TransverterController::set_channel(const char *channel){
         // Attempting to take control and something's already in control
         response["status"] = "failed";
     } else {
+         #ifdef DEBUG
+            if(channel[0] != '\0'){
+                DEBUG_SERIAL.print("Received controller update to channel ");
+                DEBUG_SERIAL.println(channel);
+            } else{
+                DEBUG_SERIAL.print("Released from channel ");
+                DEBUG_SERIAL.println(_channel);
+            }
+        #endif 
         _channel = channel[0];
         digitalWrite(LED_RX, (_channel != '\0'));
         response["status"] = "success";
+       
     }
     rs485_tx('C', response);
 }

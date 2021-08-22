@@ -17,11 +17,12 @@
 #define MAX_TX_POWER 20
 #define SUPPORTS_RX true
 #define SUPPORTS_TX true
+#define SUPPORTS_DUPLEX false
 
 ////////////////////////////////////////
 // Uncomment to enable debug messages //
 ////////////////////////////////////////
-#define DEBUG
+//#define DEBUG
 
 ///////////////////////
 // PCB Configuration //
