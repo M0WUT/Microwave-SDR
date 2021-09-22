@@ -2,7 +2,7 @@
   "board": {
     "design_settings": {
       "defaults": {
-        "board_outline_line_width": 0.049999999999999996,
+        "board_outline_line_width": 0.09999999999999999,
         "copper_line_width": 0.19999999999999998,
         "copper_text_italic": false,
         "copper_text_size_h": 1.5,
@@ -26,18 +26,18 @@
         "fab_text_size_v": 1.0,
         "fab_text_thickness": 0.15,
         "fab_text_upright": false,
-        "other_line_width": 0.09999999999999999,
+        "other_line_width": 0.15,
         "other_text_italic": false,
         "other_text_size_h": 1.0,
         "other_text_size_v": 1.0,
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.0,
-          "height": 1.5,
-          "width": 1.5
+          "drill": 0.762,
+          "height": 1.524,
+          "width": 1.524
         },
-        "silk_line_width": 0.12,
+        "silk_line_width": 0.15,
         "silk_text_italic": false,
         "silk_text_size_h": 1.0,
         "silk_text_size_v": 1.0,
@@ -45,13 +45,18 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.15239999999999998
+          "min_clearance": 0.254
         }
       },
-      "diff_pair_dimensions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
       "drc_exclusions": [],
       "meta": {
-        "filename": "board_design_settings.json",
         "version": 2
       },
       "rule_severities": {
@@ -79,8 +84,8 @@
         "padstack": "error",
         "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
-        "silk_over_copper": "error",
-        "silk_overlap": "error",
+        "silk_over_copper": "warning",
+        "silk_overlap": "warning",
         "skew_out_of_range": "error",
         "too_many_vias": "error",
         "track_dangling": "warning",
@@ -92,32 +97,31 @@
         "zone_has_empty_net": "error",
         "zones_intersect": "error"
       },
-      "rule_severitieslegacy_courtyards_overlap": true,
-      "rule_severitieslegacy_no_courtyard_defined": false,
       "rules": {
         "allow_blind_buried_vias": false,
         "allow_microvias": false,
         "max_error": 0.005,
-        "min_clearance": 0.0,
-        "min_copper_edge_clearance": 0.024999999999999998,
+        "min_clearance": 0.154,
+        "min_copper_edge_clearance": 0.5,
         "min_hole_clearance": 0.0,
-        "min_hole_to_hole": 0.25,
+        "min_hole_to_hole": 0.3,
         "min_microvia_diameter": 0.19999999999999998,
         "min_microvia_drill": 0.09999999999999999,
         "min_silk_clearance": 0.0,
         "min_through_hole_diameter": 0.19999999999999998,
-        "min_track_width": 0.08889999999999999,
+        "min_track_width": 0.154,
         "min_via_annular_width": 0.049999999999999996,
-        "min_via_diameter": 0.44999999999999996
+        "min_via_diameter": 0.44999999999999996,
+        "solder_mask_clearance": 0.0,
+        "solder_mask_min_width": 0.0,
+        "use_height_for_length_calcs": true
       },
       "track_widths": [
         0.0,
-        0.1,
-        0.1651,
-        0.385,
-        0.8,
-        1.0,
-        2.0
+        0.2,
+        0.25,
+        0.4,
+        1.0
       ],
       "via_dimensions": [
         {
@@ -127,10 +131,6 @@
         {
           "diameter": 0.45,
           "drill": 0.2
-        },
-        {
-          "diameter": 0.8,
-          "drill": 0.4
         }
       ],
       "zones_allow_external_fillets": false,
@@ -352,14 +352,14 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "v1.kicad_pro",
+    "filename": "RF_FMC.kicad_pro",
     "version": 1
   },
   "net_settings": {
     "classes": [
       {
-        "bus_width": 12.0,
-        "clearance": 0.1,
+        "bus_width": 6.0,
+        "clearance": 0.16,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -369,75 +369,9 @@
         "name": "Default",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.25,
+        "track_width": 0.2,
         "via_diameter": 0.45,
         "via_drill": 0.2,
-        "wire_width": 6.0
-      },
-      {
-        "bus_width": 12.0,
-        "clearance": 0.2,
-        "diff_pair_gap": 0.25,
-        "diff_pair_via_gap": 0.25,
-        "diff_pair_width": 0.2,
-        "line_style": 0,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "name": "50R_Microstrip",
-        "nets": [],
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.385,
-        "via_diameter": 0.45,
-        "via_drill": 0.2,
-        "wire_width": 6.0
-      },
-      {
-        "bus_width": 12.0,
-        "clearance": 0.1,
-        "diff_pair_gap": 0.1016,
-        "diff_pair_via_gap": 0.25,
-        "diff_pair_width": 0.1651,
-        "line_style": 0,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "name": "Ethernet",
-        "nets": [
-          "ETH_MDI0_N",
-          "ETH_MDI0_P",
-          "ETH_MDI1_N",
-          "ETH_MDI1_P",
-          "ETH_MDI2_N",
-          "ETH_MDI2_P",
-          "ETH_MDI3_N",
-          "ETH_MDI3_P"
-        ],
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.25,
-        "via_diameter": 0.45,
-        "via_drill": 0.2,
-        "wire_width": 6.0
-      },
-      {
-        "bus_width": 12.0,
-        "clearance": 0.0889,
-        "diff_pair_gap": 0.0889,
-        "diff_pair_via_gap": 0.25,
-        "diff_pair_width": 0.2032,
-        "line_style": 0,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "name": "USB",
-        "nets": [
-          "USB_OTG_D+",
-          "USB_OTG_D-"
-        ],
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.25,
-        "via_diameter": 0.8,
-        "via_drill": 0.4,
         "wire_width": 6.0
       }
     ],
@@ -461,7 +395,6 @@
     "annotate_start_num": 0,
     "drawing": {
       "default_bus_thickness": 12.0,
-      "default_junction_size": 36.0,
       "default_line_thickness": 6.0,
       "default_text_size": 50.0,
       "default_wire_thickness": 6.0,
@@ -472,16 +405,16 @@
       "intersheets_ref_show": false,
       "intersheets_ref_suffix": "",
       "junction_size_choice": 3,
-      "label_size_ratio": 0.3,
+      "label_size_ratio": 0.375,
       "pin_symbol_size": 25.0,
-      "text_offset_ratio": 0.3
+      "text_offset_ratio": 0.15
     },
     "legacy_lib_dir": "",
     "legacy_lib_list": [],
     "meta": {
       "version": 1
     },
-    "net_format_name": "Pcbnew",
+    "net_format_name": "",
     "ngspice": {
       "fix_include_paths": true,
       "fix_passive_vals": false,
@@ -500,132 +433,8 @@
   },
   "sheets": [
     [
-      "00000000-0000-0000-0000-00005d7b7b41",
-      "Stage 1 Regulators"
-    ],
-    [
-      "00000000-0000-0000-0000-00005dd6d4f3",
-      "AF ADC/DAC"
-    ],
-    [
-      "00000000-0000-0000-0000-00005dd8b812",
-      "Dual Seven Segment Display 5"
-    ],
-    [
-      "00000000-0000-0000-0000-00005dd8b65d",
-      "Dual Seven Segment Display 4"
-    ],
-    [
-      "00000000-0000-0000-0000-00005dd8b56e",
-      "Dual Seven Segment Display 3"
-    ],
-    [
-      "00000000-0000-0000-0000-00005dd8b2f3",
-      "Dual Seven Segment Display 2"
-    ],
-    [
-      "00000000-0000-0000-0000-00005dd4258e",
-      "Dual Seven Segment Display 1"
-    ],
-    [
-      "00000000-0000-0000-0000-00005dd04d63",
-      "User Interface"
-    ],
-    [
-      "00000000-0000-0000-0000-00005db9d886",
-      "ADC 3V3 Monitor"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d8a6141",
-      "Stage 3 Regulators"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d640053",
-      "5V Monitor"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d6a83cf",
-      "3V3 Monitor"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d640048",
-      "5V_5A Regulator"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d6a83c4",
-      "3V3_5A Regulator"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d6884f0",
-      "Stage 2 Regulators"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d7e170a",
-      "12V Monitor"
-    ],
-    [
-      "8e769dbd-972c-452e-b74c-446c0d2fe31e",
+      "b4305a6a-12be-4289-afca-e2235543077f",
       ""
-    ],
-    [
-      "00000000-0000-0000-0000-00005da7190f",
-      "Power Rail Management"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d688202",
-      "Power Supply"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d96b18c",
-      "JB3"
-    ],
-    [
-      "00000000-0000-0000-0000-00005df64186",
-      "PMOD D"
-    ],
-    [
-      "00000000-0000-0000-0000-00005df639ad",
-      "PMOD C"
-    ],
-    [
-      "00000000-0000-0000-0000-00005df63879",
-      "PMOD B"
-    ],
-    [
-      "00000000-0000-0000-0000-00005df56aaa",
-      "PMOD A"
-    ],
-    [
-      "00000000-0000-0000-0000-00005dd6277a",
-      "PMOD Connectors"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d96b0e8",
-      "JB2"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d96c261",
-      "Connectors"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d96b05c",
-      "JB1"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d96aff8",
-      "FPGA"
-    ],
-    [
-      "00000000-0000-0000-0000-00005dbeecb6",
-      "HDMI"
-    ],
-    [
-      "00000000-0000-0000-0000-00005dd6e120",
-      "RF DAC"
-    ],
-    [
-      "00000000-0000-0000-0000-00005d96568c",
-      "RF ADC"
     ]
   ],
   "text_variables": {}
