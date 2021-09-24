@@ -45,7 +45,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.254
+          "min_clearance": 0.15
         }
       },
       "diff_pair_dimensions": [
@@ -461,6 +461,14 @@
     [
       "b4305a6a-12be-4289-afca-e2235543077f",
       ""
+    ],
+    [
+      "1559d6e3-2148-460c-ab2f-7d28ddb048a6",
+      "FMC Connector"
+    ],
+    [
+      "316ec2c3-cbb3-4a06-8fa6-6e2d4f3941cb",
+      "Direct Sampling ADC"
     ]
   ],
   "text_variables": {}
