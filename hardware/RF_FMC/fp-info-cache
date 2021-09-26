@@ -1,4 +1,4 @@
-19621406842707927
+19624673546968953
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -78330,6 +78330,13 @@ Shield_Masach_MS384-10_38.4x37.6x11mm_TH
 6
 1
 Shield_WUT
+Shield_Masach_MS477-10_47.7x18.2x4mm_TH.step
+
+
+0
+10
+1
+Shield_WUT
 Shield_Masach_MS511-10_51.1x25.7x6.5mm_TH
 
 
@@ -84160,6 +84167,13 @@ Coilcraft_PWB
 0
 6
 6
+Transformer_WUT
+Macom_ETC-1xx
+
+
+0
+5
+5
 Valve
 Valve_ECC-83-1
 Valve ECC-83-1 round pins

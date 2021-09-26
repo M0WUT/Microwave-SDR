@@ -45,7 +45,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.15
+          "min_clearance": 0.254
         }
       },
       "diff_pair_dimensions": [
@@ -360,9 +360,9 @@
       {
         "bus_width": 6.0,
         "clearance": 0.16,
-        "diff_pair_gap": 0.25,
+        "diff_pair_gap": 0.1016,
         "diff_pair_via_gap": 0.25,
-        "diff_pair_width": 0.2,
+        "diff_pair_width": 0.127,
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
