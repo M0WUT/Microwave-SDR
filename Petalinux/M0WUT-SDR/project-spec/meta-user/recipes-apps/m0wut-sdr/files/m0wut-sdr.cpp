@@ -36,7 +36,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 	cout << "Hello World! 2" << endl;
-	audio_handler x("/dev/i2c-0", 0x38);
+	audio_handler x("/dev/i2c-1", 0x38);
 	sleep(1);
 }
 

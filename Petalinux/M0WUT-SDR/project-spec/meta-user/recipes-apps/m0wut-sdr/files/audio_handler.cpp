@@ -12,7 +12,7 @@ audio_handler::audio_handler(const char *iicFilename, int iicAddress) : _codec(i
 
     _codec.setOutputSource(LEFT_CHANNEL, LEFT_DAC);
     _codec.setOutputSource(RIGHT_CHANNEL, RIGHT_DAC);
-    _codec.setOutputMode(LINE_OUT);
+    _codec.setOutputMode(HEADPHONES);
     _codec.setOutputVolume(LEFT_CHANNEL, 63);
     _codec.setOutputVolume(RIGHT_CHANNEL, 63);
 }
