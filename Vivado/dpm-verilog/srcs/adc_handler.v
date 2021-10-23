@@ -27,9 +27,9 @@ module adc_handler(
         (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_S TDATA" *)
         output reg signed [15:0] oS_data, // Transfer Data (optional)
         (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 M_AXIS_S TVALID" *)
-        output reg o_valid, // Transfer valid (required)
+        output wire o_valid, // Transfer valid (required)
 
-        input wire signed [15:0] i_data,
+        input wire signed [15:0] iS_data,
         input wire i_overflow,  // TODO handler overflow warnings
         input wire i_random,    // These are passed through but are needed to allow 
                                 // correct decode of the data                            
@@ -43,29 +43,41 @@ module adc_handler(
         input wire i_clk
 );
 
+reg r_random;
+reg r_dither;
+
+reg signed [15:0] rS_data;
+
+assign o_valid = 1;
 
 
 always @(negedge i_clk) begin
-    o_random <= i_random;
-    o_dither <= i_dither;
-    o_valid <= 1'b1;
-    oS_data <= (i_random ? {
-            i_data[15] ^ i_data[0],
-            i_data[14] ^ i_data[0],
-            i_data[13] ^ i_data[0],
-            i_data[12] ^ i_data[0],
-            i_data[11] ^ i_data[0],
-            i_data[10] ^ i_data[0],
-            i_data[9] ^ i_data[0],
-            i_data[8] ^ i_data[0],
-            i_data[7] ^ i_data[0],
-            i_data[6] ^ i_data[0],
-            i_data[5] ^ i_data[0],
-            i_data[4] ^ i_data[0],
-            i_data[3] ^ i_data[0],
-            i_data[2] ^ i_data[0],
-            i_data[1] ^ i_data[0],
-            i_data[0]
-        } : i_data);
+    r_random <= i_random;
+    r_dither <= i_dither;
+    rS_data <= iS_data; 
 end
+
+always @(posedge i_clk) begin
+        oS_data <= (r_random ? {
+            rS_data[15] ^ rS_data[0],
+            rS_data[14] ^ rS_data[0],
+            rS_data[13] ^ rS_data[0],
+            rS_data[12] ^ rS_data[0],
+            rS_data[11] ^ rS_data[0],
+            rS_data[10] ^ rS_data[0],
+            rS_data[9] ^ rS_data[0],
+            rS_data[8] ^ rS_data[0],
+            rS_data[7] ^ rS_data[0],
+            rS_data[6] ^ rS_data[0],
+            rS_data[5] ^ rS_data[0],
+            rS_data[4] ^ rS_data[0],
+            rS_data[3] ^ rS_data[0],
+            rS_data[2] ^ rS_data[0],
+            rS_data[1] ^ rS_data[0],
+            rS_data[0]
+        } : rS_data);
+        o_random <= r_random;
+        o_dither <= r_dither;
+end
+
 endmodule
