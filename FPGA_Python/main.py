@@ -6,8 +6,7 @@ from config_user import MQTT_SERVER_IP_ADDRESS, MQTT_SERVER_PORT, \
 from gpio import GPIO
 import logging
 from mqttHandler import MqttHandler
-from paho.mqtt.client import MQTTMessage
-from channel import Channel, ChannelHandler, ChannelPrototype
+from channel import ChannelHandler, ChannelPrototype
 from statusHandler import StatusRegs
 from warningHandler import WarningHandler
 import time
@@ -22,7 +21,7 @@ import socket
 
 logging.basicConfig(
     format='%(asctime)s %(levelname)-8s %(message)s',
-    level=logging.DEBUG,
+    level=logging.INFO,
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
@@ -134,8 +133,8 @@ class Main:
         information being sent.
 
         Args:
-            _ (dict): All MQTT callbacks get passed the message. The contents is
-                irrelevant here
+            _ (dict): All MQTT callbacks get passed the message. The contents
+                is irrelevant here
         """
         x = {
             "type": "sdr",

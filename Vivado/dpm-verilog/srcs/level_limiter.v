@@ -44,7 +44,7 @@ module level_limiter#(
     output reg o_clipping
 );
 
-localparam POSITIVE_LIMIT = $signed(2 ** (LIMIT_NUMBER_OF_BITS - 1));
+localparam POSITIVE_LIMIT = $signed((2 ** (LIMIT_NUMBER_OF_BITS - 1)) - 1);
 localparam NEGATIVE_LIMIT = $signed(-1 * POSITIVE_LIMIT);
 
 always @(posedge i_clk) begin
